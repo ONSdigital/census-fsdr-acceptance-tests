@@ -7,17 +7,17 @@ public class CompareCsvAndDbRecords {
     private DbConnect dbConnect = new DbConnect();
     private CurrentDateTime currentDateTime = new CurrentDateTime();
 
-    public void checkRecords(String [][] FSDRData, String [][] AdeccoData, String csvPath){
-        Integer adeccoRowCount = csvReader.countCsvRows(csvPath);
+    public void checkRecords(String [][] fsdrData, String [][] csvData, String csvPath){
+        Integer csvRowCount = csvReader.countCsvRows(csvPath);
         Integer fsdrRowCount = dbConnect.queryRecordCount();
-        Assert.assertEquals("The total record in Adecco and FSDR does not match", adeccoRowCount, fsdrRowCount);
-        System.out.println(currentDateTime.dateTime() + " The total record count in adecco & fsdr are correct and is " + adeccoRowCount);
+        Assert.assertEquals("The total record in CSV file (" + csvPath + ") and FSDR does not match", csvRowCount, fsdrRowCount);
+        System.out.println(currentDateTime.dateTime() + " The total record count in CSV file (" + csvPath + ") & FSDR are correct and is " + csvRowCount);
         for (int i=0; i < fsdrRowCount; i++) {
             for(int j=0; j < 25; j++) {
-                if (AdeccoData[i+1][j].equals("")) {
-                    AdeccoData[i+1][j] = null;
+                if (csvData[i+1][j].equals("")) {
+                    csvData[i+1][j] = null;
                 }
-                Assert.assertEquals("The value '" + AdeccoData[0][j] + "' in Adecco and FSDR does not match for the record where employee id is "+ AdeccoData[i+1][0], AdeccoData[i+1][j], FSDRData[i][j]);
+                Assert.assertEquals("The value '" + csvData[0][j] + "' in CSV file  (" + csvPath + ") & FSDR does not match for the record where employee id is "+ csvData[i+1][0], csvData[i+1][j], fsdrData[i][j]);
             }
         }
     }
