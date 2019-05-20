@@ -8,17 +8,45 @@ import java.io.IOException;
 
 public class CSVReader {
 
-    public String[][] readCSV() throws IOException {
+    String csvFile = getClass().getClassLoader().getResource("files/validAdeccoData.csv").getPath();
+    BufferedReader br = null;
+    String line = "";
+    String cvsSplitBy = ",";
 
-        String csvFile = "/Users/srinivasanramkumar/IdeaProjects/fsdr/census-fsdr-acceptance-tests/src/test/resources/files/validAdeccoData.csv";
-        BufferedReader br = null;
-        String line = "";
-        String cvsSplitBy = ",";
-        String [][] AdeccoData = new String [40000][50];
+    public Integer countCsvRows(){
+
+        Integer expectedCount = -1;
 
         try {
             br = new BufferedReader(new FileReader(csvFile));
-            Integer expectedCount = -1;
+            while ((line = br.readLine()) != null) {
+                // use comma as separator
+                String[] fields = line.split(cvsSplitBy);
+                expectedCount = expectedCount + 1;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return expectedCount;
+    }
+
+    public String[][] readCSV() throws IOException {
+
+        String [][] AdeccoData = new String [40000][50];
+        Integer expectedCount = -1;
+
+        try {
+            br = new BufferedReader(new FileReader(csvFile));
             while ((line = br.readLine()) != null) {
                 // use comma as separator
                 String[] fields = line.split(cvsSplitBy);

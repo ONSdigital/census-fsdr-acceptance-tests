@@ -1,8 +1,6 @@
 package uk.gov.ons.census.fsdr.utils;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Properties;
 
 public class ReadPropertyFile {
@@ -31,6 +29,7 @@ public class ReadPropertyFile {
                 }
             }
         }
+        System.out.println(propVal);
         return propVal;
     }
 }

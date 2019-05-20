@@ -11,11 +11,46 @@ public class DbConnect {
     private ReadPropertyFile readPropertyFile = new ReadPropertyFile();
     private CurrentDateTime currentDateTime = new CurrentDateTime();
 
-    public String[][] postGressConnect (){
+    public Integer queryRecordCount(){
+
         Connection conn = null;
         Statement totalRowCount = null;
+        Integer fsdrRowCount = null;
+
+        try {
+            Class.forName(readPropertyFile.loadAndReadPropertyFile("driver"));
+            System.out.println(currentDateTime.dateTime() + " Connecting to postgress " +  readPropertyFile.loadAndReadPropertyFile("envname") + " database...");
+
+            // connecting to db
+            conn = DriverManager.getConnection(readPropertyFile.loadAndReadPropertyFile("url"), readPropertyFile.loadAndReadPropertyFile("username"), "password");
+            System.out.println(currentDateTime.dateTime() + " Creating statement...");
+            totalRowCount = conn.createStatement();
+
+            // getting total rowcount
+            ResultSet rs = totalRowCount.executeQuery(readPropertyFile.loadAndReadPropertyFile("sql_for_new_data_pull_count"));
+            rs.next();
+            fsdrRowCount = rs.getInt(1);
+
+            // closing the result set.
+            rs.close();
+
+            // closing db connection
+            conn.close();
+
+            } catch (SQLException se) {
+                se.printStackTrace();
+                } catch (Exception e) {
+                e.printStackTrace();
+            }
+        return fsdrRowCount;
+    }
+
+    public String[][] queryAndRetrieveRecords (){
+        Connection conn = null;
         Statement actualResult = null;
         String [][] FSDRData = new String [40000][50];
+        // Getting record count.
+        Integer fsdrRowCount = this.queryRecordCount();
 
         try {
 
@@ -26,18 +61,13 @@ public class DbConnect {
             // connecting to db
             conn = DriverManager.getConnection(readPropertyFile.loadAndReadPropertyFile("url"), readPropertyFile.loadAndReadPropertyFile("username"), "password");
             System.out.println(currentDateTime.dateTime() + " Creating statement...");
-            totalRowCount = conn.createStatement();
             actualResult = conn.createStatement();
 
-            // getting total rowcount
-            ResultSet rs = totalRowCount.executeQuery(readPropertyFile.loadAndReadPropertyFile("sql_for_new_data_pull_count"));
-            rs.next();
-            Integer actualRowCount = rs.getInt(1);
             // executing the SQL
             ResultSet actualRS = actualResult.executeQuery(readPropertyFile.loadAndReadPropertyFile("sql_for_new_data_pull"));
 
             //getting the value of each record.
-            for (Integer iteration = 0; iteration <actualRowCount; iteration++) {
+            for (Integer iteration = 0; iteration <fsdrRowCount; iteration++) {
                 actualRS.next();
                 FSDRData[iteration][0]= actualRS.getString("unique_employee_id");
                 FSDRData[iteration][1]= actualRS.getString("first_name");
@@ -68,7 +98,7 @@ public class DbConnect {
            }
 
             // closing the result set.
-            rs.close();
+            actualRS.close();
 
             // closing db connection
             conn.close();
