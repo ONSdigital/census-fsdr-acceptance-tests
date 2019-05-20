@@ -7,8 +7,8 @@ public class CompareCsvAndDbRecords {
     private DbConnect dbConnect = new DbConnect();
     private CurrentDateTime currentDateTime = new CurrentDateTime();
 
-    public void checkRecords(String [][] FSDRData, String [][] AdeccoData){
-        Integer adeccoRowCount = csvReader.countCsvRows();
+    public void checkRecords(String [][] FSDRData, String [][] AdeccoData, String csvPath){
+        Integer adeccoRowCount = csvReader.countCsvRows(csvPath);
         Integer fsdrRowCount = dbConnect.queryRecordCount();
         Assert.assertEquals("The total record in Adecco and FSDR does not match", adeccoRowCount, fsdrRowCount);
         System.out.println(currentDateTime.dateTime() + " The total record count in adecco & fsdr are correct and is " + adeccoRowCount);

@@ -8,13 +8,12 @@ import java.io.IOException;
 
 public class CSVReader {
 
-    String csvFile = getClass().getClassLoader().getResource("files/validAdeccoData.csv").getPath();
     BufferedReader br = null;
     String line = "";
     String cvsSplitBy = ",";
 
-    public Integer countCsvRows(){
-
+    public Integer countCsvRows(String csvPath){
+        String csvFile = getClass().getClassLoader().getResource(csvPath).getPath();
         Integer expectedCount = -1;
 
         try {
@@ -40,8 +39,8 @@ public class CSVReader {
         return expectedCount;
     }
 
-    public String[][] readCSV() throws IOException {
-
+    public String[][] readCSV(String csvPath) throws IOException {
+        String csvFile = getClass().getClassLoader().getResource(csvPath).getPath();
         String [][] AdeccoData = new String [40000][50];
         Integer expectedCount = -1;
 
