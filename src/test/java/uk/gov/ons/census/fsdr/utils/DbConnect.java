@@ -11,7 +11,7 @@ public class DbConnect {
     private ReadPropertyFile readPropertyFile = new ReadPropertyFile();
     private CurrentDateTime currentDateTime = new CurrentDateTime();
 
-    public Integer queryRecordCount(){
+    public Integer queryRecordCount(String sqlCount){
 
         Connection conn = null;
         Statement totalRowCount = null;
@@ -19,7 +19,7 @@ public class DbConnect {
 
         try {
             Class.forName(readPropertyFile.loadAndReadPropertyFile("driver"));
-            System.out.println(currentDateTime.dateTime() + " Connecting to postgress " +  readPropertyFile.loadAndReadPropertyFile("envname") + " database...");
+            System.out.println(currentDateTime.dateTime() + " Connecting to postgress for getting rowcount " +  readPropertyFile.loadAndReadPropertyFile("envname") + " database...");
 
             // connecting to db
             conn = DriverManager.getConnection(readPropertyFile.loadAndReadPropertyFile("url"), readPropertyFile.loadAndReadPropertyFile("username"), "password");
@@ -27,7 +27,7 @@ public class DbConnect {
             totalRowCount = conn.createStatement();
 
             // getting total rowcount
-            ResultSet rs = totalRowCount.executeQuery(readPropertyFile.loadAndReadPropertyFile("sql_for_new_data_pull_count"));
+            ResultSet rs = totalRowCount.executeQuery(sqlCount);
             rs.next();
             fsdrRowCount = rs.getInt(1);
 
@@ -49,25 +49,44 @@ public class DbConnect {
         Connection conn = null;
         Statement actualResult = null;
         String [][] FSDRData = new String [40000][50];
-        // Getting record count.
-        Integer fsdrRowCount = this.queryRecordCount();
+        Integer RowCount = 0;
+        String sqlData = null;
+        ResultSet actualRS = null;
+        String sqlCount;
 
         try {
-
             // DB connection details
             Class.forName(readPropertyFile.loadAndReadPropertyFile("driver"));
-            System.out.println(currentDateTime.dateTime() + " Connecting to postgress " +  readPropertyFile.loadAndReadPropertyFile("envname") + " database...");
+            System.out.println(currentDateTime.dateTime() + " Connecting to postgress for getting records " +  readPropertyFile.loadAndReadPropertyFile("envname") + " database...");
 
             // connecting to db
             conn = DriverManager.getConnection(readPropertyFile.loadAndReadPropertyFile("url"), readPropertyFile.loadAndReadPropertyFile("username"), "password");
             System.out.println(currentDateTime.dateTime() + " Creating statement...");
             actualResult = conn.createStatement();
 
-            // executing the SQL
-            ResultSet actualRS = actualResult.executeQuery(readPropertyFile.loadAndReadPropertyFile("sql_for_new_data_pull"));
-
+        // Getting record count.
+        switch(dataMapping) {
+            case "Adecco":
+                sqlCount = readPropertyFile.loadAndReadPropertyFile("sql_for_new_adecco_record_count");
+                sqlData = readPropertyFile.loadAndReadPropertyFile("sql_for_new_adecco_data");
+                RowCount = this.queryRecordCount(sqlCount);
+                actualRS = actualResult.executeQuery(sqlData);
+                break;
+            case "AirWatch":
+                sqlCount = readPropertyFile.loadAndReadPropertyFile("sql_for_new_airwatch_record_count");
+                sqlData = readPropertyFile.loadAndReadPropertyFile("sql_for_new_airwatch_data");
+                RowCount = this.queryRecordCount(sqlCount);
+                actualRS = actualResult.executeQuery(sqlData);
+                break;
+            case "Logisctics":
+                sqlCount = readPropertyFile.loadAndReadPropertyFile("sql_for_new_logistics_record_count");
+                sqlData = readPropertyFile.loadAndReadPropertyFile("sql_for_new_logistics_data");
+                RowCount = this.queryRecordCount(sqlCount);
+                actualRS = actualResult.executeQuery(sqlData);
+                break;
+        }
             //getting the value of each record.
-            for (Integer iteration = 0; iteration <fsdrRowCount; iteration++) {
+            for (Integer iteration = 0; iteration <RowCount; iteration++) {
                 actualRS.next();
                 switch(dataMapping) {
                     case "Adecco":
@@ -107,6 +126,25 @@ public class DbConnect {
                         FSDRData[iteration][3] = actualRS.getString("first_name");
                         FSDRData[iteration][4] = actualRS.getString("surname");
                         FSDRData[iteration][5] = actualRS.getString("ons_email_address");
+                        break;
+
+                    case "Logistics":
+                        FSDRData[iteration][0] = actualRS.getString("first_name");
+                        FSDRData[iteration][1] = actualRS.getString("surname");
+                        FSDRData[iteration][2] = actualRS.getString("preferred_name");
+                        FSDRData[iteration][3] = actualRS.getString("address_1");
+                        FSDRData[iteration][4] = actualRS.getString("address_2");
+                        FSDRData[iteration][5] = actualRS.getString("town");
+                        FSDRData[iteration][6] = actualRS.getString("county");
+                        FSDRData[iteration][7] = actualRS.getString("postcode");
+                        FSDRData[iteration][8] = actualRS.getString("personal_email_address");
+                        FSDRData[iteration][9] = actualRS.getString("ons_email_address");
+                        FSDRData[iteration][10] = actualRS.getString("telephone_number_contact_1");
+                        FSDRData[iteration][11] = actualRS.getString("field_device_phone_number");
+                        FSDRData[iteration][12] = actualRS.getString("job_role");
+                        FSDRData[iteration][13] = actualRS.getString("unique_role_id");
+                        FSDRData[iteration][14] = actualRS.getString("id_badge_no");
+                        FSDRData[iteration][15] = actualRS.getString("status");
                         break;
                 }
            }

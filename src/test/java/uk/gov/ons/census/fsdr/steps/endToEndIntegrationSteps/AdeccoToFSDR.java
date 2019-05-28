@@ -21,6 +21,7 @@ public class AdeccoToFSDR {
         String [][] fsdrData = new String [40000][50];
         String [][] adeccoData = new String [40000][50];
         String [][] airWatchData = new String [40000][20];
+        String [][] logisticsData = new String [40000][20];
 
         @Before
         public void setup() {
@@ -39,7 +40,7 @@ public class AdeccoToFSDR {
 
         @Then("the FSDR is populated with new data and the record count is correct")
         public void the_FSDR_is_populated_with_new_data_and_the_record_count_is_correct() {
-                compareCsvAndDbRecords.checkRecords(fsdrData, adeccoData, "files/validAdeccoData.csv");
+                compareCsvAndDbRecords.checkRecords(fsdrData, adeccoData, "files/validAdeccoData.csv", "Adecco");
         }
 
         @Given("new data is available in FSDR")
@@ -48,9 +49,20 @@ public class AdeccoToFSDR {
             airWatchData = csvReader.readAirWatchData("files/validAirWatchData.csv");
         }
 
-        @Then("a seperate account is craeted for each record sent by FSDR in Airwatch")
-        public void a_seperate_account_is_craeted_for_each_record_sent_by_FSDR_in_Airwatch() {
-            compareCsvAndDbRecords.checkRecords(fsdrData, airWatchData, "files/validAirWatchData.csv");
+        @Then("a seperate account is created for each record sent by FSDR in Airwatch")
+        public void a_seperate_account_is_created_for_each_record_sent_by_FSDR_in_Airwatch() {
+            compareCsvAndDbRecords.checkRecords(fsdrData, airWatchData, "files/validAirWatchData.csv", "AirWatch");
+        }
+
+        @Given("new data is available in FSDR for logistics")
+        public void new_data_is_available_in_FSDR_for_logistics() throws IOException {
+                fsdrData = dbConnect.queryAndRetrieveRecords("Logistics");
+                logisticsData = csvReader.readLogisticsData("files/validLogiscticsData.csv");
+        }
+
+        @Then("then the encrypted csv file has all the new records and the record count is correct")
+        public void then_the_encrypted_csv_file_has_all_the_new_records_and_the_record_count_is_correct() {
+                compareCsvAndDbRecords.checkRecords(fsdrData, airWatchData, "files/validLogiscticsData.csv", "Logisctics");
         }
 
       }
