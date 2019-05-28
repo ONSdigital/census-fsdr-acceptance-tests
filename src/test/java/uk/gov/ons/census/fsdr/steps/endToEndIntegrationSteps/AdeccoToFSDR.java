@@ -18,8 +18,9 @@ public class AdeccoToFSDR {
         private CSVReader csvReader = new CSVReader();
         private ReadPropertyFile readPropertyFile = new ReadPropertyFile();
         private CompareCsvAndDbRecords compareCsvAndDbRecords = new CompareCsvAndDbRecords();
-        String [][] FSDRData = new String [40000][50];
-        String [][] AdeccoData = new String [40000][50];
+        String [][] fsdrData = new String [40000][50];
+        String [][] adeccoData = new String [40000][50];
+        String [][] airWatchData = new String [40000][20];
 
         @Before
         public void setup() {
@@ -32,28 +33,24 @@ public class AdeccoToFSDR {
 
         @Given("Adecco makes new data available")
         public void adecco_makes_new_data_available() throws IOException {
-                FSDRData = dbConnect.queryAndRetrieveRecords();
-                AdeccoData = csvReader.readCSV("files/validAdeccoData.csv");
+                fsdrData = dbConnect.queryAndRetrieveRecords("Adecco");
+                adeccoData = csvReader.readAdeccoData("files/validAdeccoData.csv");
         }
 
         @Then("the FSDR is populated with new data and the record count is correct")
         public void the_FSDR_is_populated_with_new_data_and_the_record_count_is_correct() {
-                compareCsvAndDbRecords.checkRecords(FSDRData, AdeccoData, "files/validAdeccoData.csv");
+                compareCsvAndDbRecords.checkRecords(fsdrData, adeccoData, "files/validAdeccoData.csv");
         }
 
-        @Given("Adecco makes new data available and is down for 2 days")
-        public void Adecco_makes_new_data_available_and_is_down_for_2_days() throws IOException {
-                AdeccoData = csvReader.readCSV("files/validAdeccoData2Days.csv");
+        @Given("new data is available in FSDR")
+        public void new_data_is_available_in_FSDR() throws IOException {
+            fsdrData = dbConnect.queryAndRetrieveRecords("AirWatch");
+            airWatchData = csvReader.readAirWatchData("files/validAirWatchData.csv");
         }
 
-        @When("FSDR makes a new API call after 2 days (when Adecco is up)")
-        public void FSDR_makes_a_new_API_call_after_2_days_when_Adecco_is_up_() throws IOException {
-                FSDRData = dbConnect.queryAndRetrieveRecords();
-        }
-
-        @Then("the FSDR is populated with new data and the record count is correct for the period since the Adecco was down (2 days data + current day data)")
-        public void the_FSDR_is_populated_with_new_data_and_the_record_count_is_correct_for_the_period_since_the_Adecco_was_down() {
-                compareCsvAndDbRecords.checkRecords(FSDRData, AdeccoData, "files/validAdeccoData.csv");
+        @Then("a seperate account is craeted for each record sent by FSDR in Airwatch")
+        public void a_seperate_account_is_craeted_for_each_record_sent_by_FSDR_in_Airwatch() {
+            compareCsvAndDbRecords.checkRecords(fsdrData, airWatchData, "files/validAirWatchData.csv");
         }
 
       }

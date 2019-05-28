@@ -1,0 +1,6 @@
+UserName,Status,Security Type,Display Name,Organization group,Firstname,Middlename,Lastname,Email,Phone Number,Mobile Phone,Email Username,Enrollment LG,Department,Manager Fullname,Manager Email,CostCenter,Employee ID,Domain,UG count,Device Count,Distinguished Name,User Principal Name,Last Message Sent,CustomAttribute1,CustomAttribute2,CustomAttribute3,CustomAttribute4,CustomAttribute5
+"Kieran.Developer18@field.census.gov.uk",Active,"2","Kieran Developer","ONS dev Simon.Diaz","Kieran",,"Developer","Kieran.Developer18@field.census.gov.uk",,,,"ONS dev Simon.Diaz",,,,,,,0,0,,,"05/24/2019 10:16:00",,,,,
+"Mickey.Mouse72@field.census.gov.uk",Active,"2","Mickey Mouse","ONS dev Simon.Diaz","Mickey",,"Mouse","Mickey.Mouse72@field.census.gov.uk",,,,"ONS dev Simon.Diaz",,,,,,,0,0,,,"05/24/2019 10:16:02",,,,,
+"Peter.Smith66@field.census.gov.uk",Active,"2","Peter Smith","ONS dev Simon.Diaz","Peter",,"Smith","Peter.Smith66@field.census.gov.uk",,,,"ONS dev Simon.Diaz",,,,,,,0,0,,,"05/24/2019 10:15:59",,,,,
+"Simon.Diazer60@field.census.gov.uk",Active,"2","Simon Diazer","ONS dev Simon.Diaz","Simon",,"Diazer","Simon.Diazer60@field.census.gov.uk",,,,"ONS dev Simon.Diaz",,,,,,,0,0,,,"05/24/2019 10:16:01",,,,,
+"User",Active,"2","Testy McTest","ONS dev Simon.Diaz","Testy",,"McTest","testy@test.com",,,,"ONS dev Simon.Diaz",,,,,,,0,0,,,"05/17/2019 13:58:47",,,,,

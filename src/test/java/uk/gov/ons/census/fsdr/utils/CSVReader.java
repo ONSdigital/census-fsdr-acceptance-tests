@@ -39,7 +39,7 @@ public class CSVReader {
         return csvRowCount;
     }
 
-    public String[][] readCSV(String csvPath) throws IOException {
+    public String[][] readAdeccoData(String csvPath) throws IOException {
         String csvFile = getClass().getClassLoader().getResource(csvPath).getPath();
         String [][] csvData = new String [40000][50];
         Integer csvRowCount = -1;
@@ -74,6 +74,42 @@ public class CSVReader {
                 csvData[csvRowCount+1][22] = fields[22].replace('"',' ').trim();
                 csvData[csvRowCount+1][23] = fields[23].replace('"',' ').trim();
                 csvData[csvRowCount+1][24] = fields[24].replace('"',' ').trim();
+                csvData[csvRowCount+1][25] = fields[25].replace('"',' ').trim();
+                csvData[csvRowCount+1][26] = fields[26].replace('"',' ').trim();
+                csvRowCount = csvRowCount + 1;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return csvData;
+    }
+
+    public String[][] readAirWatchData(String csvPath) throws IOException {
+        String csvFile = getClass().getClassLoader().getResource(csvPath).getPath();
+        String [][] csvData = new String [40000][15];
+        Integer csvRowCount = -1;
+
+        try {
+            br = new BufferedReader(new FileReader(csvFile));
+            while ((line = br.readLine()) != null) {
+                // use comma as separator
+                String[] fields = line.split(cvsSplitBy);
+                csvData[csvRowCount+1][0] = fields[0].replace('"',' ').trim();
+                csvData[csvRowCount+1][1] = fields[1].replace('"',' ').trim();
+                csvData[csvRowCount+1][2] = fields[2].replace('"',' ').trim();
+                csvData[csvRowCount+1][3] = fields[5].replace('"',' ').trim();
+                csvData[csvRowCount+1][4] = fields[7].replace('"',' ').trim();
+                csvData[csvRowCount+1][5] = fields[8].replace('"',' ').trim();
                 csvRowCount = csvRowCount + 1;
             }
         } catch (FileNotFoundException e) {

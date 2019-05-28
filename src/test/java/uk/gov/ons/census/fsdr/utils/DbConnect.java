@@ -45,7 +45,7 @@ public class DbConnect {
         return fsdrRowCount;
     }
 
-    public String[][] queryAndRetrieveRecords (){
+    public String[][] queryAndRetrieveRecords (String dataMapping){
         Connection conn = null;
         Statement actualResult = null;
         String [][] FSDRData = new String [40000][50];
@@ -69,32 +69,46 @@ public class DbConnect {
             //getting the value of each record.
             for (Integer iteration = 0; iteration <fsdrRowCount; iteration++) {
                 actualRS.next();
-                FSDRData[iteration][0]= actualRS.getString("unique_employee_id");
-                FSDRData[iteration][1]= actualRS.getString("first_name");
-                FSDRData[iteration][2] = actualRS.getString("surname");
-                FSDRData[iteration][3] = actualRS.getString("address_1");
-                FSDRData[iteration][4] = actualRS.getString("address_2");
-                FSDRData[iteration][5] = actualRS.getString("town");
-                FSDRData[iteration][6] = actualRS.getString("county");
-                FSDRData[iteration][7] = actualRS.getString("postcode");
-                FSDRData[iteration][8]= actualRS.getString("personal_email_address");
-                FSDRData[iteration][9] = actualRS.getString("telephone_number_contact_1");
-                FSDRData[iteration][10] = actualRS.getString("telephone_number_contact_2");
-                FSDRData[iteration][11] = actualRS.getString("emergency_contact_first_name");
-                FSDRData[iteration][12] = actualRS.getString("emergency_contact_mobile_no");
-                FSDRData[iteration][13] = actualRS.getString("dob");
-                FSDRData[iteration][14] = actualRS.getString("driving_information");
-                FSDRData[iteration][15] = actualRS.getString("age");
-                FSDRData[iteration][16] = actualRS.getString("ethnicity");
-                FSDRData[iteration][17] = actualRS.getString("ethnicity_notes");
-                FSDRData[iteration][18] = actualRS.getString("disability");
-                FSDRData[iteration][19] = actualRS.getString("disability_notes");
-                FSDRData[iteration][20] = actualRS.getString("nationality");
-                FSDRData[iteration][21] = actualRS.getString("gender");
-                FSDRData[iteration][22] = actualRS.getString("sexual_orientation");
-                FSDRData[iteration][23] = actualRS.getString("sexual_orientation_notes");
-                FSDRData[iteration][24] = actualRS.getString("religion");
-                FSDRData[iteration][25] = actualRS.getString("religion_notes");
+                switch(dataMapping) {
+                    case "Adecco":
+                        FSDRData[iteration][0] = actualRS.getString("unique_employee_id");
+                        FSDRData[iteration][1] = actualRS.getString("first_name");
+                        FSDRData[iteration][2] = actualRS.getString("surname");
+                        FSDRData[iteration][3] = actualRS.getString("preferred_name");
+                        FSDRData[iteration][4] = actualRS.getString("address_1");
+                        FSDRData[iteration][5] = actualRS.getString("address_2");
+                        FSDRData[iteration][6] = actualRS.getString("town");
+                        FSDRData[iteration][7] = actualRS.getString("county");
+                        FSDRData[iteration][8] = actualRS.getString("postcode");
+                        FSDRData[iteration][9] = actualRS.getString("personal_email_address");
+                        FSDRData[iteration][10] = actualRS.getString("telephone_number_contact_1");
+                        FSDRData[iteration][11] = actualRS.getString("telephone_number_contact_2");
+                        FSDRData[iteration][12] = actualRS.getString("emergency_contact_first_name");
+                        FSDRData[iteration][13] = actualRS.getString("emergency_contact_mobile_no");
+                        FSDRData[iteration][14] = actualRS.getString("dob");
+                        FSDRData[iteration][15] = actualRS.getString("driving_information");
+                        FSDRData[iteration][16] = actualRS.getString("age");
+                        FSDRData[iteration][17] = actualRS.getString("ethnicity");
+                        FSDRData[iteration][18] = actualRS.getString("ethnicity_notes");
+                        FSDRData[iteration][19] = actualRS.getString("disability");
+                        FSDRData[iteration][20] = actualRS.getString("disability_notes");
+                        FSDRData[iteration][21] = actualRS.getString("nationality");
+                        FSDRData[iteration][22] = actualRS.getString("gender");
+                        FSDRData[iteration][23] = actualRS.getString("sexual_orientation");
+                        FSDRData[iteration][24] = actualRS.getString("sexual_orientation_notes");
+                        FSDRData[iteration][25] = actualRS.getString("religion");
+                        FSDRData[iteration][26] = actualRS.getString("religion_notes");
+                        break;
+
+                    case "AirWatch":
+                        FSDRData[iteration][0] = actualRS.getString("ons_email_address");
+                        FSDRData[iteration][1] = "Active";   //actualRS.getString("status");
+                        FSDRData[iteration][2] = "2";   //actualRS.getString("type");
+                        FSDRData[iteration][3] = actualRS.getString("first_name");
+                        FSDRData[iteration][4] = actualRS.getString("surname");
+                        FSDRData[iteration][5] = actualRS.getString("ons_email_address");
+                        break;
+                }
            }
 
             // closing the result set.
