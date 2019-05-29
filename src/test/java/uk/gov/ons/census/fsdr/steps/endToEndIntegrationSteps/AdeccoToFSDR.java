@@ -4,14 +4,11 @@ import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 import uk.gov.ons.census.fsdr.utils.CSVReader;
 import uk.gov.ons.census.fsdr.utils.CompareCsvAndDbRecords;
 import uk.gov.ons.census.fsdr.utils.DbConnect;
 import uk.gov.ons.census.fsdr.utils.ReadPropertyFile;
-
 import java.io.IOException;
-import java.sql.ResultSet;
 
 public class AdeccoToFSDR {
 
