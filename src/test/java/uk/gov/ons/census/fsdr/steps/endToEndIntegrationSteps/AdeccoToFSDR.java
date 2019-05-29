@@ -21,8 +21,6 @@ public class AdeccoToFSDR {
         String [][] airWatchData = new String [40000][20];
         String [][] logisticsData = new String [40000][20];
         Integer rowCount = 0;
-        String sqlData = null;
-        String sqlCount;
 
         @Before
         public void setup() {
@@ -35,10 +33,8 @@ public class AdeccoToFSDR {
 
         @Given("Adecco makes new data available")
         public void adecco_makes_new_data_available() throws IOException {
-                sqlCount = readPropertyFile.loadAndReadPropertyFile("sql_for_new_adecco_record_count");
-                sqlData = readPropertyFile.loadAndReadPropertyFile("sql_for_new_adecco_data");
-                rowCount = dbConnect.queryRecordCount(sqlCount);
-                fsdrData = dbConnect.queryAndRetrieveRecords(rowCount, sqlData, "Adecco");
+                rowCount = dbConnect.queryRecordCount(readPropertyFile.loadAndReadPropertyFile("sql_for_new_adecco_record_count"));
+                fsdrData = dbConnect.queryAndRetrieveRecords(rowCount, readPropertyFile.loadAndReadPropertyFile("sql_for_new_adecco_data"), "Adecco");
                 adeccoData = csvReader.readAdeccoData("files/validAdeccoData.csv");
         }
 
@@ -49,24 +45,20 @@ public class AdeccoToFSDR {
 
         @Given("new data is available in FSDR for Airwatch")
         public void new_data_is_available_in_FSDR_for_Airwatch() throws IOException {
-                sqlCount = readPropertyFile.loadAndReadPropertyFile("sql_for_new_airwatch_record_count");
-                sqlData = readPropertyFile.loadAndReadPropertyFile("sql_for_new_airwatch_data");
-                rowCount = dbConnect.queryRecordCount(sqlCount);
-                fsdrData = dbConnect.queryAndRetrieveRecords(rowCount, sqlData, "AirWatch");
+                rowCount = dbConnect.queryRecordCount(readPropertyFile.loadAndReadPropertyFile("sql_for_new_airwatch_record_count"));
+                fsdrData = dbConnect.queryAndRetrieveRecords(rowCount, readPropertyFile.loadAndReadPropertyFile("sql_for_new_airwatch_data"), "AirWatch");
                 airWatchData = csvReader.readAirWatchData("files/validAirWatchData.csv");
         }
 
         @Then("a seperate account is created for each record sent by FSDR in Airwatch")
         public void a_seperate_account_is_created_for_each_record_sent_by_FSDR_in_Airwatch() {
-            compareCsvAndDbRecords.checkRecords(fsdrData, airWatchData, "files/validAirWatchData.csv", rowCount);
+                compareCsvAndDbRecords.checkRecords(fsdrData, airWatchData, "files/validAirWatchData.csv", rowCount);
         }
 
         @Given("new data is available in FSDR for logistics")
         public void new_data_is_available_in_FSDR_for_logistics() throws IOException {
-                sqlCount = readPropertyFile.loadAndReadPropertyFile("sql_for_new_logistics_record_count");
-                sqlData = readPropertyFile.loadAndReadPropertyFile("sql_for_new_logistics_data");
-                rowCount = dbConnect.queryRecordCount(sqlCount);
-                fsdrData = dbConnect.queryAndRetrieveRecords(rowCount, sqlData, "Logistics");
+                rowCount = dbConnect.queryRecordCount(readPropertyFile.loadAndReadPropertyFile("sql_for_new_logistics_record_count"));
+                fsdrData = dbConnect.queryAndRetrieveRecords(rowCount, readPropertyFile.loadAndReadPropertyFile("sql_for_new_logistics_data"), "Logistics");
                 logisticsData = csvReader.readLogisticsData("files/validLogiscticsData.csv");
         }
 
