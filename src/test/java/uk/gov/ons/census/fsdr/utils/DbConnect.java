@@ -45,14 +45,11 @@ public class DbConnect {
         return fsdrRowCount;
     }
 
-    public String[][] queryAndRetrieveRecords (String dataMapping){
+    public String[][] queryAndRetrieveRecords (Integer RowCount, String sqlData, String dataMapping){
         Connection conn = null;
         Statement actualResult = null;
         String [][] FSDRData = new String [40000][50];
-        Integer RowCount = 0;
-        String sqlData = null;
         ResultSet actualRS = null;
-        String sqlCount;
 
         try {
             // DB connection details
@@ -63,28 +60,8 @@ public class DbConnect {
             conn = DriverManager.getConnection(readPropertyFile.loadAndReadPropertyFile("url"), readPropertyFile.loadAndReadPropertyFile("username"), "password");
             System.out.println(currentDateTime.dateTime() + " Creating statement...");
             actualResult = conn.createStatement();
+            actualRS = actualResult.executeQuery(sqlData);
 
-        // Getting record count.
-        switch(dataMapping) {
-            case "Adecco":
-                sqlCount = readPropertyFile.loadAndReadPropertyFile("sql_for_new_adecco_record_count");
-                sqlData = readPropertyFile.loadAndReadPropertyFile("sql_for_new_adecco_data");
-                RowCount = this.queryRecordCount(sqlCount);
-                actualRS = actualResult.executeQuery(sqlData);
-                break;
-            case "AirWatch":
-                sqlCount = readPropertyFile.loadAndReadPropertyFile("sql_for_new_airwatch_record_count");
-                sqlData = readPropertyFile.loadAndReadPropertyFile("sql_for_new_airwatch_data");
-                RowCount = this.queryRecordCount(sqlCount);
-                actualRS = actualResult.executeQuery(sqlData);
-                break;
-            case "Logisctics":
-                sqlCount = readPropertyFile.loadAndReadPropertyFile("sql_for_new_logistics_record_count");
-                sqlData = readPropertyFile.loadAndReadPropertyFile("sql_for_new_logistics_data");
-                RowCount = this.queryRecordCount(sqlCount);
-                actualRS = actualResult.executeQuery(sqlData);
-                break;
-        }
             //getting the value of each record.
             for (Integer iteration = 0; iteration <RowCount; iteration++) {
                 actualRS.next();

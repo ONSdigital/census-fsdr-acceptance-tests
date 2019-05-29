@@ -8,7 +8,7 @@ public class CompareCsvAndDbRecords {
     private CurrentDateTime currentDateTime = new CurrentDateTime();
     private ReadPropertyFile readPropertyFile = new ReadPropertyFile();
 
-    public void checkRecords(String [][] fsdrData, String [][] csvData, String csvPath, String dataMapping){
+    public void checkRecords(String [][] fsdrData, String [][] csvData, String csvPath, Integer fsdrRowCount){
 
         String sqlCount = null;
 
@@ -16,7 +16,7 @@ public class CompareCsvAndDbRecords {
         Integer csvRowCount = csvReader.countCsvRows(csvPath);
 
         // Getting FSDR record count.
-        switch(dataMapping) {
+        /*switch(dataMapping) {
             case "Adecco":
                 sqlCount = readPropertyFile.loadAndReadPropertyFile("sql_for_new_adecco_record_count");
                 break;
@@ -27,7 +27,7 @@ public class CompareCsvAndDbRecords {
                 sqlCount = readPropertyFile.loadAndReadPropertyFile("sql_for_new_logistics_record_count");
                 break;
         }
-        Integer fsdrRowCount = dbConnect.queryRecordCount(sqlCount);
+        Integer fsdrRowCount = dbConnect.queryRecordCount(sqlCount);*/
         Assert.assertEquals("The total record in CSV file (" + csvPath + ") and FSDR does not match", csvRowCount, fsdrRowCount);
         System.out.println(currentDateTime.dateTime() + " The total record count in CSV file (" + csvPath + ") & FSDR are correct and is " + csvRowCount);
         for (int i=0; i < fsdrRowCount; i++) {
