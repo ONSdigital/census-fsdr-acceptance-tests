@@ -10,7 +10,7 @@ import uk.gov.ons.census.fsdr.utils.DbConnect;
 import uk.gov.ons.census.fsdr.utils.ReadPropertyFile;
 import java.io.IOException;
 
-public class AdeccoToFSDR {
+public class FSDRIntegrationTests {
 
         private DbConnect dbConnect = new DbConnect();
         private CSVReader csvReader = new CSVReader();

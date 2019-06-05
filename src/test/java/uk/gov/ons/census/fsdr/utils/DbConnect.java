@@ -94,6 +94,12 @@ public class DbConnect {
                         FSDRData[iteration][24] = actualRS.getString("sexual_orientation_notes");
                         FSDRData[iteration][25] = actualRS.getString("religion");
                         FSDRData[iteration][26] = actualRS.getString("religion_notes");
+                        FSDRData[iteration][27] = actualRS.getString("contract_start_date");
+                        FSDRData[iteration][28] = actualRS.getString("contract_end_date");
+                        FSDRData[iteration][29] = actualRS.getString("status");
+                        FSDRData[iteration][30] = actualRS.getString("line_manager");
+                        FSDRData[iteration][31] = actualRS.getString("job_role");
+
                         break;
 
                     case "AirWatch":

@@ -75,6 +75,11 @@ public class CSVReader {
                 csvData[csvRowCount+1][24] = fields[24].replace('"',' ').trim();
                 csvData[csvRowCount+1][25] = fields[25].replace('"',' ').trim();
                 csvData[csvRowCount+1][26] = fields[26].replace('"',' ').trim();
+                csvData[csvRowCount+1][27] = fields[27].replace('"',' ').trim();
+                csvData[csvRowCount+1][28] = fields[28].replace('"',' ').trim();
+                csvData[csvRowCount+1][29] = fields[29].replace('"',' ').trim();
+                csvData[csvRowCount+1][30] = fields[30].replace('"',' ').trim();
+                csvData[csvRowCount+1][31] = fields[31].replace('"',' ').trim();
                 csvRowCount = csvRowCount + 1;
             }
         } catch (FileNotFoundException e) {
