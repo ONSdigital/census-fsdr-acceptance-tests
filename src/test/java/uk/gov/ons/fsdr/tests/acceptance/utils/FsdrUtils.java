@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import uk.gov.ons.fsdr.tests.acceptance.entity.Employee;
+import uk.gov.ons.fsdr.tests.acceptance.dto.Employee;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

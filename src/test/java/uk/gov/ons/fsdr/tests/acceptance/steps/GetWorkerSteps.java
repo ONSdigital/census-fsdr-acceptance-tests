@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
-import uk.gov.ons.fsdr.tests.acceptance.entity.Employee;
+import uk.gov.ons.fsdr.tests.acceptance.dto.Employee;
 import uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils;
 
