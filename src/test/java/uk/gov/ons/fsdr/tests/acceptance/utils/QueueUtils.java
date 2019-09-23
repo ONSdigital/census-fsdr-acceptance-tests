@@ -1,18 +1,16 @@
-package uk.gov.ons.census.fwmt.tests.acceptance.utils;
-
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+package uk.gov.ons.fsdr.tests.acceptance.utils;
 
 import com.rabbitmq.client.AMQP.BasicProperties;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.GetResponse;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 @Slf4j
 @Component

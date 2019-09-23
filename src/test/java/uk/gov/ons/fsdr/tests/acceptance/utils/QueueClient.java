@@ -1,15 +1,10 @@
-package uk.gov.ons.census.fwmt.tests.acceptance.utils;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+package uk.gov.ons.fsdr.tests.acceptance.utils;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.net.URISyntaxException;
 
 @Slf4j
 @Component

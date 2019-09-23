@@ -2,11 +2,8 @@ package uk.gov.ons.fsdr.tests.acceptance.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
@@ -22,11 +19,8 @@ import java.util.List;
 @Component
 public final class AdeccoMockUtils {
 
-    @Value("${service.mockadecco.url}")
+    @Value("${addeco.baseUrl}")
     private String mockAdeccoUrl;
-
-    @Autowired
-    private RestTemplate restTemplate;
 
     public void clearMock() throws IOException {
         URL url = new URL(mockAdeccoUrl + "/clear");
@@ -39,6 +33,7 @@ public final class AdeccoMockUtils {
     }
 
     public AdeccoResponseList getRecords() {
+        RestTemplate restTemplate = new RestTemplate();
         String url = mockAdeccoUrl + "/records";
         log.info("getRecords-mock_url:" + url);
         ResponseEntity<AdeccoResponseList> responseEntity;
@@ -47,13 +42,17 @@ public final class AdeccoMockUtils {
     }
 
     public void addUsersAdecco(List<AdeccoResponse> adeccoResponseList) {
+        RestTemplate restTemplate = new RestTemplate();
+
         HttpHeaders headers = createBasicAuthHeaders("user", "password");
 
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        String postUrl = mockAdeccoUrl + "/addContacts";
+        HttpEntity<List<AdeccoResponse>> response = new HttpEntity<>(adeccoResponseList, headers);
 
-        restTemplate.postForObject(postUrl, adeccoResponseList, AdeccoResponseList.class);
+        String postUrl = mockAdeccoUrl + "/postResponse";
+
+        restTemplate.exchange(postUrl, HttpMethod.POST, response, AdeccoResponseList.class);
     }
 
     private HttpHeaders createBasicAuthHeaders(String username, String password) {
@@ -67,7 +66,7 @@ public final class AdeccoMockUtils {
     }
 
     public void enableRequestRecorder() throws IOException {
-        URL url = new URL(mockAdeccoUrl + "/logger/enableRequestRecorder");
+        URL url = new URL(mockAdeccoUrl + "/enableLogger");
         log.info("enableRequestRecorder-mock_url:" + url.toString());
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("GET");
@@ -77,7 +76,7 @@ public final class AdeccoMockUtils {
     }
 
     public void disableRequestRecorder() throws IOException {
-        URL url = new URL(mockAdeccoUrl + "/logger/disableRequestRecorder");
+        URL url = new URL(mockAdeccoUrl + "/disableLogger");
         log.info("disableRequestRecorder-mock_url:" + url.toString());
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("GET");
