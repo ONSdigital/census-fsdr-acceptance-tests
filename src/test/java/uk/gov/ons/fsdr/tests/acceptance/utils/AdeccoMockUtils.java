@@ -23,7 +23,7 @@ public final class AdeccoMockUtils {
     private String mockAdeccoUrl;
 
     public void clearMock() throws IOException {
-        URL url = new URL(mockAdeccoUrl + "/clear");
+        URL url = new URL(mockAdeccoUrl + "mock/reset");
         log.info("clear-mock_url:" + url.toString());
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("GET");
@@ -34,7 +34,7 @@ public final class AdeccoMockUtils {
 
     public AdeccoResponseList getRecords() {
         RestTemplate restTemplate = new RestTemplate();
-        String url = mockAdeccoUrl + "/records";
+        String url = mockAdeccoUrl + "adecco/records";
         log.info("getRecords-mock_url:" + url);
         ResponseEntity<AdeccoResponseList> responseEntity;
         responseEntity = restTemplate.getForEntity(url, AdeccoResponseList.class);
@@ -43,15 +43,10 @@ public final class AdeccoMockUtils {
 
     public void addUsersAdecco(List<AdeccoResponse> adeccoResponseList) {
         RestTemplate restTemplate = new RestTemplate();
-
         HttpHeaders headers = createBasicAuthHeaders("user", "password");
-
         headers.setContentType(MediaType.APPLICATION_JSON);
-
         HttpEntity<List<AdeccoResponse>> response = new HttpEntity<>(adeccoResponseList, headers);
-
-        String postUrl = mockAdeccoUrl + "/postResponse";
-
+        String postUrl = mockAdeccoUrl + "mock/postResponse";
         restTemplate.exchange(postUrl, HttpMethod.POST, response, AdeccoResponseList.class);
     }
 
@@ -66,7 +61,7 @@ public final class AdeccoMockUtils {
     }
 
     public void enableRequestRecorder() throws IOException {
-        URL url = new URL(mockAdeccoUrl + "/enableLogger");
+        URL url = new URL(mockAdeccoUrl + "mock/enableLogger");
         log.info("enableRequestRecorder-mock_url:" + url.toString());
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("GET");
@@ -76,7 +71,7 @@ public final class AdeccoMockUtils {
     }
 
     public void disableRequestRecorder() throws IOException {
-        URL url = new URL(mockAdeccoUrl + "/disableLogger");
+        URL url = new URL(mockAdeccoUrl + "mock/disableLogger");
         log.info("disableRequestRecorder-mock_url:" + url.toString());
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("GET");
@@ -84,4 +79,22 @@ public final class AdeccoMockUtils {
             throw new MockInaccessibleException("Failed : HTTP error code : " + httpURLConnection.getResponseCode());
         }
     }
+    
+    public ResponseEntity<AdeccoResponseList> getEmployeeBySource(String source) {
+      RestTemplate restTemplate = new RestTemplate();
+      String postHit = mockAdeccoUrl + "/getResponse";
+      ResponseEntity<AdeccoResponseList> results = restTemplate.exchange(postHit, HttpMethod.GET, null,
+          AdeccoResponseList.class);
+      return results;
+    }
+
+    public ResponseEntity<AdeccoResponseList> getEmployeeById(String employeeId) {
+      RestTemplate restTemplate = new RestTemplate();
+      String postHit = mockAdeccoUrl + "/getEmployeeId" + employeeId;
+      ResponseEntity<AdeccoResponseList> results = restTemplate.exchange(postHit, HttpMethod.GET, null,
+          AdeccoResponseList.class);
+
+      return results;
+    }
+
 }

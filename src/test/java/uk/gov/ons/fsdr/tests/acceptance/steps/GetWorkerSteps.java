@@ -94,7 +94,7 @@ public class GetWorkerSteps {
     @And("search database for {string} employee with ID {string}")
     public void searchDatabaseForEmployeeWithID(String source, String employeeId) {
         String responseEmployeeId;
-        ResponseEntity<AdeccoResponseList> results = fsdrUtils.getEmployeeById(employeeId);
+        ResponseEntity<AdeccoResponseList> results = adeccoMockUtils.getEmployeeById(employeeId);
 
         assertEquals(results.getStatusCode(), HttpStatus.OK);
 
