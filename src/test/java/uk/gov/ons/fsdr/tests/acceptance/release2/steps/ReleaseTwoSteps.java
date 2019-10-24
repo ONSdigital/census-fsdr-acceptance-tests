@@ -81,6 +81,7 @@ public class ReleaseTwoSteps {
     employeeId = UUID.randomUUID();
     adeccoResponse1 = AdeccoPeopleFactory.buildFransicoBuyo(employeeId);
     adeccoResponse1.getResponseJob().setJobRole("CA12");
+    adeccoResponse1.getResponseJob().setRoleId("CA12-001");
 
     
   }
@@ -91,6 +92,7 @@ public class ReleaseTwoSteps {
     if(jobRoleQty==2) {
       adeccoResponse2 = AdeccoPeopleFactory.buildFransicoBuyo(employeeId);
       adeccoResponse2.getResponseJob().setJobRole("CA13");
+      adeccoResponse2.getResponseJob().setRoleId("CA13-001");
 
     }
   }
