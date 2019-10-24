@@ -1,0 +1,61 @@
+{
+  "Contracted_Hours__c": 0,
+  "Name": "string",
+  "TR1__Contract_End_Date__c": null,
+  "TR1__End_Date__c": "2019-12-25",
+  "TR1__Job__r": {
+    "Hiring_Manager_First_Name__c": "Lillian",
+    "Hiring_Manager_Last_Name__c": "Le",
+    "Job_Role__r": {
+      "Name": "CCS Interviewer"
+    },
+    "Job_Title__c": "Census Coordinator",
+    "Role_Code__c": "a1b2_345"
+  },
+  "TR1__Person_Placed__r": {
+    "Address_Line_1__c": "1 Station Road",
+    "Address_Line_2__c": null,
+    "Birthdate": "1983-03-19",
+    "County__c": "Essex",
+    "Disability_or_Health_Condition__c": "No",
+    "Disability_or_Health_Condition_notes__c": "None",
+    "Diversity_Age__c": "45-49",
+    "Diversity_Gender__c": "Male",
+    "Email": "test@test.co.uk",
+    "Emergency_Contact_Number__c": "01234567789",
+    "Emergency_Contact__c": "Eve Rosa",
+    "Ethnicity_Notes__c": "None",
+    "Ethnicity__c": "Asian",
+    "FirstName": "Patrick",
+    "HomePhone": "0123456789",
+    "Id": "123456789",
+    "LastName": "Adams",
+    "Local_Authority_Area_Id__r": {
+      "Local_Authority__r": {
+        "Country_Region__c": "England"
+      }
+    },
+    "MobilePhone": "0123456789",
+    "Nationality__c": "English",
+    "ONS_Travel_Distance__c": "2-10 miles",
+    "Postcode__c": "CH1 2EX",
+    "Religion_or_belief__c": "No religion or belief",
+    "Religion_or_belief_notes__c": null,
+    "Sexual_Orientation_Notes__c": null,
+    "Sexual_Orientation__c": "Gay male",
+    "TR1__Candidate_Status__c": "Assigned",
+    "TR1__Other_Name__c": null,
+    "Town__c": "Chelmsford",
+    "UK_EU_Driving_Licence__c": null,
+    "areaLocation": null,
+    "idBadgeNo": "987654321",
+    "languages": "English",
+    "mobileStaff": null,
+    "reasonableAdjustments": "None",
+    "welshLanguageSpeaker": "No"
+  },
+  "TR1__Start_Date__c": "2019-10-25",
+  "Worker__r": {
+    "Id": "123456789"
+  }
+}
