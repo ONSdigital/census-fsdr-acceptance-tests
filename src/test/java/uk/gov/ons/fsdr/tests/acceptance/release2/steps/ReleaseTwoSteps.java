@@ -142,7 +142,7 @@ public class ReleaseTwoSteps {
 
   @Then("the employee whether it is updated is {string}")
   public void the_employee_whether_it_is_updated_is(String isReceivedFromAdecco) throws Exception {
-    fsdrEmployee = fsdrUtils.retrieveEmployee(adeccoResponse1.getResponseContact().getEmployeeId());
+    fsdrEmployee = fsdrUtils.retrieveEmployee(adeccoResponse1.getResponseContact().getEmployeeId()).getBody();
     assertEquals("ADECCO", fsdrEmployee.getDataSource());
   }
 

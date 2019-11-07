@@ -8,6 +8,7 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,10 +19,14 @@ import uk.gov.ons.census.fwmt.common.error.GatewayException;
 import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponseList;
-import uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoMockUtils;
-import uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils;
+import uk.gov.ons.fsdr.tests.acceptance.dto.Employee;
+import uk.gov.ons.fsdr.tests.acceptance.utils.*;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
@@ -34,7 +39,16 @@ import static org.junit.Assert.assertTrue;
 public class GetWorkerSteps {
 
     @Autowired
+    private GsuiteMockUtils gsuiteMockUtils;
+
+    @Autowired
     private AdeccoMockUtils adeccoMockUtils;
+
+    @Autowired
+    private XmaMockUtils xmaMockUtils;
+
+    @Autowired
+    private SnowMockUtils snowMockUtils;
 
     @Autowired
     private FsdrUtils fsdrUtils;
@@ -52,15 +66,23 @@ public class GetWorkerSteps {
 
     @Value("${addeco.baseUrl}")
     private String mockAdeccoUrl;
-
     private String adeccoWorker;
 
     private String INGEST_FROM_ADECCO = "INGEST_FROM_ADECCO";
+    private String GSUITE_COMPLETE = "GSUITE_COMPLETE";
+    private String XMA_EMPLOYEE_SENT = "XMA_EMPLOYEE_SENT";
+    private String SERVICENOW_CREATED = "SERVICENOW_CREATED";
+
+
+    private Employee fsdrEmployee;
+
     @Before
-    public void setup() throws IOException, TimeoutException {
+    public void setup() throws Exception {
         adeccoWorker = Resources.toString(Resources.getResource("files/adeccoPut.json"), Charsets.UTF_8);
 
         adeccoMockUtils.clearMock();
+        adeccoMockUtils.cleardb();
+
         adeccoMockUtils.enableRequestRecorder();
 
         gatewayEventMonitor = new GatewayEventMonitor();
@@ -73,8 +95,9 @@ public class GetWorkerSteps {
         gatewayEventMonitor.tearDownGatewayEventMonitor();
     }
 
-    @Given("Adecco has created a worker with an employee")
-    public void adeccoHasCreatedAWorkerWithAnEmployeeIDOf() throws IOException {
+    @Given("Employee is created in Adecco")
+    public void employee_is_created_in_Adecco() throws IOException {
+
         ObjectMapper objectMapper = new ObjectMapper();
 
         AdeccoResponse adeccoResponse = objectMapper.readValue(adeccoWorker, AdeccoResponse.class);
@@ -82,25 +105,84 @@ public class GetWorkerSteps {
         List<AdeccoResponse> adeccoResponseList = new ArrayList<>();
         adeccoResponseList.add(adeccoResponse);
         adeccoMockUtils.addUsersAdecco(adeccoResponseList);
+
+
+        // Write code here that turns the phrase above into concrete actions
+        //throw new cucumber.api.PendingException();
     }
 
-    @Then("as FSDR system I can pull off Adecco")
-    public void asFSDRSystemICanPullOffAdecco() throws IOException {
+
+    @When("FSDR pulls data from Adecco")
+    public void fsdr_pulls_data_from_Adecco() throws IOException {
         fsdrUtils.ingestAdecco();
+        fsdrUtils.ingestRunFSDRProcess();
         boolean hasBeenTriggered = gatewayEventMonitor.hasEventTriggered("<N/A>", INGEST_FROM_ADECCO, 10000L);
         assertTrue(hasBeenTriggered);
+
+        // Write code here that turns the phrase above into concrete actions
+
     }
 
-    @And("search database for {string} employee with ID {string}")
-    public void searchDatabaseForEmployeeWithID(String source, String employeeId) {
+    @Then("Check the Employee created in FSDR database with ID {string}")
+    public void check_the_Employee_created_in_FSDR_database_with_ID(String  employeeId) {
+
         String responseEmployeeId;
-        ResponseEntity<AdeccoResponseList> results = adeccoMockUtils.getEmployeeById(employeeId);
+        ResponseEntity<Employee> employeeResponseEntity = fsdrUtils.retrieveEmployee(employeeId);
+        assertEquals(HttpStatus.OK, employeeResponseEntity.getStatusCode());
+        fsdrEmployee = employeeResponseEntity.getBody();
 
-        assertEquals(results.getStatusCode(), HttpStatus.OK);
+        responseEmployeeId = fsdrEmployee.getUniqueEmployeeId();
 
-        AdeccoResponse adeccoResponse = results.getBody().getRecords().get(0);
-        responseEmployeeId = adeccoResponse.getResponseContact().getEmployeeId();
+        assertEquals(employeeId, responseEmployeeId);
+        // Write code here that turns the phrase above into concrete actions
 
-        assertEquals(responseEmployeeId, employeeId);
     }
-}
+
+    @Then("FSDR update the external systems")
+    public void fdr_update_the_external_system() throws IOException {
+
+        fsdrUtils.ingestGsuit();
+        boolean hasBeenTriggered = gatewayEventMonitor.hasEventTriggered("<N/A>", GSUITE_COMPLETE, 10000L);
+        assertTrue(hasBeenTriggered);
+
+        fsdrUtils.ingestXma();
+       boolean hasBeenTriggeredxma = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), XMA_EMPLOYEE_SENT, 10000L);
+        assertTrue(hasBeenTriggeredxma);
+
+        fsdrUtils.ingestSnow();
+        boolean hasBeenTriggeredsnow = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), SERVICENOW_CREATED, 10000L);
+        assertTrue(hasBeenTriggeredsnow);
+
+        ResponseEntity<Employee> employeeResponseEntity = fsdrUtils.retrieveEmployee(fsdrEmployee.getUniqueEmployeeId());
+        fsdrEmployee = employeeResponseEntity.getBody();
+        
+    }
+
+    @Then("Check the employee send to GSuit")
+    public void check_the_employee_send_to_GSuit() {
+        String[] records = gsuiteMockUtils.getRecords(fsdrEmployee.getOnsId());
+        if(records.length != 0) {
+            System.out.println("done");
+        } else System.out.println("not done");
+
+
+    }
+
+    @And("Check the employee send to XMA")
+
+    public void check_the_employee_send_to_XMA() {
+            String[] records = xmaMockUtils.getRecords(fsdrEmployee.getOnsId());
+            assertTrue(records.length != 0);
+
+
+    }
+    @And("Check the employee send to Snow")
+    public void check_the_employee_send_to_Snow() {
+        String[] records = snowMockUtils.getRecords(fsdrEmployee.getServiceNowUserId());
+        assertTrue(records.length != 0);
+    }
+
+
+    }
+
+

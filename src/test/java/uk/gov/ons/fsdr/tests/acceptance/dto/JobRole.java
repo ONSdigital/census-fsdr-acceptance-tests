@@ -1,6 +1,5 @@
 package uk.gov.ons.fsdr.tests.acceptance.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,28 +11,37 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class JobRole {
 
-    @JsonIgnore
-    private Long id;
+  private Long id;
 
-    private String uniqueRoleId;
+  private String uniqueRoleId;
 
-    private String jobRole;
+  private String jobRole;
 
-    private String jobRoleType;
+  private String jobRoleType;
 
-    private String lineManagerFirstName;
+  private String lineManagerFirstName;
 
-    private String lineManagerSurname;
+  private String lineManagerSurname;
 
-    private String areaLocation;
+  private String areaLocation;
 
-    @JsonIgnore
-    private String uniqueEmployeeId;
+  private String uniqueEmployeeId;
 
-    private LocalDate operationalEndDate;
+  private LocalDate operationalEndDate;
 
-    private String jobRoleShort;
+  private String jobRoleShort;
+
+  private Boolean active;
+
+  private String crStatus;
+
+  private String assignmentStatus;
+
+  private LocalDate contractStartDate;
+
+  private LocalDate contractEndDate;
 
 }

@@ -18,7 +18,7 @@ description = 'census-fsdr-acceptance-tests'
 
 group = 'uk.gov.ons'
 
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2-SNAPSHOT'
 
 sourceCompatibility = 11
 targetCompatibility = 11
@@ -63,7 +63,7 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql:42.2.5'
 
     compile("uk.gov.ons.census.fwmt:census-fwmt-events:1.0.17-RELEASE")
-    compile("uk.gov.ons:census-fsdr-common:0.0.1-SNAPSHOT")
+    compile("uk.gov.ons:census-fsdr-common:0.0.2-SNAPSHOT")
 
     compile("com.google.guava:guava:27.0.1-jre")
 

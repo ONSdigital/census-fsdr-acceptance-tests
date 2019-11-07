@@ -1,0 +1,53 @@
+ {
+      "TR1__Start_Date__c": "2019-10-30",
+      "TR1__Contract_End_Date__c": "2019-11-09",
+      "TR1__End_Date__c": "2019-11-09",
+      "TR1__Person_Placed__r": {
+        "welshLanguageSpeaker": null,
+        "languages": null,
+        "mobileStaff": null,
+        "reasonableAdjustments": null,
+        "areaLocation": null,
+        "Id": "30f39c88-cc9f-41f1-81c0-afa4848b8ca0",
+        "FirstName": "Fransico",
+        "LastName": "Buyo",
+        "TR1__Other_Name__c": null,
+        "Address_Line_1__c": null,
+        "Address_Line_2__c": null,
+        "Town__c": null,
+        "County__c": null,
+        "Postcode__c": null,
+        "Email": null,
+        "MobilePhone": null,
+        "HomePhone": null,
+        "Emergency_Contact__c": null,
+        "Emergency_Contact_Number__c": null,
+        "ONS_Travel_Distance__c": null,
+        "Birthdate": null,
+        "UK_EU_Driving_Licence__c": null,
+        "Diversity_Age__c": null,
+        "Ethnicity__c": null,
+        "Ethnicity_Notes__c": null,
+        "Disability_or_Health_Condition__c": null,
+        "Disability_or_Health_Condition_notes__c": null,
+        "Nationality__c": null,
+        "Diversity_Gender__c": null,
+        "Sexual_Orientation__c": null,
+        "Sexual_Orientation_Notes__c": null,
+        "Religion_or_belief__c": null,
+        "Religion_or_belief_notes__c": null,
+        "Local_Authority_Area_Id__r": null
+      },
+      "TR1__Job__r": {
+          "Hiring_Manager_First_Name__c": null,
+          "Hiring_Manager_Last_Name__c": null,
+          "Job_Title__c": "CA12",
+          "Job_Role__r": null,
+          "Role_Code__c": "CA12-001"
+      },
+      "Assignment_Status__c": "Assigned",
+      "Worker__r": {
+        "Id": "30f39c88-cc9f-41f1-81c0-afa4848b8ca0"
+      },
+      "Status1__c": "Active"
+    }

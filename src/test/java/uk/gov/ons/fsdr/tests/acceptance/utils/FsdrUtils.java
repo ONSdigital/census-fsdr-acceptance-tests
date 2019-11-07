@@ -56,12 +56,59 @@ public final class FsdrUtils {
     httpURLConnection.setRequestMethod("GET");
     if (httpURLConnection.getResponseCode() != 200) {
       log.error("failed to initiate Adecco ingest" + httpURLConnection.getResponseCode()
-          + httpURLConnection.getResponseMessage());
+              + httpURLConnection.getResponseMessage());
       throw new RuntimeException(httpURLConnection.getResponseMessage());
     }
   }
 
-  public void ingestRunFSDRProcess() throws IOException {
+
+    public void ingestGsuit() throws IOException {
+
+      URL url = new URL(fsdrServiceUrl + "/fsdr/gsuite");
+      HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+      addBasicAuthentication(httpURLConnection);
+
+      httpURLConnection.setRequestMethod("GET");
+      if (httpURLConnection.getResponseCode() != 200) {
+        log.error("failed to initiate Gsuit ingest" + httpURLConnection.getResponseCode()
+                + httpURLConnection.getResponseMessage());
+        throw new RuntimeException(httpURLConnection.getResponseMessage());
+      }
+    }
+
+
+      public void ingestXma() throws IOException {
+
+        URL url = new URL(fsdrServiceUrl + "/fsdr/xma");
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        addBasicAuthentication(httpURLConnection);
+
+        httpURLConnection.setRequestMethod("GET");
+        if (httpURLConnection.getResponseCode() != 200) {
+          log.error("failed to initiate Xma ingest" + httpURLConnection.getResponseCode()
+                  + httpURLConnection.getResponseMessage());
+          throw new RuntimeException(httpURLConnection.getResponseMessage());
+        }
+  }
+
+  public void ingestSnow() throws IOException {
+
+    URL url = new URL(fsdrServiceUrl + "/fsdr/serviceNow");
+    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+    addBasicAuthentication(httpURLConnection);
+
+    httpURLConnection.setRequestMethod("GET");
+    if (httpURLConnection.getResponseCode() != 200) {
+      log.error("failed to initiate Snow ingest" + httpURLConnection.getResponseCode()
+              + httpURLConnection.getResponseMessage());
+      throw new RuntimeException(httpURLConnection.getResponseMessage());
+    }
+  }
+
+
+
+
+    public void ingestRunFSDRProcess() throws IOException {
     URL url = new URL(fsdrServiceUrl + "/fsdr/createActions");
     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
     addBasicAuthentication(httpURLConnection);
@@ -74,13 +121,13 @@ public final class FsdrUtils {
     }
   }
 
-  public Employee retrieveEmployee(String id) {
+  public ResponseEntity<Employee> retrieveEmployee(String id) {
     RestTemplate restTemplate = new RestTemplate();
 
     String url = fsdrServiceUrl + "/fieldforce/byId/" + id;
     System.out.println(url);
     ResponseEntity<Employee> employeeEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(createHeaders()), Employee.class);
-    return employeeEntity.getBody();
+    return employeeEntity;
   }
 
 }
