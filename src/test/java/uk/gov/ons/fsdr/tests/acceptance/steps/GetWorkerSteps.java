@@ -15,21 +15,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import uk.gov.ons.census.fwmt.common.error.GatewayException;
 import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
-import uk.gov.ons.fsdr.common.dto.AdeccoResponseList;
 import uk.gov.ons.fsdr.tests.acceptance.dto.Employee;
 import uk.gov.ons.fsdr.tests.acceptance.utils.*;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -52,6 +45,9 @@ public class GetWorkerSteps {
 
     @Autowired
     private FsdrUtils fsdrUtils;
+
+    @Autowired
+    private SftpUtils sftpUtils;
 
     private GatewayEventMonitor gatewayEventMonitor;
 
@@ -141,21 +137,25 @@ public class GetWorkerSteps {
     @Then("FSDR update the external systems")
     public void fdr_update_the_external_system() throws IOException {
 
-        fsdrUtils.ingestGsuit();
-        boolean hasBeenTriggered = gatewayEventMonitor.hasEventTriggered("<N/A>", GSUITE_COMPLETE, 10000L);
-        assertTrue(hasBeenTriggered);
+//        fsdrUtils.ingestGsuit();
+//        boolean hasBeenTriggered = gatewayEventMonitor.hasEventTriggered("<N/A>", GSUITE_COMPLETE, 10000L);
+//        assertTrue(hasBeenTriggered);
+//
+//        fsdrUtils.ingestXma();
+//       boolean hasBeenTriggeredxma = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), XMA_EMPLOYEE_SENT, 10000L);
+//        assertTrue(hasBeenTriggeredxma);
+//
+//        fsdrUtils.ingestSnow();
+//        boolean hasBeenTriggeredsnow = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), SERVICENOW_CREATED, 10000L);
+//        assertTrue(hasBeenTriggeredsnow);
 
-        fsdrUtils.ingestXma();
-       boolean hasBeenTriggeredxma = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), XMA_EMPLOYEE_SENT, 10000L);
-        assertTrue(hasBeenTriggeredxma);
-
-        fsdrUtils.ingestSnow();
-        boolean hasBeenTriggeredsnow = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), SERVICENOW_CREATED, 10000L);
-        assertTrue(hasBeenTriggeredsnow);
+        fsdrUtils.ingestGranby();
+        boolean hasBeenTriggeredGranby = gatewayEventMonitor.hasEventTriggered("<N/A>", "LOGISTICS_EXTRACT_SENT", 10000L);
+        assertTrue(hasBeenTriggeredGranby);
 
         ResponseEntity<Employee> employeeResponseEntity = fsdrUtils.retrieveEmployee(fsdrEmployee.getUniqueEmployeeId());
         fsdrEmployee = employeeResponseEntity.getBody();
-        
+
     }
 
     @Then("Check the employee send to GSuit")
@@ -183,6 +183,11 @@ public class GetWorkerSteps {
     }
 
 
+    @And("Check the employee send to Granby")
+    public void check_the_employee_send_to_granby() throws Exception {
+        final String csv = sftpUtils.getCsv("logistics/", "logistics[0-9]{12}.csv");
+        System.out.println(csv);
     }
+}
 
 
