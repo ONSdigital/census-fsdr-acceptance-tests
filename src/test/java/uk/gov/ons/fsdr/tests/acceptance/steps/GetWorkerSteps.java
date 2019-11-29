@@ -24,8 +24,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
 
 @Slf4j
 @PropertySource("classpath:application.properties")
@@ -186,7 +188,7 @@ public class GetWorkerSteps {
     @And("Check the employee send to Granby")
     public void check_the_employee_send_to_granby() throws Exception {
         final String csv = sftpUtils.getCsv("logistics/", "logistics[0-9]{12}.csv");
-        System.out.println(csv);
+        assertThat(csv).containsPattern("Patrick.Adams..@domain");
     }
 }
 

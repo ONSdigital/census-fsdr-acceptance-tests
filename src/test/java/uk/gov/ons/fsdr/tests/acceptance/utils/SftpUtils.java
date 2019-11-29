@@ -80,15 +80,20 @@ public class SftpUtils {
         Vector ls = sftp.ls(directory);
         Pattern pattern = Pattern.compile(fileNamePattern);
         String decryptedFile = null;
+        List<String> filenames = new ArrayList<>();
         for (Object entry : ls) {
             ChannelSftp.LsEntry lsEntry = (ChannelSftp.LsEntry) entry;
             final String csvFilename = lsEntry.getFilename();
             Matcher m = pattern.matcher(csvFilename);
             if (m.matches()) {
-                InputStream is = sftp.get(directory + csvFilename);
-                decryptedFile = decryptFile(csvSecretKey.getInputStream(), is, csvKeyPassword.toCharArray());
-            }
+                filenames.add(csvFilename);
+                }
         }
+        Collections.reverse(filenames);
+        String filename = filenames.get(0);
+        InputStream is = sftp.get(directory + filename);
+        decryptedFile = decryptFile(csvSecretKey.getInputStream(), is, csvKeyPassword.toCharArray());
+
 
         sftp.exit();
         session.disconnect();
