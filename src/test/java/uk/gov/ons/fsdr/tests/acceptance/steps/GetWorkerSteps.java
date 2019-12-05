@@ -129,6 +129,13 @@ public class GetWorkerSteps {
 
     }
 
+    @When("employee assigned device temporary fix do not use this code")
+    public void fsdrPullsDevicesFromXMA() {
+        //Todo this is a temporary fix so that an employee will have a device for the LWS extract,
+        // this needs to be replaced with an xma get devices mock
+        fsdrUtils.postDeviceToFsdr();
+    }
+
     @Then("Check the Employee created in FSDR database with ID {string}")
     public void check_the_Employee_created_in_FSDR_database_with_ID(String  employeeId) {
 
@@ -161,9 +168,7 @@ public class GetWorkerSteps {
 
         fsdrUtils.ingestGranby();
 
-//        fsdrUtils.ingestLws();
-//        boolean hasBeenTriggeredLws = gatewayEventMonitor.hasEventTriggered("<N/A>", "LOGISTICS_EXTRACT_SENT", 10000L);
-//        assertTrue(hasBeenTriggeredLws);
+        fsdrUtils.lwsExtract();
 
         ResponseEntity<Employee> employeeResponseEntity = fsdrUtils.retrieveEmployee(fsdrEmployee.getUniqueEmployeeId());
         fsdrEmployee = employeeResponseEntity.getBody();
@@ -210,11 +215,20 @@ public class GetWorkerSteps {
         assertThat(csv).containsPattern("Patrick.Adams..@domain");
     }
 
-//    @And("Check the employee send to LWS")
-//    public void check_the_employee_send_to_LWS() throws Exception{
-//        final String csv = sftpUtils.getCsv("logistics/", csvFilename);
-//        assertThat(csv).containsPattern("Patrick.Adams..@domain");
-//    }
+    @And("Check the employee send to LWS")
+    public void check_the_employee_send_to_LWS() throws Exception{
+        String csvFilename = null;
+        List<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor.getEventsForEventType("LWS_EXTRACT_SENT", 10);
+        for (GatewayEventDTO gatewayEventDTO : logistics_extract_sent) {
+            csvFilename = gatewayEventDTO.getMetadata().get("lwsFilename");
+        }
+        if (csvFilename == null) {
+            fail("LWS csv filename not found in event log");
+        }
+        assertFalse(csvFilename.isBlank());
+        final String csv = sftpUtils.getCsv("lws/", csvFilename);
+        assertThat(csv).contains("Operator Instructions #1").containsPattern("Patrick.Adams..@domain");
+    }
 }
 
 
