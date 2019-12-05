@@ -15,10 +15,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
 import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
 import uk.gov.ons.fsdr.tests.acceptance.dto.Employee;
-import uk.gov.ons.fsdr.tests.acceptance.utils.*;
+import uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoMockUtils;
+import uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils;
+import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
+import uk.gov.ons.fsdr.tests.acceptance.utils.SftpUtils;
+import uk.gov.ons.fsdr.tests.acceptance.utils.SnowMockUtils;
+import uk.gov.ons.fsdr.tests.acceptance.utils.XmaMockUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,7 +32,9 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 
 @Slf4j
@@ -68,7 +76,7 @@ public class GetWorkerSteps {
 
     private String INGEST_FROM_ADECCO = "INGEST_FROM_ADECCO";
     private String GSUITE_COMPLETE = "GSUITE_COMPLETE";
-    private String XMA_EMPLOYEE_SENT = "XMA_EMPLOYEE_SENT";
+    private String XMA_EMPLOYEE_SENT = "XMA_EMPLOYEE_CREATED";
     private String SERVICENOW_CREATED = "SERVICENOW_CREATED";
 
 
@@ -139,21 +147,23 @@ public class GetWorkerSteps {
     @Then("FSDR update the external systems")
     public void fdr_update_the_external_system() throws IOException {
 
-//        fsdrUtils.ingestGsuit();
-//        boolean hasBeenTriggered = gatewayEventMonitor.hasEventTriggered("<N/A>", GSUITE_COMPLETE, 10000L);
-//        assertTrue(hasBeenTriggered);
-//
-//        fsdrUtils.ingestXma();
-//       boolean hasBeenTriggeredxma = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), XMA_EMPLOYEE_SENT, 10000L);
-//        assertTrue(hasBeenTriggeredxma);
-//
-//        fsdrUtils.ingestSnow();
-//        boolean hasBeenTriggeredsnow = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), SERVICENOW_CREATED, 10000L);
-//        assertTrue(hasBeenTriggeredsnow);
+        fsdrUtils.ingestGsuit();
+        boolean hasBeenTriggered = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), GSUITE_COMPLETE, 10000L);
+        assertTrue(hasBeenTriggered);
+
+        fsdrUtils.ingestXma();
+       boolean hasBeenTriggeredxma = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), XMA_EMPLOYEE_SENT, 10000L);
+        assertTrue(hasBeenTriggeredxma);
+
+        fsdrUtils.ingestSnow();
+        boolean hasBeenTriggeredsnow = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), SERVICENOW_CREATED, 10000L);
+        assertTrue(hasBeenTriggeredsnow);
 
         fsdrUtils.ingestGranby();
-        boolean hasBeenTriggeredGranby = gatewayEventMonitor.hasEventTriggered("<N/A>", "LOGISTICS_EXTRACT_SENT", 10000L);
-        assertTrue(hasBeenTriggeredGranby);
+
+//        fsdrUtils.ingestLws();
+//        boolean hasBeenTriggeredLws = gatewayEventMonitor.hasEventTriggered("<N/A>", "LOGISTICS_EXTRACT_SENT", 10000L);
+//        assertTrue(hasBeenTriggeredLws);
 
         ResponseEntity<Employee> employeeResponseEntity = fsdrUtils.retrieveEmployee(fsdrEmployee.getUniqueEmployeeId());
         fsdrEmployee = employeeResponseEntity.getBody();
@@ -187,9 +197,24 @@ public class GetWorkerSteps {
 
     @And("Check the employee send to Granby")
     public void check_the_employee_send_to_granby() throws Exception {
-        final String csv = sftpUtils.getCsv("logistics/", "logistics[0-9]{12}.csv");
+        String csvFilename = null;
+        List<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor.getEventsForEventType("LOGISTICS_EXTRACT_SENT", 10);
+        for (GatewayEventDTO gatewayEventDTO : logistics_extract_sent) {
+            csvFilename = gatewayEventDTO.getMetadata().get("logisticsFilename");
+        }
+        if (csvFilename == null) {
+            fail("logistics csv filename not found in event log");
+        }
+        assertFalse(csvFilename.isBlank());
+        final String csv = sftpUtils.getCsv("logistics/", csvFilename);
         assertThat(csv).containsPattern("Patrick.Adams..@domain");
     }
+
+//    @And("Check the employee send to LWS")
+//    public void check_the_employee_send_to_LWS() throws Exception{
+//        final String csv = sftpUtils.getCsv("logistics/", csvFilename);
+//        assertThat(csv).containsPattern("Patrick.Adams..@domain");
+//    }
 }
 
 

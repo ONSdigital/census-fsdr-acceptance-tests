@@ -1,11 +1,6 @@
 package uk.gov.ons.fsdr.tests.acceptance.utils;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -13,10 +8,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import lombok.extern.slf4j.Slf4j;
-import uk.gov.ons.fsdr.common.dto.AdeccoResponseList;
 import uk.gov.ons.fsdr.tests.acceptance.dto.Employee;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 @Slf4j
 @Component
@@ -144,4 +142,17 @@ public final class FsdrUtils {
     return employeeEntity;
   }
 
+//  public void ingestLws() throws IOException {
+//
+//      URL url = new URL(fsdrServiceUrl + "/fsdr/logistics");
+//      HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+//      addBasicAuthentication(httpURLConnection);
+//
+//      httpURLConnection.setRequestMethod("GET");
+//      if (httpURLConnection.getResponseCode() != 200) {
+//        log.error("failed to initiate granby ingest" + httpURLConnection.getResponseCode()
+//                + httpURLConnection.getResponseMessage());
+//        throw new RuntimeException(httpURLConnection.getResponseMessage());
+//      }
+//    }
 }

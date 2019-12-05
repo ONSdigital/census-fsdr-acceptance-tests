@@ -11,9 +11,9 @@ Feature: Pull from Adecco
     When FSDR pulls data from Adecco
     Then Check the Employee created in FSDR database with ID "123456789"
     And FSDR update the external systems
-#    Then Check the employee send to GSuit
-#    And Check the employee send to XMA
-#    And Check the employee send to Snow
+    Then Check the employee send to GSuit
+    And Check the employee send to XMA
+    And Check the employee send to Snow
 #    And Check the employee send to LWS
     And Check the employee send to Granby
     #And Check the employee send to RCA

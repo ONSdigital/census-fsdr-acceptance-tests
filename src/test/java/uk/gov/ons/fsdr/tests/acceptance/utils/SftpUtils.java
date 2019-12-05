@@ -20,9 +20,6 @@ import org.bouncycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
 import org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyDecryptorBuilder;
 import org.bouncycastle.openpgp.operator.jcajce.JcePublicKeyDataDecryptorFactoryBuilder;
 import org.bouncycastle.util.io.Streams;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.event.Level;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -31,10 +28,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Iterator;
+import java.util.Properties;
 
 
 @Service
@@ -63,7 +58,7 @@ public class SftpUtils {
     private String csvKeyPassword;
 
 
-    public String getCsv(String directory, String fileNamePattern) throws Exception {
+    public String getCsv(String directory, String csvFilename) throws Exception {
         JSch jsch = new JSch();
 
         Session session = jsch.getSession(sftpUser, sftpHost, sftpPort);
@@ -77,21 +72,8 @@ public class SftpUtils {
         Channel channel = session.openChannel("sftp");
         channel.connect();
         ChannelSftp sftp = (ChannelSftp) channel;
-        Vector ls = sftp.ls(directory);
-        Pattern pattern = Pattern.compile(fileNamePattern);
         String decryptedFile = null;
-        List<String> filenames = new ArrayList<>();
-        for (Object entry : ls) {
-            ChannelSftp.LsEntry lsEntry = (ChannelSftp.LsEntry) entry;
-            final String csvFilename = lsEntry.getFilename();
-            Matcher m = pattern.matcher(csvFilename);
-            if (m.matches()) {
-                filenames.add(csvFilename);
-                }
-        }
-        Collections.reverse(filenames);
-        String filename = filenames.get(0);
-        InputStream is = sftp.get(directory + filename);
+        InputStream is = sftp.get(directory + csvFilename);
         decryptedFile = decryptFile(csvSecretKey.getInputStream(), is, csvKeyPassword.toCharArray());
 
 
