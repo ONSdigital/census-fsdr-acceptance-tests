@@ -17,7 +17,7 @@ Feature: Pull from Adecco
     And Check the employee send to Snow
     And Check the employee send to LWS
     And Check the employee send to Granby
-    #And Check the employee send to RCA
+    And Check the employee send to RCA
 
 
 
