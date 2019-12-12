@@ -64,7 +64,7 @@ public class ReleaseTwoSteps {
 
   private int jobRoleQty;
 
-  private UUID employeeId;
+  private String employeeId;
   
   private String person;
 
@@ -78,7 +78,7 @@ public class ReleaseTwoSteps {
   @Given("an employee {string}")
   public void adecco_has_an_employee(String person) {
     this.person = person;
-    employeeId = UUID.randomUUID();
+    employeeId = UUID.randomUUID().toString();
     adeccoResponse1 = AdeccoPeopleFactory.buildFransicoBuyo(employeeId);
     adeccoResponse1.getResponseJob().setJobRole("CA12");
     adeccoResponse1.getResponseJob().setRoleId("CA12-001");

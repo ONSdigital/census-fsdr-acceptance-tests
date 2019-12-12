@@ -29,7 +29,7 @@ public class GsuiteMockUtils {
 
     public String[] getRecords() {
         RestTemplate restTemplate = new RestTemplate();
-        String url = mockGsuiteUrl + "messages";
+        String url = mockGsuiteUrl + "messages/";
         log.info("getRecords-mock_url:" + url);
         ResponseEntity<String[]> responseEntity;
         responseEntity = restTemplate.getForEntity(url, String[].class);
