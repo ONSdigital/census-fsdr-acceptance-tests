@@ -183,4 +183,18 @@ public final class FsdrUtils {
         throw new RuntimeException(httpURLConnection.getResponseMessage());
       }
     }
+
+  public void rcaExtract() throws IOException {
+    URL url = new URL(fsdrServiceUrl + "/fsdr/rca");
+    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+    addBasicAuthentication(httpURLConnection);
+
+    httpURLConnection.setRequestMethod("GET");
+    if (httpURLConnection.getResponseCode() != 200) {
+      log.error("failed to initiate rca extract" + httpURLConnection.getResponseCode()
+              + httpURLConnection.getResponseMessage());
+      throw new RuntimeException(httpURLConnection.getResponseMessage());
+    }
+  }
+
 }
