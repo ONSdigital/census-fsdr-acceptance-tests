@@ -42,6 +42,27 @@ public class XmaMockUtils {
         return responseEntity.getBody();
     }
 
+    public String getId(String roleId) {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = mockXmaUrl + "id";
+        log.info("getId-mock_url:" + url);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
+            .queryParam("roleId", roleId);
+
+        HttpEntity<?> entity = new HttpEntity<>(headers);
+
+        HttpEntity<String> response = restTemplate.exchange(
+            builder.toUriString(),
+            HttpMethod.GET,
+            entity, String.class);
+
+        return response.getBody();
+    }
+
     public String[] getRecords(String email) {
         RestTemplate restTemplate = new RestTemplate();
         String url = mockXmaUrl + "messages/" + email;
