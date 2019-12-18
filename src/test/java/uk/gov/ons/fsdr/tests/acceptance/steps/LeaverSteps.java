@@ -176,7 +176,7 @@ public class LeaverSteps {
     String[] records = xmaMockUtils.getRecords();
 
     assertEquals(2, records.length);
-    assertEquals("{\"class_name\": \"RequestManagement.Request\", \"formValues\": [{ \"name\": \"_DeletionUser\", \"value\": \"" + id + "\"},],\"lifecycle_name\": \"NewProcess8\"}", records[1]);
+    assertEquals("{\"className\":\"RequestManagement.Request\",\"formValues\":[{\"name\":\"_DeletionUser\",\"value\":\"" + id + "\"}],\"lifecycle_name\":\"NewProcess8\"}", records[1]);
 
   }
 
