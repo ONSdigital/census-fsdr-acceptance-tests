@@ -18,6 +18,23 @@ public class AdeccoPeopleFactory {
         .employeeId(uuid)
         .firstName("Fransico")
         .lastName("Buyo")
+        .welshLanguageSpeaker("NO")
+        .languages("None")
+        .mobileStaff("no")
+        .reasonableAdjustments("None")
+        .areaLocation("London")
+        .addressLine1("123")
+        .addressLine2("Fake Street")
+        .town("Faketon")
+        .county("Fakeside")
+        .postcode("FA43 1AB")
+        .personalEmail("f.b@email.com")
+        .telephoneNo1("0987654321")
+        .emergencyContact("James Bouyo")
+        .emergencyContactNumber1("02345678901")
+        .mobility("10-15 miles")
+        .dob("1995-07-20")
+        .drivingInfo("None")
         .build();
     AdeccoResponseWorker worker = AdeccoResponseWorker.builder().employeeId(uuid).build();
     AdeccoResponse adeccoResponse = AdeccoResponse.builder()
@@ -31,4 +48,5 @@ public class AdeccoPeopleFactory {
    
     return adeccoResponse;
   }
+
 }

@@ -1,7 +1,7 @@
 @Acceptance
 Feature: Leavers
 
-  Scenario Outline: As FSDR Update the External systems
+  Scenario Outline: A record in FSDR becomes a leaver
     Given An employee exists in "<source>" with an id of "<id>"
     And an assignment status of "<assignment_status>"
     And a closing report status of "<cr_status>"
@@ -21,9 +21,9 @@ Feature: Leavers
     Then the employee is correctly suspended in gsuite
     Then the employee is correctly suspended in ServiceNow with "<role_id>"
     Then the employee with roleId "<role_id>" is correctly suspended in XMA
-    Then the employee "<inLws>" in the LWS CSV
-    Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<phone_number>"
-    And Check the employee "<id>" is sent to RCA
+    Then the employee "<inLws>" in the LWS CSV as a leaver
+    Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<phone_number>" as a leaver
+    And Check the employee "<id>" is not sent to RCA
 
     Examples:
       | id         | assignment_status | cr_status  | role_id       | new_assignment_status | new_cr_status  | inLogisitcs | inLws | source | op_end_date | phone_number | status    |
