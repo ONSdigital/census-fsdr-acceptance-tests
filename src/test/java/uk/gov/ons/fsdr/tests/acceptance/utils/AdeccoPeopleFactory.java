@@ -11,15 +11,32 @@ import uk.gov.ons.fsdr.common.dto.AdeccoResponseWorker;
 
 public class AdeccoPeopleFactory {
   
-  public static AdeccoResponse buildFransicoBuyo(UUID uuid) {
+  public static AdeccoResponse buildFransicoBuyo(String uuid) {
     AdeccoResponseJob job = AdeccoResponseJob.builder()
         .build();
     AdeccoResponseContact contact = AdeccoResponseContact.builder()
-        .employeeId(uuid.toString())
+        .employeeId(uuid)
         .firstName("Fransico")
         .lastName("Buyo")
+        .welshLanguageSpeaker("NO")
+        .languages("None")
+        .mobileStaff("no")
+        .reasonableAdjustments("None")
+        .areaLocation("London")
+        .addressLine1("123")
+        .addressLine2("Fake Street")
+        .town("Faketon")
+        .county("Fakeside")
+        .postcode("FA43 1AB")
+        .personalEmail("f.b@email.com")
+        .telephoneNo1("0987654321")
+        .emergencyContact("James Bouyo")
+        .emergencyContactNumber1("02345678901")
+        .mobility("10-15 miles")
+        .dob("1995-07-20")
+        .drivingInfo("None")
         .build();
-    AdeccoResponseWorker worker = AdeccoResponseWorker.builder().employeeId(uuid.toString()).build();
+    AdeccoResponseWorker worker = AdeccoResponseWorker.builder().employeeId(uuid).build();
     AdeccoResponse adeccoResponse = AdeccoResponse.builder()
         .contractStartDate(LocalDate.now().minus(5, ChronoUnit.DAYS).toString())
         .contractEndDate(LocalDate.now().plus(5, ChronoUnit.DAYS).toString())
@@ -31,4 +48,5 @@ public class AdeccoPeopleFactory {
    
     return adeccoResponse;
   }
+
 }

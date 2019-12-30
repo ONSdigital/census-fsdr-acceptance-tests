@@ -3,14 +3,11 @@ package uk.gov.ons.fsdr.tests.acceptance.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import uk.gov.ons.fsdr.tests.acceptance.utils.GSuiteStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
-
 
 @Data
 @Builder
@@ -58,14 +55,12 @@ public class Employee {
 
   private String emergencyContactMobileNo2;
 
-  @Getter
   private Boolean welshLanguageSpeaker;
 
   private String anyLanguagesSpoken;
 
   private String mobility;
 
-  @Getter
   private Boolean mobileStaff;
 
   private String idBadgeNo;
@@ -76,19 +71,12 @@ public class Employee {
 
   private String reasonableAdjustments;
 
-  private LocalDate contractStartDate;
+  private String  status;
 
-  private LocalDate contractEndDate;
-
-  private String status;
-
-  @Getter
   private Boolean currentCivilServant;
 
-  @Getter
   private Boolean previousCivilServant;
 
-  @Getter
   private Boolean civilServicePensionRecipient;
 
   private LocalDate dob;
@@ -108,7 +96,7 @@ public class Employee {
   private String nationality;
 
   private String gender;
-  
+
   private String sexualOrientation;
 
   private String religion;
@@ -129,7 +117,7 @@ public class Employee {
 
   private String airwatchId;
 
-  private GSuiteStatus gsuite;
+  private String gsuite;
 
   private String areaGroup;
 
@@ -150,5 +138,7 @@ public class Employee {
   private Set<Device> devices;
 
   private Set<JobRole> jobRoles;
+
+
 
 }

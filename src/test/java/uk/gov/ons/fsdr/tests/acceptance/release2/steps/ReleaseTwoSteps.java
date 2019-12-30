@@ -64,7 +64,7 @@ public class ReleaseTwoSteps {
 
   private int jobRoleQty;
 
-  private UUID employeeId;
+  private String employeeId;
   
   private String person;
 
@@ -78,7 +78,7 @@ public class ReleaseTwoSteps {
   @Given("an employee {string}")
   public void adecco_has_an_employee(String person) {
     this.person = person;
-    employeeId = UUID.randomUUID();
+    employeeId = UUID.randomUUID().toString();
     adeccoResponse1 = AdeccoPeopleFactory.buildFransicoBuyo(employeeId);
     adeccoResponse1.getResponseJob().setJobRole("CA12");
     adeccoResponse1.getResponseJob().setRoleId("CA12-001");
@@ -142,7 +142,7 @@ public class ReleaseTwoSteps {
 
   @Then("the employee whether it is updated is {string}")
   public void the_employee_whether_it_is_updated_is(String isReceivedFromAdecco) throws Exception {
-    fsdrEmployee = fsdrUtils.retrieveEmployee(adeccoResponse1.getResponseContact().getEmployeeId());
+    fsdrEmployee = fsdrUtils.retrieveEmployee(adeccoResponse1.getResponseContact().getEmployeeId()).getBody();
     assertEquals("ADECCO", fsdrEmployee.getDataSource());
   }
 

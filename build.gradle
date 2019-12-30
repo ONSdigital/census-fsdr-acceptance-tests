@@ -1,6 +1,7 @@
 buildscript {
     ext {
         springBootVersion = '2.1.0.RELEASE'
+        springFrameworkVersion = '5.1.2.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -18,7 +19,7 @@ description = 'census-fsdr-acceptance-tests'
 
 group = 'uk.gov.ons'
 
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2-SNAPSHOT'
 
 sourceCompatibility = 11
 targetCompatibility = 11
@@ -63,7 +64,7 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql:42.2.5'
 
     compile("uk.gov.ons.census.fwmt:census-fwmt-events:1.0.17-RELEASE")
-    compile("uk.gov.ons:census-fsdr-common:0.0.1-SNAPSHOT")
+    compile("uk.gov.ons:census-fsdr-common:0.0.2-SNAPSHOT")
 
     compile("com.google.guava:guava:27.0.1-jre")
 
@@ -75,8 +76,12 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-amqp:${springBootVersion}")
     testCompile("org.springframework.boot:spring-boot-test:${springBootVersion}")
     testCompile("org.springframework.retry:spring-retry:1.2.2.RELEASE")
-    testCompile("org.springframework:spring-web:5.1.2.RELEASE")
-    testCompile("org.springframework:spring-aop:5.1.2.RELEASE")
+    testCompile("org.springframework:spring-web:${springFrameworkVersion}")
+    testCompile("org.springframework:spring-aop:${springFrameworkVersion}")
+    testCompile("com.jcraft:jsch:0.1.54")
+
+    testCompile ("org.bouncycastle:bcpg-jdk15on:1.61")
+
 
     compile("org.json:json:20180813")
     compile('org.freemarker:freemarker:2.3.28')
@@ -86,7 +91,7 @@ dependencies {
 
     compile("org.apache.httpcomponents:httpclient:4.5.6")
 
-    testCompile("org.springframework:spring-test:5.1.2.RELEASE")
+    testCompile("org.springframework:spring-test:${springFrameworkVersion}")
 
     testCompile("io.cucumber:cucumber-java:4.0.2")
     testCompile("io.cucumber:cucumber-junit:4.0.2")

@@ -1,6 +1,6 @@
 {
   "Contracted_Hours__c": 0,
-  "Name": "string",
+  "Name": "987654321",
   "TR1__Contract_End_Date__c": null,
   "TR1__End_Date__c": "2019-12-25",
   "TR1__Job__r": {
@@ -9,8 +9,8 @@
     "Job_Role__r": {
       "Name": "CCS Interviewer"
     },
-    "Job_Title__c": "Census Coordinator",
-    "Role_Code__c": "a1b2_345"
+    "Job_Title__c": "CA12",
+    "Role_Code__c": "CA12-01"
   },
   "TR1__Person_Placed__r": {
     "Address_Line_1__c": "1 Station Road",
@@ -42,20 +42,22 @@
     "Religion_or_belief__c": "No religion or belief",
     "Religion_or_belief_notes__c": null,
     "Sexual_Orientation_Notes__c": null,
-    "Sexual_Orientation__c": "Gay male",
-    "TR1__Candidate_Status__c": "Assigned",
+    "Sexual_Orientation__c": null,
+
     "TR1__Other_Name__c": null,
     "Town__c": "Chelmsford",
     "UK_EU_Driving_Licence__c": null,
     "areaLocation": null,
-    "idBadgeNo": "987654321",
     "languages": "English",
     "mobileStaff": null,
     "reasonableAdjustments": "None",
     "welshLanguageSpeaker": "No"
   },
   "TR1__Start_Date__c": "2019-10-25",
+  "Assignment_Status__c": "Assigned",
   "Worker__r": {
     "Id": "123456789"
-  }
+
+  },
+  "Status1__c": "Active"
 }
