@@ -131,17 +131,17 @@ public class CommonSteps {
   public void theEmployeeIsSentToAllDownstreamServices() throws Exception {
 
     fsdrUtils.ingestGsuit();
-    fsdrUtils.ingestXma();
-    fsdrUtils.ingestSnow();
-    fsdrUtils.ingestGranby();
-    fsdrUtils.lwsExtract();
-    fsdrUtils.rcaExtract();
+    fsdrUtils.extractXma();
+    fsdrUtils.extractSnow();
+    fsdrUtils.extractGranby();
+    fsdrUtils.extractLWS();
+    fsdrUtils.extractRCA();
   }
 
   @When("the employee is sent to LWS")
   public void theEmployeeIsSentToLWS() throws Exception {
 
-    fsdrUtils.lwsExtract();
+    fsdrUtils.extractLWS();
   }
 
   @Given("a device exists in XMA with {string}, {string} and {string}")

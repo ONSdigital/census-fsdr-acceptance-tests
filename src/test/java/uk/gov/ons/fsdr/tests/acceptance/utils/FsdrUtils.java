@@ -78,7 +78,7 @@ public final class FsdrUtils {
     }
 
 
-      public void ingestXma() throws IOException {
+      public void extractXma() throws IOException {
 
         URL url = new URL(fsdrServiceUrl + "/fsdr/xma");
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -92,7 +92,7 @@ public final class FsdrUtils {
         }
   }
 
-  public void ingestSnow() throws IOException {
+  public void extractSnow() throws IOException {
 
     URL url = new URL(fsdrServiceUrl + "/fsdr/serviceNow");
     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -106,7 +106,7 @@ public final class FsdrUtils {
     }
   }
 
-  public void ingestGranby() throws IOException {
+  public void extractGranby() throws IOException {
 
     URL url = new URL(fsdrServiceUrl + "/fsdr/logistics");
     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -170,7 +170,7 @@ public final class FsdrUtils {
     restTemplate.postForEntity(fsdrServiceUrl + "/devices/addDevices", request, String.class);
   }
 
-  public void lwsExtract() throws IOException {
+  public void extractLWS() throws IOException {
 
       URL url = new URL(fsdrServiceUrl + "/fsdr/lwsCsv");
       HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -198,7 +198,7 @@ public final class FsdrUtils {
     }
   }
 
-  public void rcaExtract() throws IOException {
+  public void extractRCA() throws IOException {
     URL url = new URL(fsdrServiceUrl + "/fsdr/rca");
     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
     addBasicAuthentication(httpURLConnection);

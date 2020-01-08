@@ -1,15 +1,18 @@
 package uk.gov.ons.fsdr.tests.acceptance.steps;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
-import lombok.extern.slf4j.Slf4j;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -17,6 +20,18 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+import lombok.extern.slf4j.Slf4j;
 import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
 import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
@@ -27,18 +42,6 @@ import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.SftpUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.SnowMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.XmaMockUtils;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 
 @Slf4j
 @PropertySource("classpath:application.properties")
@@ -89,7 +92,6 @@ public class GetWorkerSteps {
     private String XMA_EMPLOYEE_SENT = "XMA_EMPLOYEE_CREATED";
     private String SERVICENOW_CREATED = "SERVICENOW_CREATED";
 
-
     private Employee fsdrEmployee;
 
     @Before
@@ -113,16 +115,20 @@ public class GetWorkerSteps {
 
     @Given("Employee is created in Adecco")
     public void employee_is_created_in_Adecco() throws IOException {
-
         ObjectMapper objectMapper = new ObjectMapper();
 
         AdeccoResponse adeccoResponse = objectMapper.readValue(adeccoWorker, AdeccoResponse.class);
-
+        LocalDate today = LocalDate.now();
+        var contractStartDate = today.minusDays(4);
+        var contractEndDate = today.plusDays(4);
+        var operationalEndDate = today.plusDays(4);
+        
+        adeccoResponse.setContractStartDate(contractStartDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        adeccoResponse.setContractEndDate(contractEndDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        adeccoResponse.setOperationalEndDate(operationalEndDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         List<AdeccoResponse> adeccoResponseList = new ArrayList<>();
         adeccoResponseList.add(adeccoResponse);
         adeccoMockUtils.addUsersAdecco(adeccoResponseList);
-
-
         // Write code here that turns the phrase above into concrete actions
         //throw new cucumber.api.PendingException();
     }
@@ -134,9 +140,7 @@ public class GetWorkerSteps {
         fsdrUtils.ingestRunFSDRProcess();
         boolean hasBeenTriggered = gatewayEventMonitor.hasEventTriggered("<N/A>", INGEST_FROM_ADECCO, 10000L);
         assertTrue(hasBeenTriggered);
-
         // Write code here that turns the phrase above into concrete actions
-
     }
 
     @When("employee assigned device temporary fix do not use this code")
@@ -148,7 +152,6 @@ public class GetWorkerSteps {
 
     @Then("Check the Employee created in FSDR database with ID {string}")
     public void check_the_Employee_created_in_FSDR_database_with_ID(String  employeeId) {
-
         String responseEmployeeId;
         ResponseEntity<Employee> employeeResponseEntity = fsdrUtils.retrieveEmployee(employeeId);
         assertEquals(HttpStatus.OK, employeeResponseEntity.getStatusCode());
@@ -158,33 +161,30 @@ public class GetWorkerSteps {
 
         assertEquals(employeeId, responseEmployeeId);
         // Write code here that turns the phrase above into concrete actions
-
     }
 
     @Then("FSDR update the external systems")
     public void fdr_update_the_external_system() throws IOException {
-
         fsdrUtils.ingestGsuit();
         boolean hasBeenTriggered = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), GSUITE_COMPLETE, 10000L);
         assertTrue(hasBeenTriggered);
 
-        fsdrUtils.ingestXma();
+        fsdrUtils.extractXma();
        boolean hasBeenTriggeredxma = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), XMA_EMPLOYEE_SENT, 10000L);
         assertTrue(hasBeenTriggeredxma);
 
-        fsdrUtils.ingestSnow();
+        fsdrUtils.extractSnow();
         boolean hasBeenTriggeredsnow = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), SERVICENOW_CREATED, 10000L);
         assertTrue(hasBeenTriggeredsnow);
 
-        fsdrUtils.ingestGranby();
+        fsdrUtils.extractGranby();
 
-        fsdrUtils.lwsExtract();
+        fsdrUtils.extractLWS();
 
-        fsdrUtils.rcaExtract();
+        fsdrUtils.extractRCA();
 
         ResponseEntity<Employee> employeeResponseEntity = fsdrUtils.retrieveEmployee(fsdrEmployee.getUniqueEmployeeId());
         fsdrEmployee = employeeResponseEntity.getBody();
-
     }
 
     @Then("Check the employee send to GSuit")
@@ -193,24 +193,19 @@ public class GetWorkerSteps {
         if(records.length != 0) {
             System.out.println("done");
         } else System.out.println("not done");
-
-
     }
 
     @And("Check the employee send to XMA")
-
     public void check_the_employee_send_to_XMA() {
-            String[] records = xmaMockUtils.getRecords(fsdrEmployee.getOnsId());
-            assertTrue(records.length != 0);
-
-
+      String[] records = xmaMockUtils.getRecords(fsdrEmployee.getXmaId());
+      assertTrue(records.length != 0);
     }
+    
     @And("Check the employee send to Snow")
     public void check_the_employee_send_to_Snow() {
         String[] records = snowMockUtils.getRecords(fsdrEmployee.getServiceNowUserId());
         assertTrue(records.length != 0);
     }
-
 
     @And("Check the employee send to Granby")
     public void check_the_employee_send_to_granby() throws Exception {
@@ -257,8 +252,5 @@ public class GetWorkerSteps {
         Resource resource = resourceLoader.getResource(rcaFile);
         String fileContent = new String(resource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
         assertThat(fileContent).contains("Employee ID number").contains("123456789");
-
     }
 }
-
-
