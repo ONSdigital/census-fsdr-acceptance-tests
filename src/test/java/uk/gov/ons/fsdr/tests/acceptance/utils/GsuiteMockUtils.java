@@ -10,6 +10,8 @@ import uk.gov.ons.fsdr.tests.acceptance.exceptions.MockInaccessibleException;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -39,6 +41,24 @@ public class GsuiteMockUtils {
     public String[] getRecords(String email) {
         RestTemplate restTemplate = new RestTemplate();
         String url = mockGsuiteUrl + "messages/" + email;
+        log.info("getRecords-mock_url:" + url);
+        ResponseEntity<String[]> responseEntity;
+        responseEntity = restTemplate.getForEntity(url, String[].class);
+        return responseEntity.getBody();
+    }
+
+//    public List<String> getGroups() {
+//        RestTemplate restTemplate = new RestTemplate();
+//        String url = mockGsuiteUrl + "groups/";
+//        log.info("getRecords-mock_url:" + url);
+//        ResponseEntity<String[]> responseEntity;
+//        responseEntity = restTemplate.getForEntity(url, String[].class);
+//        return Arrays.asList(responseEntity.getBody());
+//    }
+
+    public String[] getGroups(String employeeId) {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = mockGsuiteUrl + "groups/" + employeeId;
         log.info("getRecords-mock_url:" + url);
         ResponseEntity<String[]> responseEntity;
         responseEntity = restTemplate.getForEntity(url, String[].class);

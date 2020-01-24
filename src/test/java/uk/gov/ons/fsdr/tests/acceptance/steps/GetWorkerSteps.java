@@ -122,9 +122,6 @@ public class GetWorkerSteps {
         adeccoResponseList.add(adeccoResponse);
         adeccoMockUtils.addUsersAdecco(adeccoResponseList);
 
-
-        // Write code here that turns the phrase above into concrete actions
-        //throw new cucumber.api.PendingException();
     }
 
 
@@ -135,15 +132,6 @@ public class GetWorkerSteps {
         boolean hasBeenTriggered = gatewayEventMonitor.hasEventTriggered("<N/A>", INGEST_FROM_ADECCO, 10000L);
         assertTrue(hasBeenTriggered);
 
-        // Write code here that turns the phrase above into concrete actions
-
-    }
-
-    @When("employee assigned device temporary fix do not use this code")
-    public void fsdrPullsDevicesFromXMA() {
-        //Todo this is a temporary fix so that an employee will have a device for the LWS extract,
-        // this needs to be replaced with an xma get devices mock
-        fsdrUtils.postDeviceToFsdr();
     }
 
     @Then("Check the Employee created in FSDR database with ID {string}")
@@ -157,7 +145,6 @@ public class GetWorkerSteps {
         responseEmployeeId = fsdrEmployee.getUniqueEmployeeId();
 
         assertEquals(employeeId, responseEmployeeId);
-        // Write code here that turns the phrase above into concrete actions
 
     }
 
