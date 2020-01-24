@@ -19,7 +19,7 @@ description = 'census-fsdr-acceptance-tests'
 
 group = 'uk.gov.ons'
 
-version = '0.0.2-SNAPSHOT'
+version = rootProject.file('version.txt').text.trim()
 
 sourceCompatibility = 11
 targetCompatibility = 11
