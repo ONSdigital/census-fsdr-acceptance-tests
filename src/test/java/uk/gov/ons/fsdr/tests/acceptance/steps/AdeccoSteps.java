@@ -71,8 +71,8 @@ public class AdeccoSteps {
     adeccoResponseList.add(moverResponse);
   }
 
-  @Given("their old job role {string} gets cancelled")
-  public void their_old_job_role_gets_cancelled(String string) {
+  @Given("their old job role gets cancelled")
+  public void their_old_job_role_gets_cancelled() {
     adeccoResponseList.get(0).setStatus("ASSIGNMENT_CANCELLED");
   }
 
@@ -83,7 +83,6 @@ public class AdeccoSteps {
 
   @Given("a contract start date {int} days in the future")
   public void a_contract_start_date_more_than_days_away(int days) {
-    System.out.println(LocalDate.now().plusDays(days).toString());
     adeccoResponse.setContractStartDate(LocalDate.now().plusDays(days).toString());
   }
 }

@@ -40,6 +40,8 @@ public class CommonSteps {
   private FsdrUtils fsdrUtils;
 
   public static GatewayEventMonitor gatewayEventMonitor = new GatewayEventMonitor();
+  public static int AREA_MANAGER = 4;
+  public static int COORDINATOR = 7;
 
   @Value("${service.rabbit.url}")
   private String rabbitLocation;

@@ -12,7 +12,7 @@ Feature: Movers
     And we retrieve the devices from xma
     And we run create actions
     And the employee is sent to LWS
-    And their old job role "<role_id>" gets cancelled
+    And their old job role gets cancelled
     And we receive a new active job role from adecco for employee "<id>" with new role_id "<new_role_id>"
     And we ingest them
     When the employee is sent to all downstream services

@@ -9,6 +9,8 @@ import org.springframework.context.annotation.PropertySource;
 import uk.gov.ons.fsdr.tests.acceptance.utils.SftpUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.AREA_MANAGER;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.COORDINATOR;
 
 @Slf4j
 @PropertySource("classpath:application.properties")
@@ -40,26 +42,26 @@ public class LwsSteps {
     String csvFilename = sftpUtils.getLWSFileName();
     if (inCsv.equals("is")) {
       String csv = sftpUtils.getCsv("lws/", csvFilename);
-      if (roleId.length() == 4) {
+      if (roleId.length() == AREA_MANAGER) {
         Assertions.assertThat(csv).containsPattern(
             "\"Allocated User\",\"Email\",\"Device Telephone Number\",\"Allocated Manager\",\"Role ID\",\"Operator Instructions #1\",\"Operator Instructions #2\",\"Operator Instructions #3\",\"Organisation #1\",\"Organisation #2\",\"Organisation #3\",\"Organisation #4\",\"Action\"\n"
                 + "\"Fransico Buyo\",\"Fransico.Buyo[0-9]{2}@domain\",\"0123456789\",\"N/A\",\"" + roleId
                 + "\",\"Contact Lone Worker on mobile: 0123456789"
                 + "\",\""+areaManagerInstruction+"\",\"Contact the Field Staff Contact Centre on: number\",\"ONS\",\"\",\"N/A\",\"N/A\",\"MOVER\"");
-      } else if (roleId.length() == 7) {
+      } else if (roleId.length() == COORDINATOR) {
         Assertions.assertThat(csv).containsPattern(
             "\"Allocated User\",\"Email\",\"Device Telephone Number\",\"Allocated Manager\",\"Role ID\",\"Operator Instructions #1\",\"Operator Instructions #2\",\"Operator Instructions #3\",\"Organisation #1\",\"Organisation #2\",\"Organisation #3\",\"Organisation #4\",\"Action\"\n"
                 + "\"Fransico Buyo\",\"Fransico.Buyo[0-9]{2}@domain\",\"0123456789\",\"N/A\",\"" + roleId
                 + "\",\"Contact Lone Worker on mobile: 0123456789"
                 + "\",\"N/A\",\"Contact the Field Staff Contact Centre on: number\",\"ONS\",\"\",\"" + roleId
-                .substring(0, 4) + "\",\"N/A\",\"MOVER\"");
+                .substring(0, AREA_MANAGER) + "\",\"N/A\",\"MOVER\"");
       } else {
         Assertions.assertThat(csv).containsPattern(
             "\"Allocated User\",\"Email\",\"Device Telephone Number\",\"Allocated Manager\",\"Role ID\",\"Operator Instructions #1\",\"Operator Instructions #2\",\"Operator Instructions #3\",\"Organisation #1\",\"Organisation #2\",\"Organisation #3\",\"Organisation #4\",\"Action\"\n"
                 + "\"Fransico Buyo\",\"Fransico.Buyo[0-9]{2}@domain\",\"0123456789\",\"N/A\",\"" + roleId
                 + "\",\"Contact Lone Worker on mobile: 0123456789"
                 + "\",\"N/A\",\"Contact the Field Staff Contact Centre on: number\",\"ONS\",\"\",\"" + roleId
-                .substring(0, 4) + "\",\""+roleId.substring(0,7)+"\",\"MOVER\"");
+                .substring(0, AREA_MANAGER) + "\",\""+roleId.substring(0,COORDINATOR)+"\",\"MOVER\"");
       }
     } else {
       Assertions.assertThat(csvFilename).isBlank();
@@ -72,26 +74,26 @@ public class LwsSteps {
     String csvFilename = sftpUtils.getLWSFileName();
     if (inCsv.equals("is")) {
       String csv = sftpUtils.getCsv("lws/", csvFilename);
-      if (roleId.length() == 4) {
+      if (roleId.length() == AREA_MANAGER) {
         assertThat(csv).containsPattern(
             "\"Allocated User\",\"Email\",\"Device Telephone Number\",\"Allocated Manager\",\"Role ID\",\"Operator Instructions #1\",\"Operator Instructions #2\",\"Operator Instructions #3\",\"Organisation #1\",\"Organisation #2\",\"Organisation #3\",\"Organisation #4\",\"Action\"\n"
                 + "\"" + name + " Buyo\",\"Fransico.Buyo[0-9]{2}@domain\",\"" + number + "\",\"N/A\",\"" + roleId
                 + "\",\"Contact Lone Worker on mobile: " + number
                 + "\",\""+areaManagerInstruction+"\",\"Contact the Field Staff Contact Centre on: number\",\"ONS\",\"\",\"N/A\",\"N/A\",\"CREATE\"");
-      } else if (roleId.length() == 7) {
+      } else if (roleId.length() == COORDINATOR) {
         assertThat(csv).containsPattern(
             "\"Allocated User\",\"Email\",\"Device Telephone Number\",\"Allocated Manager\",\"Role ID\",\"Operator Instructions #1\",\"Operator Instructions #2\",\"Operator Instructions #3\",\"Organisation #1\",\"Organisation #2\",\"Organisation #3\",\"Organisation #4\",\"Action\"\n"
                 + "\"" + name + " Buyo\",\"Fransico.Buyo[0-9]{2}@domain\",\"" + number + "\",\"N/A\",\"" + roleId
                 + "\",\"Contact Lone Worker on mobile: " + number
                 + "\",\"N/A\",\"Contact the Field Staff Contact Centre on: number\",\"ONS\",\"\",\"" + roleId
-                .substring(0, 4) + "\",\"N/A\",\"CREATE\"");
+                .substring(0, AREA_MANAGER) + "\",\"N/A\",\"CREATE\"");
       } else {
         assertThat(csv).containsPattern(
             "\"Allocated User\",\"Email\",\"Device Telephone Number\",\"Allocated Manager\",\"Role ID\",\"Operator Instructions #1\",\"Operator Instructions #2\",\"Operator Instructions #3\",\"Organisation #1\",\"Organisation #2\",\"Organisation #3\",\"Organisation #4\",\"Action\"\n"
                 + "\"" + name + " Buyo\",\"Fransico.Buyo[0-9]{2}@domain\",\"" + number + "\",\"N/A\",\"" + roleId
                 + "\",\"Contact Lone Worker on mobile: " + number
                 + "\",\"N/A\",\"Contact the Field Staff Contact Centre on: number\",\"ONS\",\"\",\"" + roleId
-                .substring(0, 4) + "\",\"" + roleId.substring(0, 7) + "\",\"CREATE\"");
+                .substring(0, AREA_MANAGER) + "\",\"" + roleId.substring(0, COORDINATOR) + "\",\"CREATE\"");
       }
     } else {
       assertThat(csvFilename).isBlank();
