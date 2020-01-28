@@ -80,7 +80,7 @@ Feature: Creates
     And the employee is not in the Logisitics CSV
     And Check the employee "123456781" is not sent to RCA
 
-  Scenario: A record with a start date 6 days in the future is not created in the downstream systems
+  Scenario: A record with a start date 6 days in the future is created in the downstream systems
     Given An employee exists in "ADECCO" with an id of "123456789"
     And an assignment status of "ASSIGNED"
     And a closing report status of "ACTIVE"
@@ -95,7 +95,7 @@ Feature: Creates
     And the employee "is" in the Logisitics CSV with "CAR1" as a create
     And Check the employee "123456789" is sent to RCA
 
-  Scenario: A record with a start date less than 6 days in the future is not created in the downstream systems
+  Scenario: A record with a start date less than 6 days in the future is created in the downstream systems
     Given An employee exists in "ADECCO" with an id of "123456789"
     And an assignment status of "ASSIGNED"
     And a closing report status of "ACTIVE"

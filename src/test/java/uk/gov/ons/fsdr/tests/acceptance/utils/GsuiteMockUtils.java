@@ -47,15 +47,6 @@ public class GsuiteMockUtils {
         return responseEntity.getBody();
     }
 
-//    public List<String> getGroups() {
-//        RestTemplate restTemplate = new RestTemplate();
-//        String url = mockGsuiteUrl + "groups/";
-//        log.info("getRecords-mock_url:" + url);
-//        ResponseEntity<String[]> responseEntity;
-//        responseEntity = restTemplate.getForEntity(url, String[].class);
-//        return Arrays.asList(responseEntity.getBody());
-//    }
-
     public String[] getGroups(String employeeId) {
         RestTemplate restTemplate = new RestTemplate();
         String url = mockGsuiteUrl + "groups/" + employeeId;
@@ -64,7 +55,6 @@ public class GsuiteMockUtils {
         responseEntity = restTemplate.getForEntity(url, String[].class);
         return responseEntity.getBody();
     }
-
 
     public void enableRequestRecorder() throws IOException {
         URL url = new URL(mockGsuiteUrl + "mock/enable");
