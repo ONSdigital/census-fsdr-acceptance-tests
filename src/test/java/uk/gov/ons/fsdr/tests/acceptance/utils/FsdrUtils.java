@@ -145,31 +145,6 @@ public final class FsdrUtils {
     return employeeEntity;
   }
 
-  public void postDeviceToFsdr() {
-    //todo get rid of this after xma mock had been built
-    RestTemplate restTemplate = new RestTemplate();
-
-    String encoded = Base64.getEncoder()
-            .encodeToString((fsdrServiceUsername + ":" + fsdrServicePassword).getBytes(StandardCharsets.UTF_8));
-    String authHeader = "Basic " + encoded;
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_JSON);
-    headers.set("Authorization", authHeader);
-
-    JSONObject device = new JSONObject();
-    device.put("deviceId", "1");
-    device.put("deviceType", "PHONE");
-    device.put("fieldDevicePhoneNumber", "1");
-    device.put("uniqueEmployeeId", "123456789");
-
-    JSONArray devices = new JSONArray();
-    devices.put(device);
-    HttpEntity<String> request =
-            new HttpEntity<>(devices.toString(), headers);
-
-    restTemplate.postForEntity(fsdrServiceUrl + "/devices/addDevices", request, String.class);
-  }
-
   public void lwsExtract() throws IOException {
 
       URL url = new URL(fsdrServiceUrl + "/fsdr/lwsCsv");

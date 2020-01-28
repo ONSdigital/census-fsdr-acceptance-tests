@@ -6,7 +6,6 @@ import org.junit.runner.RunWith;
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
-@Ignore
   @RunWith(Cucumber.class)
   @CucumberOptions(plugin = {"pretty", "json:build/cucumber-report.json"},
           features = {"src/test/resources/acceptancetests/Release2.feature"},
