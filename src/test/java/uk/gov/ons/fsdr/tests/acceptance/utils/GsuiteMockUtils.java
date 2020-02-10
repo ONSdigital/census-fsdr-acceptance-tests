@@ -10,6 +10,8 @@ import uk.gov.ons.fsdr.tests.acceptance.exceptions.MockInaccessibleException;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -45,6 +47,14 @@ public class GsuiteMockUtils {
         return responseEntity.getBody();
     }
 
+    public String[] getGroups(String employeeId) {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = mockGsuiteUrl + "groups/" + employeeId;
+        log.info("getRecords-mock_url:" + url);
+        ResponseEntity<String[]> responseEntity;
+        responseEntity = restTemplate.getForEntity(url, String[].class);
+        return responseEntity.getBody();
+    }
 
     public void enableRequestRecorder() throws IOException {
         URL url = new URL(mockGsuiteUrl + "mock/enable");

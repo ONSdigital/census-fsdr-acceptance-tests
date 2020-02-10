@@ -64,7 +64,7 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql:42.2.5'
 
     compile("uk.gov.ons.census.fwmt:census-fwmt-events:1.0.17-RELEASE")
-    compile("uk.gov.ons:census-fsdr-common:0.0.2-SNAPSHOT")
+    compile("uk.gov.ons:census-fsdr-common:0.0.2-RELEASE")
 
     compile("com.google.guava:guava:27.0.1-jre")
 

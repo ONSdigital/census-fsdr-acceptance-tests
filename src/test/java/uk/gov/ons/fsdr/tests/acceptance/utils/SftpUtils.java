@@ -23,14 +23,17 @@ import org.bouncycastle.util.io.Streams;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.gatewayEventMonitor;
 
 @Service
 @Slf4j
@@ -145,6 +148,36 @@ public class SftpUtils {
         final Object first = factory.nextObject();
         final Object list = (first instanceof PGPEncryptedDataList) ? first : factory.nextObject();
         return ((PGPEncryptedDataList) list).getEncryptedDataObjects();
+    }
+
+
+    public String getLogisticsFileName() {
+        String csvFilename = null;
+        List<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor
+            .getEventsForEventType("LOGISTICS_EXTRACT_SENT", 10);
+        for (GatewayEventDTO gatewayEventDTO : logistics_extract_sent) {
+            csvFilename = gatewayEventDTO.getMetadata().get("logisticsFilename");
+        }
+        return csvFilename;
+    }
+
+    public String getLWSFileName() {
+        String csvFilename = null;
+        List<GatewayEventDTO> lws_extract_sent = gatewayEventMonitor.getEventsForEventType("LWS_EXTRACT_SENT", 10);
+        for (GatewayEventDTO gatewayEventDTO : lws_extract_sent) {
+            csvFilename = gatewayEventDTO.getMetadata().get("lwsFilename");
+        }
+        return  csvFilename;
+    }
+
+    public String getRcaFileName() {
+        String csvFilename = null;
+        List<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor
+            .getEventsForEventType("RCA_EXTRACT_COMPLETE", 10);
+        for (GatewayEventDTO gatewayEventDTO : logistics_extract_sent) {
+            csvFilename = gatewayEventDTO.getMetadata().get("CSV Filename");
+        }
+        return csvFilename;
     }
 }
 
