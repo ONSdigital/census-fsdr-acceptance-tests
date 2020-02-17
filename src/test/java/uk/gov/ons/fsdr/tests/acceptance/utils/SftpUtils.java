@@ -20,15 +20,18 @@ import org.bouncycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
 import org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyDecryptorBuilder;
 import org.bouncycastle.openpgp.operator.jcajce.JcePublicKeyDataDecryptorFactoryBuilder;
 import org.bouncycastle.util.io.Streams;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import uk.gov.census.ffa.storage.utils.StorageUtils;
 import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -49,16 +52,19 @@ public class SftpUtils {
     private String sftpUser;
 
     @Value("${sftp.privateKey}")
-    private Resource sftpPrivateKey;
+    private URI sftpPrivateKey;
 
     @Value("${sftp.privateKeyPassphrase}")
     private String sftpPrivateKeyPassphrase;
 
     @Value("${sftp.pgp.csvSecretKey}")
-    private Resource csvSecretKey;
+    private URI csvSecretKey;
 
     @Value("${sftp.pgp.csvKeyPassphrase}")
     private String csvKeyPassword;
+
+    @Autowired
+    private StorageUtils storageUtils;
 
 
     public String getCsv(String directory, String csvFilename) throws Exception {
@@ -70,14 +76,17 @@ public class SftpUtils {
         config.put("StrictHostKeyChecking", "no");
         session.setConfig(config);
 
-        jsch.addIdentity("name", sftpPrivateKey.getInputStream().readAllBytes(), null, sftpPrivateKeyPassphrase.getBytes());
+        InputStream sftpPrivateKeyStream = storageUtils.getFileInputStream(sftpPrivateKey);
+        jsch.addIdentity("name", sftpPrivateKeyStream.readAllBytes(), null, sftpPrivateKeyPassphrase.getBytes());
+        sftpPrivateKeyStream.close();
         session.connect();
         Channel channel = session.openChannel("sftp");
         channel.connect();
         ChannelSftp sftp = (ChannelSftp) channel;
-        String decryptedFile = null;
         InputStream is = sftp.get(directory + csvFilename);
-        decryptedFile = decryptFile(csvSecretKey.getInputStream(), is, csvKeyPassword.toCharArray());
+        InputStream csvSecretKeyStream = storageUtils.getFileInputStream(csvSecretKey);
+        String decryptedFile = decryptFile(csvSecretKeyStream, is, csvKeyPassword.toCharArray());
+        csvSecretKeyStream.close();
 
 
         sftp.exit();
