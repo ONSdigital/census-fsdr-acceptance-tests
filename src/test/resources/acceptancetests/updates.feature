@@ -40,9 +40,9 @@ Feature: Updates
     And we retrieve the devices from xma
     And we run create actions
     When the employee is sent to all downstream services
-    Then the employee is correctly updated in gsuite with name "<name>"
+    Then the employee "<id>" is not updated in gsuite
     Then the employee is correctly updated in ServiceNow with "<role_id>" and name "<name>" and number "<phone_number>"
-    Then the employee from "<source>" with roleId "<role_id>" is correctly updated in XMA with name "<name>" and group "<group>"
+    Then the employee is not updated in XMA
     Then the employee "<in_lws>" in the LWS CSV as an update with name "<name>" and phone number "<phone_number>" and "<role_id>"
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<phone_number>" as an update with name "<name>"
     And Check the employee "<id>" is sent to RCA
