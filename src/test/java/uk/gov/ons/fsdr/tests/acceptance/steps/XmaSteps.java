@@ -58,6 +58,12 @@ public class XmaSteps {
     assertThat(records).isEmpty();
   }
 
+  @Then("the employee is not updated in XMA")
+  public void the_employee_is_not_updated_in_XMA() {
+    String[] records = xmaMockUtils.getRecords();
+    assertEquals(1, records.length);
+  }
+
   @Then("the employee from {string} with old roleId {string} and new roleId {string} is correctly moved in XMA with group {string}")
   public void the_employee_from_with_roleId_is_correctly_moved_in_XMA_with_group(String source, String oldRoleId, String roleId, String group) {
     String id = xmaMockUtils.getId(oldRoleId);
