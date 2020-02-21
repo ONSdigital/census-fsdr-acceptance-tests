@@ -86,6 +86,12 @@ public class GSuiteSteps {
     assertThat(records).isEmpty();
   }
 
+  @Then("the employee {string} is not updated in gsuite")
+  public void the_employee_is_not_updated_in_gsuite(String id) {
+    String[] records = gsuiteMockUtils.getRecords();
+    assertEquals(1,records.length);
+  }
+
   @Then("the employee {string} is no longer in the following groups {string}")
   public void the_employee_is_no_longer_in_the_following_groups(String id, String groups) {
     if (groups.equals("N/A")) assertTrue(true);
