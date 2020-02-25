@@ -75,6 +75,8 @@ public final class AdeccoMockUtils {
                 stmt.executeUpdate(sql);
                 sql = "DELETE FROM request_log ";
                 stmt.executeUpdate(sql);
+                sql = "DELETE FROM update_state ";
+                stmt.executeUpdate(sql);
                 sql = "DELETE FROM user_authentication ";
                 stmt.executeUpdate(sql);
 
