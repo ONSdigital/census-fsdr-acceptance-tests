@@ -1,26 +1,27 @@
 package uk.gov.ons.fsdr.tests.acceptance.steps;
 
-import cucumber.api.java.en.Then;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.io.ResourceLoader;
-import uk.gov.census.ffa.storage.utils.StorageUtils;
-import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
-import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
-import uk.gov.ons.fsdr.tests.acceptance.utils.SftpUtils;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
+import java.util.Collection;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.ResourceLoader;
+
+import cucumber.api.java.en.Then;
+import lombok.extern.slf4j.Slf4j;
+import uk.gov.census.ffa.storage.utils.StorageUtils;
+import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
+import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
+import uk.gov.ons.fsdr.tests.acceptance.utils.SftpUtils;
 
 @Slf4j
 @PropertySource("classpath:application.properties")
@@ -66,7 +67,8 @@ public class RcaSteps {
   @Then("Check the employee {string} is not sent to RCA")
   public void checkTheEmployeeNotSendToRCA(String employeeId) throws IOException, URISyntaxException {
     String csvFilename = null;
-    List<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor.getEventsForEventType("RCA_EXTRACT_COMPLETE", 10);
+    gatewayEventMonitor.hasEventTriggered("<N/A>", "RCA_EXTRACT_COMPLETE", 2000l);
+    Collection<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor.grabEventsTriggered("RCA_EXTRACT_COMPLETE", 1, 100l);
     for (GatewayEventDTO gatewayEventDTO : logistics_extract_sent) {
       csvFilename = gatewayEventDTO.getMetadata().get("CSV Filename");
     }
