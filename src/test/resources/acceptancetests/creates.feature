@@ -18,8 +18,8 @@ Feature: Creates
 
     Examples:
       | id         | assignment_status | cr_status  | role_id       | inLogisitcs | source | start_date | group                                | org_unit    | new_groups                                                   |
-      | 123456789  | ASSIGNED          | ACTIVE     | CAR1          | is          | ADECCO | 2020-01-01 | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | car1-group,ons_users,Household-group                         |
       | 123456789  | ASSIGNED          | ACTIVE     | CAR1-HA       | is          | ADECCO | 2020-01-01 | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | car1-group,car1-ha-group,ons_users,ons_drive,Household-group |
+      | 123456789  | ASSIGNED          | ACTIVE     | CAR1          | is          | ADECCO | 2020-01-01 | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | car1-group,ons_users,Household-group                         |
       | 123456789  | ASSIGNED          | ACTIVE     | CAR1-HA-01    | is not      | ADECCO | 2020-01-01 | 8A2FEF60-9429-465F-B711-83753B234BDD | EW-Officers | car1-ha-group,ons_users,ons_drive,Household-group            |
       | 123456789  | ASSIGNED          | ACTIVE     | CAR1-SA       | is          | ADECCO | 2020-01-01 | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | car1-group,car1-sa-group,ons_users,ons_drive,CE-group        |
       | 123456789  | ASSIGNED          | ACTIVE     | CAR1-SA-01    | is not      | ADECCO | 2020-01-01 | 8A2FEF60-9429-465F-B711-83753B234BDD | EW-Officers | car1-sa-group,ons_users,ons_drive,CE-group                   |
