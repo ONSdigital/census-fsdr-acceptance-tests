@@ -1,10 +1,17 @@
 package uk.gov.ons.fsdr.tests.acceptance.utils;
 
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
-import lombok.extern.slf4j.Slf4j;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.gatewayEventMonitor;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openpgp.PGPCompressedData;
 import org.bouncycastle.openpgp.PGPEncryptedDataList;
@@ -22,21 +29,16 @@ import org.bouncycastle.openpgp.operator.jcajce.JcePublicKeyDataDecryptorFactory
 import org.bouncycastle.util.io.Streams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
+
+import lombok.extern.slf4j.Slf4j;
 import uk.gov.census.ffa.storage.utils.StorageUtils;
 import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
-
-import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.gatewayEventMonitor;
 
 @Service
 @Slf4j
@@ -162,8 +164,8 @@ public class SftpUtils {
 
     public String getLogisticsFileName() {
         String csvFilename = null;
-        List<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor
-            .getEventsForEventType("LOGISTICS_EXTRACT_SENT", 10);
+        gatewayEventMonitor.hasEventTriggered("<N/A>", "LOGISTICS_EXTRACT_COMPLETE", 2000l);
+       Collection<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor.grabEventsTriggered("LOGISTICS_EXTRACT_SENT", 1, 100l);
         for (GatewayEventDTO gatewayEventDTO : logistics_extract_sent) {
             csvFilename = gatewayEventDTO.getMetadata().get("logisticsFilename");
         }
@@ -172,7 +174,8 @@ public class SftpUtils {
 
     public String getLWSFileName() {
         String csvFilename = null;
-        List<GatewayEventDTO> lws_extract_sent = gatewayEventMonitor.getEventsForEventType("LWS_EXTRACT_SENT", 10);
+        gatewayEventMonitor.hasEventTriggered("<N/A>", "LWS_EXTRACT_COMPLETE", 2000l);
+        Collection<GatewayEventDTO> lws_extract_sent = gatewayEventMonitor.grabEventsTriggered("LWS_EXTRACT_SENT", 1, 100l);
         for (GatewayEventDTO gatewayEventDTO : lws_extract_sent) {
             csvFilename = gatewayEventDTO.getMetadata().get("lwsFilename");
         }
@@ -181,8 +184,8 @@ public class SftpUtils {
 
     public String getRcaFileName() {
         String csvFilename = null;
-        List<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor
-            .getEventsForEventType("RCA_EXTRACT_COMPLETE", 10);
+        gatewayEventMonitor.hasEventTriggered("<N/A>", "RCA_EXTRACT_COMPLETE", 2000l);
+        Collection<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor.grabEventsTriggered("RCA_EXTRACT_COMPLETE", 1, 100l);
         for (GatewayEventDTO gatewayEventDTO : logistics_extract_sent) {
             csvFilename = gatewayEventDTO.getMetadata().get("CSV Filename");
         }

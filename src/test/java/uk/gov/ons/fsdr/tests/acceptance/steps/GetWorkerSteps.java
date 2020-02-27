@@ -1,15 +1,17 @@
 package uk.gov.ons.fsdr.tests.acceptance.steps;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
-import lombok.extern.slf4j.Slf4j;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -17,6 +19,18 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+import lombok.extern.slf4j.Slf4j;
 import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
 import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
@@ -27,17 +41,6 @@ import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.SftpUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.SnowMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.XmaMockUtils;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 
 @Slf4j
@@ -129,7 +132,7 @@ public class GetWorkerSteps {
     public void fsdr_pulls_data_from_Adecco() throws IOException {
         fsdrUtils.ingestAdecco();
         fsdrUtils.ingestRunFSDRProcess();
-        boolean hasBeenTriggered = gatewayEventMonitor.hasEventTriggered("<N/A>", INGEST_FROM_ADECCO, 10000L);
+        boolean hasBeenTriggered = gatewayEventMonitor.hasEventTriggered("<N/A>", INGEST_FROM_ADECCO, 2000l);
         assertTrue(hasBeenTriggered);
 
     }
@@ -152,15 +155,15 @@ public class GetWorkerSteps {
     public void fdr_update_the_external_system() throws IOException {
 
         fsdrUtils.ingestGsuit();
-        boolean hasBeenTriggered = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), GSUITE_COMPLETE, 10000L);
+        boolean hasBeenTriggered = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), GSUITE_COMPLETE, 2000l);
         assertTrue(hasBeenTriggered);
 
         fsdrUtils.ingestXma();
-       boolean hasBeenTriggeredxma = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), XMA_EMPLOYEE_SENT, 10000L);
+       boolean hasBeenTriggeredxma = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), XMA_EMPLOYEE_SENT, 2000l);
         assertTrue(hasBeenTriggeredxma);
 
         fsdrUtils.ingestSnow();
-        boolean hasBeenTriggeredsnow = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), SERVICENOW_CREATED, 10000L);
+        boolean hasBeenTriggeredsnow = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), SERVICENOW_CREATED, 2000l);
         assertTrue(hasBeenTriggeredsnow);
 
         fsdrUtils.ingestGranby();
@@ -202,7 +205,8 @@ public class GetWorkerSteps {
     @And("Check the employee send to Granby")
     public void check_the_employee_send_to_granby() throws Exception {
         String csvFilename = null;
-        List<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor.getEventsForEventType("LOGISTICS_EXTRACT_SENT", 10);
+        gatewayEventMonitor.hasEventTriggered("<N/A>", "LOGISTICS_EXTRACT_COMPLETE", 2000l);
+        Collection<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor.grabEventsTriggered("LOGISTICS_EXTRACT_SENT", 1, 100l);
         for (GatewayEventDTO gatewayEventDTO : logistics_extract_sent) {
             csvFilename = gatewayEventDTO.getMetadata().get("logisticsFilename");
         }
@@ -217,7 +221,8 @@ public class GetWorkerSteps {
     @And("Check the employee send to LWS")
     public void check_the_employee_send_to_LWS() throws Exception{
         String csvFilename = null;
-        List<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor.getEventsForEventType("LWS_EXTRACT_SENT", 10);
+        gatewayEventMonitor.hasEventTriggered("<N/A>", "LWS_EXTRACT_COMPLETE", 2000l);
+        Collection<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor.grabEventsTriggered("LWS_EXTRACT_SENT", 1, 100l);
         for (GatewayEventDTO gatewayEventDTO : logistics_extract_sent) {
             csvFilename = gatewayEventDTO.getMetadata().get("lwsFilename");
         }
@@ -232,7 +237,8 @@ public class GetWorkerSteps {
     @Then("Check the employee send to RCA")
     public void checkTheEmployeeSendToRCA() throws IOException {
         String csvFilename = null;
-        List<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor.getEventsForEventType("RCA_EXTRACT_COMPLETE", 10);
+        gatewayEventMonitor.hasEventTriggered("<N/A>", "RCA_EXTRACT_COMPLETE", 2000l);
+        Collection<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor.grabEventsTriggered("RCA_EXTRACT_COMPLETE", 1, 100l);
         for (GatewayEventDTO gatewayEventDTO : logistics_extract_sent) {
             csvFilename = gatewayEventDTO.getMetadata().get("CSV Filename");
         }
