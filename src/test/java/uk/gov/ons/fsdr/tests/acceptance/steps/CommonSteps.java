@@ -99,7 +99,6 @@ public class CommonSteps {
   @When("the employee is sent to all downstream services")
   public void theEmployeeIsSentToAllDownstreamServices() throws Exception {
 
-    fsdrUtils.ingestGsuit();
     fsdrUtils.ingestXma();
     fsdrUtils.ingestSnow();
     fsdrUtils.ingestGranby();

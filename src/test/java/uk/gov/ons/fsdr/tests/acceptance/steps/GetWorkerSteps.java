@@ -154,7 +154,6 @@ public class GetWorkerSteps {
     @Then("FSDR update the external systems")
     public void fdr_update_the_external_system() throws IOException {
 
-        fsdrUtils.ingestGsuit();
         boolean hasBeenTriggered = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), GSUITE_COMPLETE, 2000l);
         assertTrue(hasBeenTriggered);
 

@@ -62,38 +62,20 @@ public final class FsdrUtils {
     }
   }
 
+  public void ingestXma() throws IOException {
+    URL url = new URL(fsdrServiceUrl + "/fsdr/xma");
+    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+    addBasicAuthentication(httpURLConnection);
 
-    public void ingestGsuit() throws IOException {
-
-      URL url = new URL(fsdrServiceUrl + "/fsdr/gsuite");
-      HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-      addBasicAuthentication(httpURLConnection);
-
-      httpURLConnection.setRequestMethod("GET");
-      if (httpURLConnection.getResponseCode() != 200) {
-        log.error("failed to initiate Gsuit ingest" + httpURLConnection.getResponseCode()
-                + httpURLConnection.getResponseMessage());
-        throw new RuntimeException(httpURLConnection.getResponseMessage());
-      }
+    httpURLConnection.setRequestMethod("GET");
+    if (httpURLConnection.getResponseCode() != 200) {
+      log.error("failed to initiate Xma ingest" + httpURLConnection.getResponseCode()
+              + httpURLConnection.getResponseMessage());
+      throw new RuntimeException(httpURLConnection.getResponseMessage());
     }
-
-
-      public void ingestXma() throws IOException {
-
-        URL url = new URL(fsdrServiceUrl + "/fsdr/xma");
-        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-        addBasicAuthentication(httpURLConnection);
-
-        httpURLConnection.setRequestMethod("GET");
-        if (httpURLConnection.getResponseCode() != 200) {
-          log.error("failed to initiate Xma ingest" + httpURLConnection.getResponseCode()
-                  + httpURLConnection.getResponseMessage());
-          throw new RuntimeException(httpURLConnection.getResponseMessage());
-        }
   }
 
   public void ingestSnow() throws IOException {
-
     URL url = new URL(fsdrServiceUrl + "/fsdr/serviceNow");
     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
     addBasicAuthentication(httpURLConnection);
@@ -107,7 +89,6 @@ public final class FsdrUtils {
   }
 
   public void ingestGranby() throws IOException {
-
     URL url = new URL(fsdrServiceUrl + "/fsdr/logistics");
     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
     addBasicAuthentication(httpURLConnection);
@@ -120,10 +101,7 @@ public final class FsdrUtils {
     }
   }
 
-
-
-
-    public void ingestRunFSDRProcess() throws IOException {
+  public void ingestRunFSDRProcess() throws IOException {
     URL url = new URL(fsdrServiceUrl + "/fsdr/createActions");
     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
     addBasicAuthentication(httpURLConnection);
@@ -146,21 +124,19 @@ public final class FsdrUtils {
   }
 
   public void lwsExtract() throws IOException {
+    URL url = new URL(fsdrServiceUrl + "/fsdr/lwsCsv");
+    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+    addBasicAuthentication(httpURLConnection);
 
-      URL url = new URL(fsdrServiceUrl + "/fsdr/lwsCsv");
-      HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-      addBasicAuthentication(httpURLConnection);
-
-      httpURLConnection.setRequestMethod("GET");
-      if (httpURLConnection.getResponseCode() != 200) {
-        log.error("failed to initiate lws extract" + httpURLConnection.getResponseCode()
-                + httpURLConnection.getResponseMessage());
-        throw new RuntimeException(httpURLConnection.getResponseMessage());
-      }
+    httpURLConnection.setRequestMethod("GET");
+    if (httpURLConnection.getResponseCode() != 200) {
+      log.error("failed to initiate lws extract" + httpURLConnection.getResponseCode()
+              + httpURLConnection.getResponseMessage());
+      throw new RuntimeException(httpURLConnection.getResponseMessage());
     }
+  }
 
   public void devices() throws IOException {
-
     URL url = new URL(fsdrServiceUrl + "/devices/addDevicesXma");
     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
     addBasicAuthentication(httpURLConnection);
