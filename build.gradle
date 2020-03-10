@@ -28,12 +28,23 @@ targetCompatibility = 11
 
 repositories {
     mavenLocal()
-    if (!project.hasProperty('omitSDCArtifactory')) {
-        maven { url 'http://artifactory-sdc.onsdigital.uk/artifactory/libs-release' }
-        maven { url 'http://artifactory-sdc.onsdigital.uk/artifactory/libs-snapshot' }
+
+    maven {
+        url 'https://ons.jfrog.io/ons/libs-releases-virtual'
+        credentials {
+            username "${artifactory_user}"
+            password "${artifactory_password}"
+        }
     }
+    maven {
+        url 'https://ons.jfrog.io/ons/libs-snapshots-virtual'
+        credentials {
+            username "${artifactory_user}"
+            password "${artifactory_password}"
+        }
+    }
+
     mavenCentral()
-    mavenLocal()
 }
 
 configurations {
@@ -73,9 +84,9 @@ task testJar(type: Jar) {
 dependencies {
 	runtimeOnly('org.postgresql:postgresql:42.2.5')
 
-    compile('uk.gov.ons.census.fwmt:census-fwmt-events:1.0.20-RELEASE')
+    compile('uk.gov.ons.census.fwmt:census-fwmt-events:1.0.21-RELEASE')
     compile('uk.gov.ons.census.ffa:census-ffa-storage-utils:0.0.1-RELEASE')
-    compile('uk.gov.ons:census-fsdr-common:0.0.2-RELEASE')
+    compile('uk.gov.ons:census-fsdr-common:0.0.6-RELEASE')
 
     compile('com.google.guava:guava:27.0.1-jre')
 
