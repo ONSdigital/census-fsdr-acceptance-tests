@@ -17,6 +17,7 @@ import uk.gov.ons.fsdr.tests.acceptance.utils.XmaMockUtils;
 
 import java.io.IOException;
 
+import static junit.framework.TestCase.assertTrue;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoSteps.adeccoResponse;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoSteps.adeccoResponseList;
 
@@ -96,11 +97,14 @@ public class CommonSteps {
     fsdrUtils.ingestRunFSDRProcess();
   }
 
-  @When("the employee is sent to all downstream services")
-  public void theEmployeeIsSentToAllDownstreamServices() throws Exception {
+  @When("the employee {string} is sent to all downstream services")
+  public void theEmployeeIsSentToAllDownstreamServices(String id) throws Exception {
 
+    gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 2, 1000l);
+    gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 2, 1000l);
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 20000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 10000L));
     fsdrUtils.ingestXma();
-    fsdrUtils.ingestSnow();
     fsdrUtils.ingestGranby();
     fsdrUtils.lwsExtract();
     fsdrUtils.rcaExtract();

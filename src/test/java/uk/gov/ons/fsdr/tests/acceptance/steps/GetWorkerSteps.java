@@ -161,9 +161,9 @@ public class GetWorkerSteps {
        boolean hasBeenTriggeredxma = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), XMA_EMPLOYEE_SENT, 2000l);
         assertTrue(hasBeenTriggeredxma);
 
-        fsdrUtils.ingestSnow();
-        boolean hasBeenTriggeredsnow = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), SERVICENOW_CREATED, 2000l);
-        assertTrue(hasBeenTriggeredsnow);
+//        fsdrUtils.ingestSnow();
+//        boolean hasBeenTriggeredsnow = gatewayEventMonitor.hasEventTriggered(fsdrEmployee.getUniqueEmployeeId(), SERVICENOW_CREATED, 2000l);
+//        assertTrue(hasBeenTriggeredsnow);
 
         fsdrUtils.ingestGranby();
 

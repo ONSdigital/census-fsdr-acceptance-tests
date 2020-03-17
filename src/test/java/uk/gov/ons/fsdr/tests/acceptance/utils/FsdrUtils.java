@@ -75,19 +75,6 @@ public final class FsdrUtils {
     }
   }
 
-  public void ingestSnow() throws IOException {
-    URL url = new URL(fsdrServiceUrl + "/fsdr/serviceNow");
-    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-    addBasicAuthentication(httpURLConnection);
-
-    httpURLConnection.setRequestMethod("GET");
-    if (httpURLConnection.getResponseCode() != 200) {
-      log.error("failed to initiate Snow ingest" + httpURLConnection.getResponseCode()
-              + httpURLConnection.getResponseMessage());
-      throw new RuntimeException(httpURLConnection.getResponseMessage());
-    }
-  }
-
   public void ingestGranby() throws IOException {
     URL url = new URL(fsdrServiceUrl + "/fsdr/logistics");
     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();

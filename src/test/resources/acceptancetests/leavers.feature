@@ -7,7 +7,7 @@ Feature: Leavers
     And a closing report status of "<cr_status>"
     And a role id of "<role_id>"
     And we ingest them
-    And the employee is sent to all downstream services
+    And the employee "<id>" is sent to all downstream services
     And a device exists in XMA with "<role_id>", "<phone_number>" and "<status>"
     And we retrieve the devices from xma
     And the employee is sent to LWS
@@ -17,7 +17,7 @@ Feature: Leavers
     And a role id of "<role_id>"
     And an operational end date of "<op_end_date>"
     And we ingest them
-    When the employee is sent to all downstream services
+    When the employee "<id>" is sent to all downstream services
     Then the employee is correctly suspended in gsuite
     Then the employee is correctly suspended in ServiceNow with "<role_id>"
     Then the employee with roleId "<role_id>" is correctly suspended in XMA
