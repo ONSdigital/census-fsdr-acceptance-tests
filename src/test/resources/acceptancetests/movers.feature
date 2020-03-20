@@ -7,15 +7,15 @@ Feature: Movers
     And a closing report status of "ACTIVE"
     And a role id of "<role_id>"
     And we ingest them
-    And the employee is sent to all downstream services
+    And the employee "123456789" is sent to all downstream services
     And a device exists in XMA with "<role_id>", "0123456789" and "Allocated"
     And we retrieve the devices from xma
     And we run create actions
     And the employee is sent to LWS
     And their old job role gets cancelled
-    And we receive a new active job role from adecco for employee "<id>" with new role_id "<new_role_id>"
+    And we receive a new active job role from adecco for employee "123456789" with new role_id "<new_role_id>"
     And we ingest them
-    When the employee is sent to all downstream services
+    When the employee "123456789" is sent to all downstream services
     Then the employee is correctly moved in gsuite with roleId "<new_role_id>" to "<new_org_unit>"
     And the employee "123456789" is no longer in the following groups "<old_groups>"
     And the employee "123456789" is now in the current groups "<new_groups>"

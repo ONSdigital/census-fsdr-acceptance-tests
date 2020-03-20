@@ -7,10 +7,10 @@ Feature: Updates
     And a closing report status of "<cr_status>"
     And a role id of "<role_id>"
     And we ingest them
-    And the employee is sent to all downstream services
+    And the employee "<id>" is sent to all downstream services
     And we receive an update from adecco for employee "<id>" with new first name "<new_name>"
     And we ingest them
-    When the employee is sent to all downstream services
+    When the employee "<id>" is sent to all downstream services
     Then the employee is correctly updated in gsuite with name "<new_name>"
     Then the employee is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number ""
     Then the employee from "<source>" with roleId "<role_id>" is correctly updated in XMA with name "<new_name>" and group "<group>"
@@ -35,11 +35,11 @@ Feature: Updates
     And a closing report status of "<cr_status>"
     And a role id of "<role_id>"
     And we ingest them
-    And the employee is sent to all downstream services
+    And the employee "<id>" is sent to all downstream services
     And a device exists in XMA with "<role_id>", "<phone_number>" and "<status>"
     And we retrieve the devices from xma
     And we run create actions
-    When the employee is sent to all downstream services
+    When the employee "<id>" is sent to all downstream services
     Then the employee "<id>" is not updated in gsuite
     Then the employee is correctly updated in ServiceNow with "<role_id>" and name "<name>" and number "<phone_number>"
     Then the employee is not updated in XMA

@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
 import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
 import uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils;
@@ -16,7 +17,10 @@ import uk.gov.ons.fsdr.tests.acceptance.utils.SnowMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.XmaMockUtils;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 
+import static junit.framework.TestCase.assertTrue;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoSteps.adeccoResponse;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoSteps.adeccoResponseList;
 
@@ -96,11 +100,24 @@ public class CommonSteps {
     fsdrUtils.ingestRunFSDRProcess();
   }
 
-  @When("the employee is sent to all downstream services")
-  public void theEmployeeIsSentToAllDownstreamServices() throws Exception {
+  @When("the employee {string} is sent to all downstream services")
+  public void theEmployeeIsSentToAllDownstreamServices(String id) throws Exception {
 
+    //Waits for movers/leavers/updates as they all need to do an initial create that will also trigger the same events
+    gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 2, 3000l);
+    gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 2, 3000l);
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 20000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 10000L));
     fsdrUtils.ingestXma();
-    fsdrUtils.ingestSnow();
+    fsdrUtils.ingestGranby();
+    fsdrUtils.lwsExtract();
+    fsdrUtils.rcaExtract();
+  }
+
+  @When("the employee {string} is not sent to all downstream services")
+  public void theEmployeeIsNotSentToAllDownstreamServices(String id) throws Exception {
+  //Calling non-event based integrations to ensure that employee is not sent to them
+    fsdrUtils.ingestXma();
     fsdrUtils.ingestGranby();
     fsdrUtils.lwsExtract();
     fsdrUtils.rcaExtract();
