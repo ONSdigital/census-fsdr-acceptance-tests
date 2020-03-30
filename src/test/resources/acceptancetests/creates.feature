@@ -7,6 +7,7 @@ Feature: Creates
     And a closing report status of "<cr_status>"
     And a role id of "<role_id>"
     And a contract start date of "<start_date>"
+    And the managers of "<role_id>" exist
     And we ingest them
     When the employee "<id>" is sent to all downstream services
     Then the employee is correctly created in gsuite with roleId "<role_id>" and orgUnit "<org_unit>"

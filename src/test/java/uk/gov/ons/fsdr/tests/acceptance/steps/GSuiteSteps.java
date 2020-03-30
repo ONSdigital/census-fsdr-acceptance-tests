@@ -35,13 +35,19 @@ public class GSuiteSteps {
 
   @Then("the employee is correctly created in gsuite with roleId {string} and orgUnit {string}")
   public void the_employee_is_correctly_updated_in_gsuite(String roleId, String orgUnit) {
-    String[] records = gsuiteMockUtils.getRecords();
+      String[] records = gsuiteMockUtils.getRecords();
+      int i = 0;
+      for (String record : records) {
+        boolean contains = record.contains("{\"RoleID\":\"" + roleId + "\"}");
+        if (contains) break;
+        i++;
+      }
 
-    assertThat(records[0]).contains(
+    assertThat(records[i]).contains(
         "\"changePasswordAtNextLogin\":true,\"customSchemas\":{\"Employee_Information\":{\"RoleID\":\"" + roleId
             + "\"}},\"externalIds\":[{\"type\":\"organization\",\"value\":\"123456789\"}],\"hashFunction\":\"SHA-1\",\"includeInGlobalAddressList\":true,\"ipWhitelisted\":false,\"name\":{\"familyName\":\"Buyo\",\"givenName\":\"Fransico\"},\"orgUnitPath\":\"/CFODS/"
             + orgUnit + "\",\"organizations\":[{\"department\":\"" + orgUnit + "\",\"primary\":true}]");
-    assertThat(records[0]).containsPattern(
+    assertThat(records[i]).containsPattern(
         ",\"password\":\"[0-9a-zA-Z]{40}\",\"primaryEmail\":\"Fransico.Buyo[0-9]{2}@domain\",\"suspended\":false");
   }
 
