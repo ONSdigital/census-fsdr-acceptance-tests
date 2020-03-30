@@ -12,6 +12,7 @@ import uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoPeopleFactory;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Slf4j
 @PropertySource("classpath:application.properties")
@@ -19,6 +20,7 @@ public class AdeccoSteps {
 
   public static AdeccoResponse adeccoResponse = new AdeccoResponse();
   public static List<AdeccoResponse> adeccoResponseList = new ArrayList<>();
+  public static List<AdeccoResponse> adeccoResponseManagers = new ArrayList<>();
 
   @Given("An employee exists in {string} with an id of {string}")
   public void we_recieve_an_employee_with_an_id_of(String source, String id) {
@@ -84,5 +86,28 @@ public class AdeccoSteps {
   @Given("a contract start date {int} days in the future")
   public void a_contract_start_date_more_than_days_away(int days) {
     adeccoResponse.setContractStartDate(LocalDate.now().plusDays(days).toString());
+  }
+
+  @Given("the managers of {string} exist")
+  public void theManagersOfExist(String roleId) {
+    Random random = new Random();
+    if (roleId.length() == 10) {
+      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(random.nextInt(1000)));
+      managerAdeccoResponse.setContractStartDate("2020-01-01");
+      managerAdeccoResponse.setStatus("ASSIGNED");
+      managerAdeccoResponse.setCrStatus("ACTIVE");
+      managerAdeccoResponse.getResponseJob().setRoleId(roleId.substring(0, 7));
+      adeccoResponseManagers.add(managerAdeccoResponse);
+    }
+    if (roleId.length() == 7) {
+      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(random.nextInt(1000)));
+      managerAdeccoResponse.setContractStartDate("2020-01-01");
+      managerAdeccoResponse.setStatus("ASSIGNED");
+      managerAdeccoResponse.setCrStatus("ACTIVE");
+      managerAdeccoResponse.getResponseJob().setRoleId(roleId.substring(0, 4));
+      adeccoResponseManagers.add(managerAdeccoResponse);
+    }
+
+
   }
 }
