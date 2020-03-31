@@ -128,8 +128,7 @@ public class XmaSteps {
         System.out.println(id);
         String[] records = xmaMockUtils.getRecords();
 
-        assertEquals(2, records.length);
-        assertEquals("{\"className\":\"RequestManagement.Request\",\"formValues\":[{\"name\":\"_DeletionUser\",\"value\":\"" + id + "\"}],\"lifecycle_name\":\"NewProcess8\"}", records[1]);
+        assertEquals("{\"className\":\"RequestManagement.Request\",\"formValues\":[{\"name\":\"_DeletionUser\",\"value\":\"" + id + "\"}],\"lifecycle_name\":\"NewProcess8\"}", records[records.length - 1]);
 
     }
 

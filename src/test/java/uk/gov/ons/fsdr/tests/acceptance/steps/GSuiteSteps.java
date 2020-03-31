@@ -78,8 +78,8 @@ public class GSuiteSteps {
   @Then("the employee is correctly suspended in gsuite")
   public void theEmployeeIsCorrectlySuspendedInGsuite() {
     String[] records = gsuiteMockUtils.getRecords();
-    String suspended1 = records[1];
-    String suspended2 = records[2];
+    String suspended1 = records[records.length - 2];
+    String suspended2 = records[records.length - 1];
     assertEquals("{\"changePasswordAtNextLogin\":true,\"suspended\":true}", suspended1);
     assertEquals("{\"changePasswordAtNextLogin\":false}", suspended2);
   }
