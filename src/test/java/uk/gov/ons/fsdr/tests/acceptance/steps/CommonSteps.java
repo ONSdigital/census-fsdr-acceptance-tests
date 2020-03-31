@@ -81,6 +81,7 @@ public class CommonSteps {
     xmaMockUtils.clearMock();
     gatewayEventMonitor.tearDownGatewayEventMonitor();
     adeccoResponseList.clear();
+    adeccoResponseManagers.clear();
   }
 
   @Given("we ingest them")
@@ -111,7 +112,7 @@ public class CommonSteps {
     gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 2, 3000l);
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 20000L));
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 10000L));
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_XMA_ACTION_RESPONSE", 10000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_XMA_ACTION_RESPONSE", 50000L));
     fsdrUtils.ingestGranby();
     fsdrUtils.lwsExtract();
     fsdrUtils.rcaExtract();

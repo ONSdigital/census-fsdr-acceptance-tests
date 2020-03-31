@@ -92,22 +92,31 @@ public class AdeccoSteps {
   public void theManagersOfExist(String roleId) {
     Random random = new Random();
     if (roleId.length() == 10) {
-      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(random.nextInt(1000)));
-      managerAdeccoResponse.setContractStartDate("2020-01-01");
-      managerAdeccoResponse.setStatus("ASSIGNED");
-      managerAdeccoResponse.setCrStatus("ACTIVE");
-      managerAdeccoResponse.getResponseJob().setRoleId(roleId.substring(0, 7));
-      adeccoResponseManagers.add(managerAdeccoResponse);
+      buildAreaManagerTypeManager(roleId, random.nextInt(1000));
+      buildCoordinatorTypeManager(roleId, random.nextInt(1000));
     }
     if (roleId.length() == 7) {
-      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(random.nextInt(1000)));
-      managerAdeccoResponse.setContractStartDate("2020-01-01");
-      managerAdeccoResponse.setStatus("ASSIGNED");
-      managerAdeccoResponse.setCrStatus("ACTIVE");
-      managerAdeccoResponse.getResponseJob().setRoleId(roleId.substring(0, 4));
-      adeccoResponseManagers.add(managerAdeccoResponse);
+      buildAreaManagerTypeManager(roleId, random.nextInt(1000));
     }
 
 
+  }
+
+  private void buildCoordinatorTypeManager(String roleId, int id) {
+    AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id));
+    managerAdeccoResponse.setContractStartDate("2020-01-01");
+    managerAdeccoResponse.setStatus("ASSIGNED");
+    managerAdeccoResponse.setCrStatus("ACTIVE");
+    managerAdeccoResponse.getResponseJob().setRoleId(roleId.substring(0, 7));
+    adeccoResponseManagers.add(managerAdeccoResponse);
+  }
+
+  private void buildAreaManagerTypeManager(String roleId, int id) {
+    AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id));
+    managerAdeccoResponse.setContractStartDate("2020-01-01");
+    managerAdeccoResponse.setStatus("ASSIGNED");
+    managerAdeccoResponse.setCrStatus("ACTIVE");
+    managerAdeccoResponse.getResponseJob().setRoleId(roleId.substring(0, 4));
+    adeccoResponseManagers.add(managerAdeccoResponse);
   }
 }

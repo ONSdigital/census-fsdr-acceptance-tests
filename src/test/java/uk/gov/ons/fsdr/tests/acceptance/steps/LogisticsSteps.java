@@ -29,10 +29,13 @@ public class LogisticsSteps {
   @Then("the employee {string} in the Logisitics CSV with {string} as a create")
   public void the_employee_in_the_Logisitics_CSV_with_as_a_create(String inCsv, String roleId) throws Exception {
     String csvFilename = sftpUtils.getLogisticsFileName();
-    if (inCsv.contains("is not")) {
-      assertThat(csvFilename).isBlank();
-    } else {
       String csv = sftpUtils.getCsv("logistics/", csvFilename);
+    if (inCsv.contains("is not")) {
+      assertThat(csv).doesNotContainPattern(
+              "\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\",,,\""
+                      + roleId
+                      + "\",,\"ACTIVE\"");
+    } else {
       assertThat(csv).containsPattern(
           "\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\",,,\""
               + roleId
