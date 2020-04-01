@@ -108,7 +108,7 @@ public class CommonSteps {
 
     gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 2, 3000l);
     gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 2, 3000l);
-    gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 2, 3000l);
+    gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 2, 10000l);
 
   }
 

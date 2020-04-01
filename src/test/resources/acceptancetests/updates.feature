@@ -2,11 +2,12 @@
 Feature: Updates
 
   Scenario Outline: A record in FSDR receives an update
-    Given An employee exists in "<source>" with an id of "<id>"
+    Given the managers of "<role_id>" exist
+    And we ingest managers
+    And An employee exists in "<source>" with an id of "<id>"
     And an assignment status of "<assignment_status>"
     And a closing report status of "<cr_status>"
     And a role id of "<role_id>"
-    And the managers of "<role_id>" exist
     And we ingest them
     And the employee "<id>" is sent to all downstream services
     And we receive an update from adecco for employee "<id>" with new first name "<new_name>"
