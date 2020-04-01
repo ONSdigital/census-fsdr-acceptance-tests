@@ -47,12 +47,16 @@ public class LogisticsSteps {
   public void the_employee_in_the_Logisitics_CSV_with_and_phone_number_as_an_update(String inCsv, String roleId,
       String phoneNumber, String name) throws Exception {
     String csvFilename = sftpUtils.getLogisticsFileName();
+      String csv = sftpUtils.getCsv("logistics/", csvFilename);
     if (!phoneNumber.equals(""))
       phoneNumber = "\"" + phoneNumber + "\"";
     if (inCsv.contains("is not")) {
-      assertThat(csvFilename).isBlank();
+      assertThat(csv).doesNotContainPattern(
+              "\"" + name
+                      + "\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\","
+                      + phoneNumber + ",,\"" + roleId
+                      + "\",,\"ACTIVE\"");
     } else {
-      String csv = sftpUtils.getCsv("logistics/", csvFilename);
       assertThat(csv).containsPattern(
           "\"" + name
               + "\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\","

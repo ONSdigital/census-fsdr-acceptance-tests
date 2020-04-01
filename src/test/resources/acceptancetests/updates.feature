@@ -6,6 +6,7 @@ Feature: Updates
     And an assignment status of "<assignment_status>"
     And a closing report status of "<cr_status>"
     And a role id of "<role_id>"
+    And the managers of "<role_id>" exist
     And we ingest them
     And the employee "<id>" is sent to all downstream services
     And we receive an update from adecco for employee "<id>" with new first name "<new_name>"
@@ -30,7 +31,9 @@ Feature: Updates
       | 123456789  | ASSIGNED          | ACTIVE     | RLN1-CA-01    | is not      | is not           | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD |
 
   Scenario Outline: A record in FSDR receives a device
-    Given An employee exists in "<source>" with an id of "<id>"
+    Given the managers of "<role_id>" exist
+    And we ingest managers
+    And An employee exists in "<source>" with an id of "<id>"
     And an assignment status of "<assignment_status>"
     And a closing report status of "<cr_status>"
     And a role id of "<role_id>"
@@ -40,16 +43,25 @@ Feature: Updates
     And we retrieve the devices from xma
     And we run create actions
     When the employee "<id>" is sent to all downstream services
-    Then the employee "<id>" is not updated in gsuite
+    Then the employee "<role_id>" is not updated in gsuite
     Then the employee is correctly updated in ServiceNow with "<role_id>" and name "<name>" and number "<phone_number>"
-    Then the employee is not updated in XMA
-    Then the employee "<in_lws>" in the LWS CSV as an update with name "<name>" and phone number "<phone_number>" and "<role_id>"
+    Then the employee "<role_id>" is not updated in XMA
+#    Then the employee "<in_lws>" in the LWS CSV as an update with name "<name>" and phone number "<phone_number>" and "<role_id>"
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<phone_number>" as an update with name "<name>"
     And Check the employee "<id>" is sent to RCA
 
     Examples:
       | id         | assignment_status | cr_status  | role_id       | inLogisitcs | in_lws | source | name     | phone_number | status    | group                                |
       | 123456789  | ASSIGNED          | ACTIVE     | CAR1          | is          | is     | ADECCO | Fransico | 0123456789   | Allocated | 7DD2611D-F60D-4A17-B759-B021BC5C669A |
+      | 123456789  | ASSIGNED          | ACTIVE     | CAR1-HA-01    | is not      | is     | ADECCO | Fransico | 0123456789   | Allocated | 8A2FEF60-9429-465F-B711-83753B234BDD |
+      | 123456789  | ASSIGNED          | ACTIVE     | CAR1-HA-01    | is not      | is     | ADECCO | Fransico | 0123456789   | Allocated | 8A2FEF60-9429-465F-B711-83753B234BDD |
+      | 123456789  | ASSIGNED          | ACTIVE     | CAR1-HA-01    | is not      | is     | ADECCO | Fransico | 0123456789   | Allocated | 8A2FEF60-9429-465F-B711-83753B234BDD |
+      | 123456789  | ASSIGNED          | ACTIVE     | CAR1-HA-01    | is not      | is     | ADECCO | Fransico | 0123456789   | Allocated | 8A2FEF60-9429-465F-B711-83753B234BDD |
+      | 123456789  | ASSIGNED          | ACTIVE     | CAR1-HA-01    | is not      | is     | ADECCO | Fransico | 0123456789   | Allocated | 8A2FEF60-9429-465F-B711-83753B234BDD |
+      | 123456789  | ASSIGNED          | ACTIVE     | CAR1-HA-01    | is not      | is     | ADECCO | Fransico | 0123456789   | Allocated | 8A2FEF60-9429-465F-B711-83753B234BDD |
+      | 123456789  | ASSIGNED          | ACTIVE     | CAR1-HA-01    | is not      | is     | ADECCO | Fransico | 0123456789   | Allocated | 8A2FEF60-9429-465F-B711-83753B234BDD |
+      | 123456789  | ASSIGNED          | ACTIVE     | CAR1-HA-01    | is not      | is     | ADECCO | Fransico | 0123456789   | Allocated | 8A2FEF60-9429-465F-B711-83753B234BDD |
+      | 123456789  | ASSIGNED          | ACTIVE     | CAR1-HA-01    | is not      | is     | ADECCO | Fransico | 0123456789   | Allocated | 8A2FEF60-9429-465F-B711-83753B234BDD |
       | 123456789  | ASSIGNED          | ACTIVE     | CAR1-HA-01    | is not      | is     | ADECCO | Fransico | 0123456789   | Allocated | 8A2FEF60-9429-465F-B711-83753B234BDD |
       | 123456789  | ASSIGNED          | ACTIVE     | CAR1-SA       | is          | is     | ADECCO | Fransico | 0123456789   | Allocated | 7DD2611D-F60D-4A17-B759-B021BC5C669A |
       | 123456789  | ASSIGNED          | ACTIVE     | CAR1-SA-01    | is not      | is     | ADECCO | Fransico | 0123456789   | Allocated | 8A2FEF60-9429-465F-B711-83753B234BDD |

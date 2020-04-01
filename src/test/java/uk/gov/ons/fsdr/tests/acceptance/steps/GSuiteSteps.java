@@ -54,7 +54,7 @@ public class GSuiteSteps {
   @Then("the employee is correctly updated in gsuite with name {string}")
   public void the_employee_is_correctly_updated_in_gsuite(String name) throws IOException {
     String[] records = gsuiteMockUtils.getRecords();
-    String update = records[1];
+    String update = records[records.length - 1];
 
     JsonNode expectedMessageRootNode = objectMapper
         .readTree("{\"name\":{\"familyName\":\"Buyo\",\"givenName\":\"" + name + "\"}}");
@@ -94,8 +94,12 @@ public class GSuiteSteps {
 
   @Then("the employee {string} is not updated in gsuite")
   public void the_employee_is_not_updated_in_gsuite(String id) {
+    int expextedCount = 0;
+    if (id.length() == 10) expextedCount = 3;
+    else if (id.length() == 7) expextedCount = 2;
+    else if (id.length() == 4) expextedCount = 1;
     String[] records = gsuiteMockUtils.getRecords();
-    assertEquals(1,records.length);
+    assertEquals(expextedCount, records.length);
   }
 
   @Then("the employee {string} is no longer in the following groups {string}")

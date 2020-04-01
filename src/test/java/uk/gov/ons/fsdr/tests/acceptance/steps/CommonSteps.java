@@ -88,8 +88,6 @@ public class CommonSteps {
   public void we_ingest_them() throws IOException {
     if(adeccoResponseList.size() == 0) {
       adeccoResponseList.add(adeccoResponse);
-//      adeccoResponseList.addAll(adeccoResponseManagers);
-
     }
     adeccoMockUtils.addUsersAdecco(adeccoResponseList);
     adeccoMockUtils.addUsersAdecco(adeccoResponseManagers);
@@ -97,6 +95,20 @@ public class CommonSteps {
     fsdrUtils.ingestAdecco();
     fsdrUtils.ingestRunFSDRProcess();
     adeccoResponseManagers.clear();
+
+  }
+
+  @Given("we ingest managers")
+  public void we_ingest_managers() throws IOException {
+    adeccoMockUtils.addUsersAdecco(adeccoResponseManagers);
+
+    fsdrUtils.ingestAdecco();
+    fsdrUtils.ingestRunFSDRProcess();
+    adeccoResponseManagers.clear();
+
+    gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 2, 3000l);
+    gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 2, 3000l);
+    gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 2, 3000l);
 
   }
 
