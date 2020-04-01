@@ -66,7 +66,7 @@ public class GSuiteSteps {
   @Then("the employee is correctly moved in gsuite with roleId {string} to {string}")
   public void the_employee_is_correctly_moved_in_gsuite_with_roleId(String roleId, String orgUnit) throws IOException {
     String[] records = gsuiteMockUtils.getRecords();
-    String update = records[1];
+    String update = records[records.length - 1];
 
     JsonNode expectedMessageRootNode = objectMapper
         .readTree("{\"customSchemas\":{\"Employee_Information\":{\"RoleID\":\""+roleId+"\"}},\"name\":{\"familyName\":\"Buyo\",\"givenName\":\"Fransico\"},\"orgUnitPath\":\"/CFODS/"+orgUnit+"\",\"organizations\":[{\"department\":\""+orgUnit+"\",\"primary\":true}]}");

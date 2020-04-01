@@ -6,12 +6,14 @@ Feature: Movers
     And an assignment status of "ASSIGNED"
     And a closing report status of "ACTIVE"
     And a role id of "<role_id>"
+    And the managers of "<role_id>" exist
+    And the managers of "<new_role_id>" exist
     And we ingest them
     And the employee "123456789" is sent to all downstream services
     And a device exists in XMA with "<role_id>", "0123456789" and "Allocated"
     And we retrieve the devices from xma
-    And we run create actions
-    And the employee is sent to LWS
+#    And we run create actions
+#    And the employee is sent to LWS
     And their old job role gets cancelled
     And we receive a new active job role from adecco for employee "123456789" with new role_id "<new_role_id>"
     And we ingest them
@@ -21,7 +23,7 @@ Feature: Movers
     And the employee "123456789" is now in the current groups "<new_groups>"
     Then the employee is correctly moved in ServiceNow with "<new_role_id>"
     Then the employee from "<source>" with old roleId "<role_id>" and new roleId "<new_role_id>" is correctly moved in XMA with group "<new_group>"
-    Then the employee "is" in the LWS CSV as mover with "<new_role_id>"
+#    Then the employee "is" in the LWS CSV as mover with "<new_role_id>"
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<new_role_id>"
     And Check the employee "123456789" is sent to RCA
 
