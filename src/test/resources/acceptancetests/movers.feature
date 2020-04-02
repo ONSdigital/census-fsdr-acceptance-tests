@@ -6,14 +6,17 @@ Feature: Movers
     And an assignment status of "ASSIGNED"
     And a closing report status of "ACTIVE"
     And a role id of "<role_id>"
-    And the managers of "<role_id>" exist
-    And the managers of "<new_role_id>" exist
+    And the managers of "<role_id>" exist before moving to "<new_role_id>"
     And we ingest them
     And the employee "123456789" is sent to all downstream services
     And a device exists in XMA with "<role_id>", "0123456789" and "Allocated"
     And we retrieve the devices from xma
-#    And we run create actions
+    And we run create actions
 #    And the employee is sent to LWS
+    And the previous "<new_role_id>" gets cancelled
+    And we ingest the cancel
+    And the managers of "<role_id>" exist before moving from "<new_role_id>"
+    And we ingest managers
     And their old job role gets cancelled
     And we receive a new active job role from adecco for employee "123456789" with new role_id "<new_role_id>"
     And we ingest them

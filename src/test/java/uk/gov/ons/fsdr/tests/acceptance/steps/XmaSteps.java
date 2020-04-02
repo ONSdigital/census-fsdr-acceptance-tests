@@ -12,6 +12,7 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils.getLastRecord;
 
 @Slf4j
 @PropertySource("classpath:application.properties")
@@ -28,6 +29,8 @@ public class XmaSteps {
 
     @Value("${service.rabbit.password}")
     private String rabbitPassword;
+
+    private static final String uuidPattern = "([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})";
 
     @Then("the employee from {string} with roleId {string} is correctly created in XMA with group {string}")
     public void the_employee_with_roleId_is_correctly_updated_in_XMA(String source, String roleId, String group) {
@@ -81,36 +84,28 @@ public class XmaSteps {
 
     @Then("the employee from {string} with old roleId {string} and new roleId {string} is correctly moved in XMA with group {string}")
     public void the_employee_from_with_roleId_is_correctly_moved_in_XMA_with_group(String source, String oldRoleId, String roleId, String group) {
-        String id = xmaMockUtils.getId(oldRoleId);
         boolean hasManager = roleId.length() > 4;
-
-
         String[] records = xmaMockUtils.getRecords();
-        int i = 0;
-        for (String record : records) {
-            boolean contains = record.contains(String.format("\"name\":\"_RoleID\",\"value\":\"%s\"", roleId));
-            if (contains) break;
-            i++;
-        }
+        String update = getLastRecord(records, roleId);
 
-        assertThat(records[i]).contains(
+        assertThat(update).contains(
                 "{\"className\":\"System.EndUser\",\"formValues\":[{\"name\":\"_BadgeNumber\",\"value\":null},{\"name\":\"_EmploymentStatus\",\"value\":\"ACTIVE\"},{\"name\":\"_FirstName\",\"value\":"
                         + "\"Fransico\"},{");
-        assertThat(records[i]).containsPattern("\"name\":\"_ContractStartDate\",\"value\":\"[0-9-]{10}");
-        assertThat(records[i]).contains("\"},{\"name\":\"_ContractEndDate\",\"value\":\"" + LocalDate.now().plusDays(5)
+        assertThat(update).containsPattern("\"name\":\"_ContractStartDate\",\"value\":\"[0-9-]{10}");
+        assertThat(update).contains("\"},{\"name\":\"_ContractEndDate\",\"value\":\"" + LocalDate.now().plusDays(5)
                 + "\"},{\"name\":\"_JobRole\",\"value\":null},{\"name\":\"_LocationString\",\"value\":\"London\"},{\"name\":\"_RoleID\",\"value\":\""
                 + roleId + "\"}");
-        assertThat(records[i]).contains("{\"name\":\"CurrentGroup\",\"value\":\"" + group + "\"},{\"name\":\"PrimaryGroup\",\"value\":\"" + group + "\"},{");
-        assertThat(records[i]).containsPattern("\"name\":\"Name\",\"value\":\"Fransico.Buyo[0-9]{2}@domain\"");
-        assertThat(records[i])
+        assertThat(update).contains("{\"name\":\"CurrentGroup\",\"value\":\"" + group + "\"},{\"name\":\"PrimaryGroup\",\"value\":\"" + group + "\"},{");
+        assertThat(update).containsPattern("\"name\":\"Name\",\"value\":\"Fransico.Buyo[0-9]{2}@domain\"");
+        assertThat(update)
                 .contains("},{\"name\":\"_PreferredName\",\"value\":null},{\"name\":\"_UserOrg\",\"value\":\"" + source
                         + "\"},{\"name\":\"_Surname\",\"value\":\"Buyo\"},{");
-        assertThat(records[i]).containsPattern("\"name\":\"EMailAddress\",\"value\":\"Fransico.Buyo[0-9]{2}@domain\"");
-        assertThat(records[i]).contains("},{\"name\":\"Title\",\"value\":\"Fransico"
-                + " Buyo\"},{\"name\":\"_PersonalEmail\",\"value\":\"f.b@email.com\"},{\"name\":\"_PersonalPhone\",\"value\":\"0987654321\"},{\"name\":\"_Address\",\"value\":\"123, Fake Street, Fakeside, FA43 1AB\"}],\"key\":\""
-                + id + "\",\"originalValues\":null,\"lockVersion\":1}");
+        assertThat(update).containsPattern("\"name\":\"EMailAddress\",\"value\":\"Fransico.Buyo[0-9]{2}@domain\"");
+        assertThat(update).contains("},{\"name\":\"Title\",\"value\":\"Fransico"
+                + " Buyo\"},{\"name\":\"_PersonalEmail\",\"value\":\"f.b@email.com\"},{\"name\":\"_PersonalPhone\",\"value\":\"0987654321\"},{\"name\":\"_Address\",\"value\":\"123, Fake Street, Fakeside, FA43 1AB\"}]");
+        assertThat(update).containsPattern("\"key\":\"" + uuidPattern + "\",\"originalValues\":null,\"lockVersion\":1}");
         if (hasManager) {
-            assertThat(records[i]).containsPattern("\"name\":\"_LineManager\",\"value\":\"([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})\"}");
+            assertThat(update).containsPattern("\"name\":\"_LineManager\",\"value\":\"" + uuidPattern + "\"}");
         }
     }
 
@@ -140,7 +135,7 @@ public class XmaSteps {
                 + " Buyo\"},{\"name\":\"_PersonalEmail\",\"value\":\"f.b@email.com\"},{\"name\":\"_PersonalPhone\",\"value\":\"0987654321\"},{\"name\":\"_Address\",\"value\":\"123, Fake Street, Fakeside, FA43 1AB\"}],\"");
         assertThat(records[records.length - 1]).contains("key\":\"" + id + "\",\"originalValues\":null,\"lockVersion\":1}");
         if (hasManager) {
-            assertThat(records[records.length - 1]).containsPattern("\"name\":\"_LineManager\",\"value\":\"([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})\"}");
+            assertThat(records[records.length - 1]).containsPattern("\"name\":\"_LineManager\",\"value\":\"" + uuidPattern + "\"}");
         }
     }
 

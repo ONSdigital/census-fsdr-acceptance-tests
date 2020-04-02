@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Base64;
 
 @Slf4j
@@ -130,6 +131,11 @@ public final class FsdrUtils {
               + httpURLConnection.getResponseMessage());
       throw new RuntimeException(httpURLConnection.getResponseMessage());
     }
+  }
+
+  public static String getLastRecord(String[] records, String search) {
+    return Arrays.stream(records).filter(x -> x.contains(search))
+            .reduce((first, second) -> second).get();
   }
 
 }

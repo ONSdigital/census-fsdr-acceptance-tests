@@ -11,6 +11,7 @@ import uk.gov.ons.fsdr.tests.acceptance.utils.SnowMockUtils;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils.getLastRecord;
 
 @Slf4j
 @PropertySource("classpath:application.properties")
@@ -43,7 +44,7 @@ public class ServiceNowSteps {
   @Then("the employee is correctly moved in ServiceNow with {string}")
   public void the_employee_is_correctly_moved_in_ServiceNow_with(String roleId) {
     String[] records = snowMockUtils.getRecords();
-    String update = records[records.length - 1];
+    String update = getLastRecord(records, roleId);
     String expectedMessageRootNode = "";
     expectedMessageRootNode = "\"location\":\"London\",\"first_name\":\"Fransico"
         + "\",\"last_name\":\"Buyo\",\"u_preferred_name\":null,\"u_badge_number\":null,\"u_lm_first_name_2\":null,\"u_lm_last_name_2\":null,\"user_name\":\""
