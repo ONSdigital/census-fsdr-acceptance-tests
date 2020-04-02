@@ -7,13 +7,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
+import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
 import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.gatewayEventMonitor;
 
 @Slf4j
 @PropertySource("classpath:application.properties")
@@ -88,8 +92,12 @@ public class GSuiteSteps {
 
   @Then("the employee {string} is not updated in gsuite")
   public void the_employee_is_not_updated_in_gsuite(String id) {
+    Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 10, 3000l);
+    assertEquals(1, events.size());
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 20000L));
     String[] records = gsuiteMockUtils.getRecords();
-    assertEquals(1,records.length);
+    //manager + employee initial creates
+    assertEquals(2,records.length);
   }
 
   @Then("the employee {string} is no longer in the following groups {string}")

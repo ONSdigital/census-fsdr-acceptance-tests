@@ -52,7 +52,7 @@ public class LogisticsSteps {
       String csv = sftpUtils.getCsv("logistics/", csvFilename);
       assertThat(csv).containsPattern(
           "\"" + name
-              + "\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\","
+              + "\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\","
               + phoneNumber + ",,\"" + roleId
               + "\",,\"ACTIVE\"");
     }

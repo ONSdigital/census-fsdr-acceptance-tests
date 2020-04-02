@@ -8,11 +8,19 @@ import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponseContact;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponseJob;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponseWorker;
+import uk.gov.ons.fsdr.common.dto.LocalAuthority;
+import uk.gov.ons.fsdr.common.dto.LocalAuthorityArea;
 
 public class AdeccoPeopleFactory {
   
   public static AdeccoResponse buildFransicoBuyo(String uuid) {
     AdeccoResponseJob job = AdeccoResponseJob.builder()
+        .build();
+    LocalAuthority localAuthority = LocalAuthority.builder()
+        .country("Wales")
+        .build();
+    LocalAuthorityArea localAuthorityArea = LocalAuthorityArea.builder()
+        .localAuthority(localAuthority)
         .build();
     AdeccoResponseContact contact = AdeccoResponseContact.builder()
         .employeeId(uuid)
@@ -35,8 +43,11 @@ public class AdeccoPeopleFactory {
         .mobility("10-15 miles")
         .dob("1995-07-20")
         .drivingInfo("None")
+        .localAuthorityArea(localAuthorityArea)
         .build();
-    AdeccoResponseWorker worker = AdeccoResponseWorker.builder().employeeId(uuid).build();
+    AdeccoResponseWorker worker = AdeccoResponseWorker.builder()
+        .employeeId(uuid)
+        .build();
     AdeccoResponse adeccoResponse = AdeccoResponse.builder()
         .contractStartDate(LocalDate.now().minus(5, ChronoUnit.DAYS).toString())
         .contractEndDate(LocalDate.now().plus(5, ChronoUnit.DAYS).toString())

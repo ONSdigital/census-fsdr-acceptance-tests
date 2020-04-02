@@ -6,11 +6,19 @@ import org.assertj.core.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import uk.gov.ons.census.fwmt.events.data.GatewayErrorEventDTO;
+import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
+import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
 import uk.gov.ons.fsdr.tests.acceptance.utils.SnowMockUtils;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.gatewayEventMonitor;
 
 @Slf4j
 @PropertySource("classpath:application.properties")
@@ -54,8 +62,8 @@ public class ServiceNowSteps {
     Assertions.assertThat(update).containsPattern(expectedMessageRootNode);
   }
 
-  @Then("the employee is correctly updated in ServiceNow with {string} and name {string} and number {string}")
-  public void the_employee_is_correctly_updated_in_ServiceNow_with(String roleId, String name, String phoneNumber) {
+  @Then("the employee {string} is correctly updated in ServiceNow with {string} and name {string} and number {string}")
+  public void the_employee_is_correctly_updated_in_ServiceNow_with(String id, String roleId, String name, String phoneNumber) {
     String[] records = snowMockUtils.getRecords();
     String update = records[records.length - 1];
     String expectedMessageRootNode = "";
@@ -74,6 +82,9 @@ public class ServiceNowSteps {
         + "\",\"u_job_role_2\":null,\"u_contract_start_date\":\"2020-01-01\",\"u_contract_end_date\":\""+ LocalDate.now().plusDays(5)+"\",\"u_employment_status\":\"ACTIVE\",\"zip\":\"FA43 1AB\",\"u_ons_id\":\"Fransico.Buyo[0-9]{2}@domain\",\"u_asset_number\":"+assetId+",\"u_ons_device_number\":"
         + phoneNumber + ",\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true";
 
+    Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 10, 3000l);
+    assertEquals(2, events.size());
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 10000L));
     assertThat(update).containsPattern(expectedMessageRootNode);
   }
 
