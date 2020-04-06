@@ -18,15 +18,15 @@ Feature: Creates
     And Check the employee "<id>" is sent to RCA
 
     Examples:
-      | id         | assignment_status | cr_status  | role_id       | inLogisitcs | source | start_date | group                                | org_unit    | new_groups                                                   |
-      | 123456789  | ASSIGNED          | ACTIVE     | CAR1          | is          | ADECCO | 2020-01-01 | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | car1-group,ons_users,Household-group                         |
-      | 123456789  | ASSIGNED          | ACTIVE     | CAR1-HA       | is          | ADECCO | 2020-01-01 | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | car1-group,car1-ha-group,ons_users,ons_drive,Household-group |
-      | 123456789  | ASSIGNED          | ACTIVE     | CAR1-HA-01    | is not      | ADECCO | 2020-01-01 | 8A2FEF60-9429-465F-B711-83753B234BDD | EW-Officers | car1-ha-group,ons_users,ons_drive,Household-group            |
-      | 123456789  | ASSIGNED          | ACTIVE     | CAR1-SA       | is          | ADECCO | 2020-01-01 | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | car1-group,car1-sa-group,ons_users,ons_drive,CE-group        |
-      | 123456789  | ASSIGNED          | ACTIVE     | CAR1-SA-01    | is not      | ADECCO | 2020-01-01 | 8A2FEF60-9429-465F-B711-83753B234BDD | EW-Officers | car1-sa-group,ons_users,ons_drive,CE-group                   |
-      | 123456789  | ASSIGNED          | ACTIVE     | RLN1          | is          | ADECCO | 2020-01-01 | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | rln1-group,ons_users,CCS-group                               |
-      | 123456789  | ASSIGNED          | ACTIVE     | RLN1-CA       | is          | ADECCO | 2020-01-01 | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | rln1-group,rln1-ca-group,ons_users,ccs_drive,CCS-group       |
-      | 123456789  | ASSIGNED          | ACTIVE     | RLN1-CA-01    | is not      | ADECCO | 2020-01-01 | 8A2FEF60-9429-465F-B711-83753B234BDD | EW-Officers | rln1-ca-group,ons_users,ccs_drive,CCS-group                  |
+      | id         | assignment_status | cr_status  | role_id          | inLogisitcs | source | start_date | group                                | org_unit    | new_groups                                                   |
+      | 123456789  | ASSIGNED          | ACTIVE     | HA-CAR1          | is          | ADECCO | 2020-01-01 | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | ha-car1-group,ons_users,Household-group                         |
+      | 123456789  | ASSIGNED          | ACTIVE     | HA-CAR1-ZA       | is          | ADECCO | 2020-01-01 | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | ha-car1-group,ha-car1-za-group,ons_users,ons_drive,Household-group |
+      | 123456789  | ASSIGNED          | ACTIVE     | HA-CAR1-ZA-01    | is not      | ADECCO | 2020-01-01 | 8A2FEF60-9429-465F-B711-83753B234BDD | EW-Officers | ha-car1-za-group,ons_users,ons_drive,Household-group            |
+      | 123456789  | ASSIGNED          | ACTIVE     | SA-CAR1-ZA       | is          | ADECCO | 2020-01-01 | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | sa-car1-group,sa-car1-za-group,ons_users,ons_drive,CE-group        |
+      | 123456789  | ASSIGNED          | ACTIVE     | SA-CAR1-ZA-01    | is not      | ADECCO | 2020-01-01 | 8A2FEF60-9429-465F-B711-83753B234BDD | EW-Officers | sa-car1-za-group,ons_users,ons_drive,CE-group                   |
+      | 123456789  | ASSIGNED          | ACTIVE     | CA-RLN1          | is          | ADECCO | 2020-01-01 | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | ca-rln1-group,ons_users,CCS-group                               |
+      | 123456789  | ASSIGNED          | ACTIVE     | CA-RLN1-ZA       | is          | ADECCO | 2020-01-01 | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | ca-rln1-group,ca-rln1-za-group,ons_users,ccs_drive,CCS-group       |
+      | 123456789  | ASSIGNED          | ACTIVE     | CA-RLN1-ZA-01    | is not      | ADECCO | 2020-01-01 | 8A2FEF60-9429-465F-B711-83753B234BDD | EW-Officers | ca-rln1-za-group,ons_users,ccs_drive,CCS-group                  |
 
   Scenario Outline: A record is not created in the downstream systems
     Given An employee exists in "<source>" with an id of "<id>"
@@ -45,32 +45,32 @@ Feature: Creates
 
     Examples:
       | id         | assignment_status    | cr_status    | role_id       | start_date | source |
-      | 123456781  | ASSIGNMENT_ENDED     | ACTIVE       | CAR1-SA       | 2020-01-01 | ADECCO |
-      | 123456782  | ASSIGNMENT_CANCELLED | ACTIVE       | CAR1-SA-01    | 2020-01-01 | ADECCO |
-      | 123456783  | ASSIGNED             | INACTIVE     | RLN1          | 2020-01-01 | ADECCO |
-      | 123456784  | READY_TO_START       | INACTIVE     | RLN1          | 2020-01-01 | ADECCO |
-      | 123456785  | ASSIGNMENT_ENDED     | INACTIVE     | RLN1-CA       | 2020-01-01 | ADECCO |
-      | 123456786  | ASSIGNMENT_CANCELLED | INACTIVE     | RLN1-CA-01    | 2020-01-01 | ADECCO |
-      | 123456787  | ASSIGNMENT_ENDED     | PENDING      | RLN1-CA       | 2020-01-01 | ADECCO |
-      | 123456788  | ASSIGNMENT_CANCELLED | PENDING      | RLN1-CA-01    | 2020-01-01 | ADECCO |
-      | 123456789  | ASSIGNED             | ACTIVE       | CAR1          | 2021-01-01 | ADECCO |
-      | 123456789  | READY_TO_START       | ACTIVE       | CAR1          | 2021-01-01 | ADECCO |
-      | 123456789  | ASSIGNMENT_ENDED     | ACTIVE       | CAR1-HA       | 2021-01-01 | ADECCO |
-      | 123456789  | ASSIGNMENT_CANCELLED | ACTIVE       | CAR1-HA-01    | 2021-01-01 | ADECCO |
-      | 123456789  | ASSIGNED             | INACTIVE     | RLN1          | 2021-01-01 | ADECCO |
-      | 123456789  | READY_TO_START       | INACTIVE     | RLN1          | 2021-01-01 | ADECCO |
-      | 123456789  | ASSIGNMENT_ENDED     | INACTIVE     | RLN1-CA       | 2021-01-01 | ADECCO |
-      | 123456789  | ASSIGNMENT_CANCELLED | INACTIVE     | RLN1-CA-01    | 2021-01-01 | ADECCO |
-      | 123456789  | ASSIGNED             | PENDING      | RLN1          | 2021-01-01 | ADECCO |
-      | 123456789  | READY_TO_START       | PENDING      | RLN1          | 2021-01-01 | ADECCO |
-      | 123456789  | ASSIGNMENT_ENDED     | PENDING      | RLN1-CA       | 2021-01-01 | ADECCO |
-      | 123456789  | ASSIGNMENT_CANCELLED | PENDING      | RLN1-CA-01    | 2021-01-01 | ADECCO |
+      | 123456781  | ASSIGNMENT_ENDED     | ACTIVE       | SA-CAR1-ZA       | 2020-01-01 | ADECCO |
+      | 123456782  | ASSIGNMENT_CANCELLED | ACTIVE       | SA-CAR1-ZA-01    | 2020-01-01 | ADECCO |
+      | 123456783  | ASSIGNED             | INACTIVE     | CA-RLN1          | 2020-01-01 | ADECCO |
+      | 123456784  | READY_TO_START       | INACTIVE     | CA-RLN1          | 2020-01-01 | ADECCO |
+      | 123456785  | ASSIGNMENT_ENDED     | INACTIVE     | CA-RLN1-ZA       | 2020-01-01 | ADECCO |
+      | 123456786  | ASSIGNMENT_CANCELLED | INACTIVE     | CA-RLN1-ZA-01    | 2020-01-01 | ADECCO |
+      | 123456787  | ASSIGNMENT_ENDED     | PENDING      | CA-RLN1-ZA       | 2020-01-01 | ADECCO |
+      | 123456788  | ASSIGNMENT_CANCELLED | PENDING      | CA-RLN1-ZA-01    | 2020-01-01 | ADECCO |
+      | 123456789  | ASSIGNED             | ACTIVE       | HA-CAR1          | 2021-01-01 | ADECCO |
+      | 123456789  | READY_TO_START       | ACTIVE       | HA-CAR1          | 2021-01-01 | ADECCO |
+      | 123456789  | ASSIGNMENT_ENDED     | ACTIVE       | HA-CAR1-ZA       | 2021-01-01 | ADECCO |
+      | 123456789  | ASSIGNMENT_CANCELLED | ACTIVE       | HA-CAR1-ZA-01    | 2021-01-01 | ADECCO |
+      | 123456789  | ASSIGNED             | INACTIVE     | CA-RLN1          | 2021-01-01 | ADECCO |
+      | 123456789  | READY_TO_START       | INACTIVE     | CA-RLN1          | 2021-01-01 | ADECCO |
+      | 123456789  | ASSIGNMENT_ENDED     | INACTIVE     | CA-RLN1-ZA       | 2021-01-01 | ADECCO |
+      | 123456789  | ASSIGNMENT_CANCELLED | INACTIVE     | CA-RLN1-ZA-01    | 2021-01-01 | ADECCO |
+      | 123456789  | ASSIGNED             | PENDING      | CA-RLN1          | 2021-01-01 | ADECCO |
+      | 123456789  | READY_TO_START       | PENDING      | CA-RLN1          | 2021-01-01 | ADECCO |
+      | 123456789  | ASSIGNMENT_ENDED     | PENDING      | CA-RLN1-ZA       | 2021-01-01 | ADECCO |
+      | 123456789  | ASSIGNMENT_CANCELLED | PENDING      | CA-RLN1-ZA-01    | 2021-01-01 | ADECCO |
 
   Scenario: A record with a start date grater than 6 days in the future is not created in the downstream systems
     Given An employee exists in "ADECCO" with an id of "123456789"
     And an assignment status of "ASSIGNED"
     And a closing report status of "ACTIVE"
-    And a role id of "CAR1"
+    And a role id of "HA-CAR1"
     And a contract start date 8 days in the future
     And we ingest them
     When the employee "<id>" is not sent to all downstream services
@@ -85,28 +85,28 @@ Feature: Creates
     Given An employee exists in "ADECCO" with an id of "123456789"
     And an assignment status of "ASSIGNED"
     And a closing report status of "ACTIVE"
-    And a role id of "CAR1"
+    And a role id of "HA-CAR1"
     And a contract start date 6 days in the future
     And we ingest them
     When the employee "123456789" is sent to all downstream services
-    Then the employee is correctly created in gsuite with roleId "CAR1" and orgUnit "Managers"
-    And the employee is correctly created in ServiceNow with "CAR1"
-    And the employee from "ADECCO" with roleId "CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
+    Then the employee is correctly created in gsuite with roleId "HA-CAR1" and orgUnit "Managers"
+    And the employee is correctly created in ServiceNow with "HA-CAR1"
+    And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee is not in the LWS CSV as a create
-    And the employee "is" in the Logisitics CSV with "CAR1" as a create
+    And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
     And Check the employee "123456789" is sent to RCA
 
   Scenario: A record with a start date less than 6 days in the future is created in the downstream systems
     Given An employee exists in "ADECCO" with an id of "123456789"
     And an assignment status of "ASSIGNED"
     And a closing report status of "ACTIVE"
-    And a role id of "CAR1"
+    And a role id of "HA-CAR1"
     And a contract start date 5 days in the future
     And we ingest them
     When the employee "123456789" is sent to all downstream services
-    Then the employee is correctly created in gsuite with roleId "CAR1" and orgUnit "Managers"
-    And the employee is correctly created in ServiceNow with "CAR1"
-    And the employee from "ADECCO" with roleId "CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
+    Then the employee is correctly created in gsuite with roleId "HA-CAR1" and orgUnit "Managers"
+    And the employee is correctly created in ServiceNow with "HA-CAR1"
+    And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee is not in the LWS CSV as a create
-    And the employee "is" in the Logisitics CSV with "CAR1" as a create
+    And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
     And Check the employee "123456789" is sent to RCA

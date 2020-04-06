@@ -12,6 +12,7 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoSteps.AREA_MANAGER_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils.getLastRecord;
 
 @Slf4j
@@ -35,7 +36,7 @@ public class XmaSteps {
     @Then("the employee from {string} with roleId {string} is correctly created in XMA with group {string}")
     public void the_employee_with_roleId_is_correctly_updated_in_XMA(String source, String roleId, String group) {
 
-      boolean hasManager = roleId.length() > 4;
+      boolean hasManager = roleId.length() > AREA_MANAGER_ROLE_ID_LENGTH;
 
         String[] records = xmaMockUtils.getRecords();
         int i = 0;
@@ -84,7 +85,7 @@ public class XmaSteps {
 
     @Then("the employee from {string} with old roleId {string} and new roleId {string} is correctly moved in XMA with group {string}")
     public void the_employee_from_with_roleId_is_correctly_moved_in_XMA_with_group(String source, String oldRoleId, String roleId, String group) {
-        boolean hasManager = roleId.length() > 4;
+        boolean hasManager = roleId.length() > AREA_MANAGER_ROLE_ID_LENGTH;
         String[] records = xmaMockUtils.getRecords();
         String update = getLastRecord(records, roleId);
 
@@ -113,7 +114,7 @@ public class XmaSteps {
     public void the_employee_with_roleId_is_correctly_updated_in_XMA(String source, String roleId, String name,
                                                                      String group) {
         String id = xmaMockUtils.getId(roleId);
-        boolean hasManager = roleId.length() > 4;
+        boolean hasManager = roleId.length() > AREA_MANAGER_ROLE_ID_LENGTH;
 
 
         String[] records = xmaMockUtils.getRecords();

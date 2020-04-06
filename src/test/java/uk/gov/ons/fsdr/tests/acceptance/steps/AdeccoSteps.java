@@ -21,6 +21,9 @@ import java.util.Set;
 @Slf4j
 @PropertySource("classpath:application.properties")
 public class AdeccoSteps {
+  public static final int AREA_MANAGER_ROLE_ID_LENGTH = 7;
+  public static final int COORDINATOR_ROLE_ID_LENGTH = 10;
+
 
   public static AdeccoResponse adeccoResponse = new AdeccoResponse();
   public static List<AdeccoResponse> adeccoResponseList = new ArrayList<>();
@@ -97,11 +100,11 @@ public class AdeccoSteps {
   @Given("the managers of {string} exist")
   public void theManagersOfExist(String roleId) {
     Random random = new Random();
-    if (roleId.length() == 10) {
+    if (roleId.length() == 13) {
       buildAreaManagerTypeManager(roleId, random.nextInt(1000));
       buildCoordinatorTypeManager(roleId, random.nextInt(1000));
     }
-    if (roleId.length() == 7) {
+    if (roleId.length() == 10) {
       buildAreaManagerTypeManager(roleId, random.nextInt(1000));
     }
 
@@ -109,7 +112,7 @@ public class AdeccoSteps {
   }
 
   private void buildCoordinatorTypeManager(String roleId, int id) {
-    String managerRoleId = roleId.substring(0, 7);
+    String managerRoleId = roleId.substring(0, COORDINATOR_ROLE_ID_LENGTH);
     if(!sentManagerIds.contains(managerRoleId)) {
       AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id));
       managerAdeccoResponse.setContractStartDate("2020-01-01");
@@ -123,7 +126,7 @@ public class AdeccoSteps {
   }
 
   private void buildAreaManagerTypeManager(String roleId, int id) {
-    String managerRoleId = roleId.substring(0, 4);
+    String managerRoleId = roleId.substring(0, AREA_MANAGER_ROLE_ID_LENGTH);
     if(!sentManagerIds.contains(managerRoleId)) {
       AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id));
       managerAdeccoResponse.setContractStartDate("2020-01-01");
