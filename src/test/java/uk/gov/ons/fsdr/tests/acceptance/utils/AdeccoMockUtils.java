@@ -85,7 +85,8 @@ public final class AdeccoMockUtils {
                 stmt.executeUpdate(sql);
                 sql = "DELETE FROM lws ";
                 stmt.executeUpdate(sql);
-
+//                sql = "DELETE FROM xma ";
+//                stmt.executeUpdate(sql);
             } else {
                 System.out.println("Failed to make connection!");
             }

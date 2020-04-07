@@ -2,23 +2,27 @@
 Feature: Updates
 
   Scenario Outline: A record in FSDR with a device receives an update
-    Given An employee exists in "<source>" with an id of "<id>"
+    Given the managers of "<role_id>" exist
+    And we ingest managers
+    And An employee exists in "<source>" with an id of "<id>"
     And an assignment status of "<assignment_status>"
     And a closing report status of "<cr_status>"
     And a role id of "<role_id>"
-    And the managers of "<role_id>" exist
     And we ingest them
     And the employee "<id>" is sent to all downstream services
-    And a device exists in XMA with "<role_id>", "0123456789" and "<status>"
+      ### LWS requires a device to be created ###
+    And a device exists in XMA with "<role_id>", "0123456789" and "Allocated"
     And we retrieve the devices from xma
+    And we ingest them
+      ###
     And we receive an update from adecco for employee "<id>" with new first name "<new_name>"
     And we ingest them
     When the employee "<id>" is sent to all downstream services
     Then the employee is correctly updated in gsuite with name "<new_name>"
-    Then the employee is sent to LWS as an update with name "<name>" and phone number "0123456789" and "<role_id>"
-    Then the employee is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number "0123456789"
+    Then the employee "<id>" is sent to LWS as an update with name "<new_name>" and phone number "0123456789" and "<role_id>"
+    Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number "0123456789"
     Then the employee from "<source>" with roleId "<role_id>" is correctly updated in XMA with name "<new_name>" and group "<group>"
-    Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "" as an update with name "<new_name>"
+    Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "0123456789" as an update with name "<new_name>"
     And Check the employee "<id>" is sent to RCA
 
     Examples:
@@ -33,21 +37,22 @@ Feature: Updates
       | 123456789  | ASSIGNED          | ACTIVE     | RLN1-CA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD |
 
   Scenario Outline: A record in FSDR receives a device
-    Given An employee exists in "<source>" with an id of "<id>"
+    Given the managers of "<role_id>" exist
+    And we ingest managers
+    And An employee exists in "<source>" with an id of "<id>"
     And an assignment status of "<assignment_status>"
     And a closing report status of "<cr_status>"
     And a role id of "<role_id>"
-    And the managers of "<role_id>" exist
     And we ingest them
     And the employee "<id>" is sent to all downstream services
     And a device exists in XMA with "<role_id>", "<phone_number>" and "<status>"
     And we retrieve the devices from xma
     And we run create actions
     When the employee "<id>" is sent to all downstream services
-    Then the employee "<id>" is not updated in gsuite
+    Then the employee "<role_id>" is not updated in gsuite
     Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<name>" and number "<phone_number>"
-    Then the employee is not updated in XMA
-    Then the employee is sent to LWS as an update with name "<name>" and phone number "<phone_number>" and "<role_id>"
+    Then the employee "<id>" is sent to LWS as an update with name "<name>" and phone number "<phone_number>" and "<role_id>"
+    Then the employee "<role_id>" is not updated in XMA
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<phone_number>" as an update with name "<name>"
     And Check the employee "<id>" is sent to RCA
 

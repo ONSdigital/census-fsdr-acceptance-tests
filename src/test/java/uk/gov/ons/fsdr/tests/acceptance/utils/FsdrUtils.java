@@ -1,13 +1,10 @@
 package uk.gov.ons.fsdr.tests.acceptance.utils;
 
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -17,6 +14,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Base64;
 
 @Slf4j
@@ -57,19 +55,6 @@ public final class FsdrUtils {
     httpURLConnection.setRequestMethod("GET");
     if (httpURLConnection.getResponseCode() != 200) {
       log.error("failed to initiate Adecco ingest" + httpURLConnection.getResponseCode()
-              + httpURLConnection.getResponseMessage());
-      throw new RuntimeException(httpURLConnection.getResponseMessage());
-    }
-  }
-
-  public void ingestXma() throws IOException {
-    URL url = new URL(fsdrServiceUrl + "/fsdr/xma");
-    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-    addBasicAuthentication(httpURLConnection);
-
-    httpURLConnection.setRequestMethod("GET");
-    if (httpURLConnection.getResponseCode() != 200) {
-      log.error("failed to initiate Xma ingest" + httpURLConnection.getResponseCode()
               + httpURLConnection.getResponseMessage());
       throw new RuntimeException(httpURLConnection.getResponseMessage());
     }
@@ -146,6 +131,11 @@ public final class FsdrUtils {
               + httpURLConnection.getResponseMessage());
       throw new RuntimeException(httpURLConnection.getResponseMessage());
     }
+  }
+
+  public static String getLastRecord(String[] records, String search) {
+    return Arrays.stream(records).filter(x -> x.contains(search))
+            .reduce((first, second) -> second).get();
   }
 
 }
