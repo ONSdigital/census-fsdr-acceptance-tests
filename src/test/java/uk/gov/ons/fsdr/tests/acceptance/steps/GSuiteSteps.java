@@ -7,14 +7,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
 import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Collection;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.gatewayEventMonitor;
 import static uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils.getLastRecord;
 
 @Slf4j
@@ -35,8 +37,8 @@ public class GSuiteSteps {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
 
-  @Then("the employee is correctly created in gsuite with roleId {string} and orgUnit {string}")
-  public void the_employee_is_correctly_updated_in_gsuite(String roleId, String orgUnit) {
+  @Then("the employee {string} is correctly created in gsuite with roleId {string} and orgUnit {string}")
+  public void the_employee_is_correctly_updated_in_gsuite(String id, String roleId, String orgUnit) {
       String[] records = gsuiteMockUtils.getRecords();
       int i = 0;
       for (String record : records) {
@@ -47,7 +49,7 @@ public class GSuiteSteps {
 
     assertThat(records[i]).contains(
         "\"changePasswordAtNextLogin\":true,\"customSchemas\":{\"Employee_Information\":{\"RoleID\":\"" + roleId
-            + "\"}},\"externalIds\":[{\"type\":\"organization\",\"value\":\"123456789\"}],\"hashFunction\":\"SHA-1\",\"includeInGlobalAddressList\":true,\"ipWhitelisted\":false,\"name\":{\"familyName\":\"Buyo\",\"givenName\":\"Fransico\"},\"orgUnitPath\":\"/CFODS/"
+            + "\"}},\"externalIds\":[{\"type\":\"organization\",\"value\":\""+id+"\"}],\"hashFunction\":\"SHA-1\",\"includeInGlobalAddressList\":true,\"ipWhitelisted\":false,\"name\":{\"familyName\":\"Buyo\",\"givenName\":\"Fransico\"},\"orgUnitPath\":\"/CFODS/"
             + orgUnit + "\",\"organizations\":[{\"department\":\"" + orgUnit + "\",\"primary\":true}]");
     assertThat(records[i]).containsPattern(
         ",\"password\":\"[0-9a-zA-Z]{40}\",\"primaryEmail\":\"Fransico.Buyo[0-9]{2}@domain\",\"suspended\":false");
@@ -67,6 +69,8 @@ public class GSuiteSteps {
 
   @Then("the employee is correctly moved in gsuite with roleId {string} to {string}")
   public void the_employee_is_correctly_moved_in_gsuite_with_roleId(String roleId, String orgUnit) throws IOException {
+    Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 10, 3000l);
+
     String[] records = gsuiteMockUtils.getRecords();
     String update = getLastRecord(records, roleId);
 
@@ -96,11 +100,13 @@ public class GSuiteSteps {
 
   @Then("the employee {string} is not updated in gsuite")
   public void the_employee_is_not_updated_in_gsuite(String id) {
+    Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 10, 3000l);
     int expextedCount = 0;
     if (id.length() == 10) expextedCount = 3;
     else if (id.length() == 7) expextedCount = 2;
     else if (id.length() == 4) expextedCount = 1;
     String[] records = gsuiteMockUtils.getRecords();
+    assertEquals(expextedCount, events.size());
     assertEquals(expextedCount, records.length);
   }
 

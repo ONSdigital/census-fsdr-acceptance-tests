@@ -9,17 +9,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
 import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
 import uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
+import uk.gov.ons.fsdr.tests.acceptance.utils.LwsMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.SnowMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.XmaMockUtils;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
@@ -40,6 +39,9 @@ public class CommonSteps {
 
   @Autowired
   private XmaMockUtils xmaMockUtils;
+
+  @Autowired
+  private LwsMockUtils lwsMockUtils;
 
   @Autowired
   private SnowMockUtils snowMockUtils;
@@ -82,6 +84,9 @@ public class CommonSteps {
     gsuiteMockUtils.clearMock();
     snowMockUtils.clearMock();
     xmaMockUtils.clearMock();
+
+    lwsMockUtils.clearMock();
+
     gatewayEventMonitor.tearDownGatewayEventMonitor();
     adeccoResponseList.clear();
     adeccoResponseManagers.clear();
@@ -93,12 +98,9 @@ public class CommonSteps {
       adeccoResponseList.add(adeccoResponse);
     }
     adeccoMockUtils.addUsersAdecco(adeccoResponseList);
-    adeccoMockUtils.addUsersAdecco(adeccoResponseManagers);
 
     fsdrUtils.ingestAdecco();
     fsdrUtils.ingestRunFSDRProcess();
-    adeccoResponseManagers.clear();
-
   }
 
   @Given("we ingest managers")
@@ -109,9 +111,9 @@ public class CommonSteps {
     fsdrUtils.ingestRunFSDRProcess();
     adeccoResponseManagers.clear();
 
-    gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 5, 10000l);
-    gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 5, 10000l);
-    gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 5, 10000l);
+    gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 5, 3000l);
+    gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 5, 3000l);
+    gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 5, 3000l);
 
   }
 
@@ -120,33 +122,24 @@ public class CommonSteps {
     fsdrUtils.ingestRunFSDRProcess();
   }
 
+
+  //TODO Replace these steps with event checks in individual service steps when event driven is complete
   @When("the employee {string} is sent to all downstream services")
   public void theEmployeeIsSentToAllDownstreamServices(String id) throws Exception {
 
     //Waits for movers/leavers/updates as they all need to do an initial create that will also trigger the same events
-    gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 6, 3000l);
-    gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 6, 3000l);
     gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 6, 10000l);
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 20000L));
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 10000L));
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_XMA_ACTION_RESPONSE", 10000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_XMA_ACTION_RESPONSE", 2000L));
     fsdrUtils.ingestGranby();
-//    fsdrUtils.lwsExtract();
     fsdrUtils.rcaExtract();
   }
 
+  //TODO Remove when event driven is finished
   @When("the employee {string} is not sent to all downstream services")
   public void theEmployeeIsNotSentToAllDownstreamServices(String id) throws Exception {
   //Calling non-event based integrations to ensure that employee is not sent to them
     fsdrUtils.ingestGranby();
-    fsdrUtils.lwsExtract();
     fsdrUtils.rcaExtract();
-  }
-
-  @When("the employee is sent to LWS")
-  public void theEmployeeIsSentToLWS() throws Exception {
-
-    fsdrUtils.lwsExtract();
   }
 
   @Given("we retrieve the devices from xma")
