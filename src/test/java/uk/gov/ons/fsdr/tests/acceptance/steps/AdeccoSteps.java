@@ -48,6 +48,13 @@ public class AdeccoSteps {
   @Given("a role id of {string}")
   public void a_role_id_of(String roleId) {
     adeccoResponse.getResponseJob().setRoleId(roleId);
+    if(roleId.length() == 10) {
+      adeccoResponse.getResponseJob().setLineManagerFirstName("Bob");
+      adeccoResponse.getResponseJob().setLineManagerSurName("Jones");
+    } else if (roleId.length() == 7) {
+      adeccoResponse.getResponseJob().setLineManagerFirstName("Dave");
+      adeccoResponse.getResponseJob().setLineManagerSurName("Davis");
+    }
   }
 
   @Given("an operational end date of {string}")
@@ -76,6 +83,13 @@ public class AdeccoSteps {
     moverResponse.setOperationalEndDate(adeccoResponse.getOperationalEndDate());
     moverResponse.setContractStartDate(adeccoResponse.getContractStartDate());
     moverResponse.setContractEndDate(adeccoResponse.getContractEndDate());
+    if(roleId.length() == 10) {
+      moverResponse.getResponseJob().setLineManagerFirstName("Bob");
+      moverResponse.getResponseJob().setLineManagerSurName("Jones");
+    } else if (roleId.length() == 7) {
+      moverResponse.getResponseJob().setLineManagerFirstName("Dave");
+      moverResponse.getResponseJob().setLineManagerSurName("Davis");
+    }
     adeccoResponseList.add(moverResponse);
   }
 
@@ -115,6 +129,9 @@ public class AdeccoSteps {
       managerAdeccoResponse.setContractStartDate("2020-01-01");
       managerAdeccoResponse.setStatus("ASSIGNED");
       managerAdeccoResponse.setCrStatus("ACTIVE");
+      managerAdeccoResponse.getResponseContact().setFirstName("Dave");
+      managerAdeccoResponse.getResponseContact().setLastName("Davis");
+      managerAdeccoResponse.getResponseContact().setTelephoneNo1("0112233445");
       managerAdeccoResponse.getResponseJob().setRoleId(managerRoleId);
       sentManagerIds.add(managerRoleId);
 
@@ -129,6 +146,9 @@ public class AdeccoSteps {
       managerAdeccoResponse.setContractStartDate("2020-01-01");
       managerAdeccoResponse.setStatus("ASSIGNED");
       managerAdeccoResponse.setCrStatus("ACTIVE");
+      managerAdeccoResponse.getResponseContact().setFirstName("Bob");
+      managerAdeccoResponse.getResponseContact().setLastName("Jones");
+      managerAdeccoResponse.getResponseContact().setTelephoneNo1("0112233445");
       managerAdeccoResponse.getResponseJob().setRoleId(managerRoleId);
       sentManagerIds.add(managerRoleId);
       adeccoResponseManagers.add(managerAdeccoResponse);

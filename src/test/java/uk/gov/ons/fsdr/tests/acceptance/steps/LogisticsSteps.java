@@ -31,13 +31,10 @@ public class LogisticsSteps {
     String csvFilename = sftpUtils.getLogisticsFileName();
       String csv = sftpUtils.getCsv("logistics/", csvFilename);
     if (inCsv.contains("is not")) {
-      assertThat(csv).doesNotContainPattern(
-              "\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\",,,\""
-                      + roleId
-                      + "\",,\"ACTIVE\"");
+      assertThat(csv).doesNotContain("\""+roleId+"\"");
     } else {
       assertThat(csv).containsPattern(
-          "\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\",,,\""
+          "\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\",,,\""
               + roleId
               + "\",,\"ACTIVE\"");
     }
@@ -51,15 +48,11 @@ public class LogisticsSteps {
     if (!phoneNumber.equals(""))
       phoneNumber = "\"" + phoneNumber + "\"";
     if (inCsv.contains("is not")) {
-      assertThat(csv).doesNotContainPattern(
-              "\"" + name
-                      + "\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\","
-                      + phoneNumber + ",,\"" + roleId
-                      + "\",,\"ACTIVE\"");
+      assertThat(csv).doesNotContain("\""+roleId+"\"");
     } else {
       assertThat(csv).containsPattern(
           "\"" + name
-              + "\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\","
+              + "\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\","
               + phoneNumber + ",,\"" + roleId
               + "\",,\"ACTIVE\"");
     }
@@ -70,12 +63,10 @@ public class LogisticsSteps {
     String csvFilename = sftpUtils.getLogisticsFileName();
       String csv = sftpUtils.getCsv("logistics/", csvFilename);
     if (inCsv.contains("is not")) {
-      assertThat(csv).doesNotContainPattern(
-              "\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\",\"0123456789\",,\"" + roleId
-                      + "\",,\"ACTIVE\"");
+      assertThat(csv).doesNotContain("\""+roleId+"\"");
     } else {
       assertThat(csv).containsPattern(
-          "\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\",\"0123456789\",,\"" + roleId
+          "\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\",\"0123456789\",,\"" + roleId
               + "\",,\"ACTIVE\"");
     }
   }
@@ -85,9 +76,9 @@ public class LogisticsSteps {
     String csvFilename = sftpUtils.getLogisticsFileName();
     String csv = sftpUtils.getCsv("logistics/", csvFilename);
     if(inCsv.equals("is")) {
-      assertThat(csv).containsPattern("\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\",\""+phoneNumber+"\",,\""+roleId+"\",,\"LEFT\"");
+      assertThat(csv).containsPattern("\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\",\""+phoneNumber+"\",,\""+roleId+"\",,\"LEFT\"");
     } else {
-      assertThat(csv).doesNotContainPattern("\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\",\""+phoneNumber+"\",,\""+roleId+"\",,\"LEFT\"");
+      assertThat(csv).doesNotContain("\""+roleId+"\"");
     }
   }
 
