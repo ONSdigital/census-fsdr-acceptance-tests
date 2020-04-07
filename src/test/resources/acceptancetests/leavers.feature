@@ -6,11 +6,12 @@ Feature: Leavers
     And an assignment status of "<assignment_status>"
     And a closing report status of "<cr_status>"
     And a role id of "<role_id>"
+    And the managers of "<role_id>" exist
     And we ingest them
     And the employee "<id>" is sent to all downstream services
     And a device exists in XMA with "<role_id>", "<phone_number>" and "<status>"
     And we retrieve the devices from xma
-    And the employee is sent to LWS
+#    And the employee is sent to LWS
     And we receive a job role update from adecco for employee  "<id>"
     And an assignment status of "<new_assignment_status>"
     And a closing report status of "<new_cr_status>"
@@ -21,7 +22,7 @@ Feature: Leavers
     Then the employee is correctly suspended in gsuite
     Then the employee is correctly suspended in ServiceNow with "<role_id>"
     Then the employee with roleId "<role_id>" is correctly suspended in XMA
-    Then the employee "<inLws>" in the LWS CSV as a leaver
+#    Then the employee "<inLws>" in the LWS CSV as a leaver
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<phone_number>" as a leaver
     And Check the employee "<id>" is not sent to RCA
 

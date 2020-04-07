@@ -10,10 +10,12 @@ import org.springframework.context.annotation.PropertySource;
 import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils.getLastRecord;
 
 @Slf4j
 @PropertySource("classpath:application.properties")
@@ -35,20 +37,26 @@ public class GSuiteSteps {
 
   @Then("the employee is correctly created in gsuite with roleId {string} and orgUnit {string}")
   public void the_employee_is_correctly_updated_in_gsuite(String roleId, String orgUnit) {
-    String[] records = gsuiteMockUtils.getRecords();
+      String[] records = gsuiteMockUtils.getRecords();
+      int i = 0;
+      for (String record : records) {
+        boolean contains = record.contains("{\"RoleID\":\"" + roleId + "\"}");
+        if (contains) break;
+        i++;
+      }
 
-    assertThat(records[0]).contains(
+    assertThat(records[i]).contains(
         "\"changePasswordAtNextLogin\":true,\"customSchemas\":{\"Employee_Information\":{\"RoleID\":\"" + roleId
             + "\"}},\"externalIds\":[{\"type\":\"organization\",\"value\":\"123456789\"}],\"hashFunction\":\"SHA-1\",\"includeInGlobalAddressList\":true,\"ipWhitelisted\":false,\"name\":{\"familyName\":\"Buyo\",\"givenName\":\"Fransico\"},\"orgUnitPath\":\"/CFODS/"
             + orgUnit + "\",\"organizations\":[{\"department\":\"" + orgUnit + "\",\"primary\":true}]");
-    assertThat(records[0]).containsPattern(
+    assertThat(records[i]).containsPattern(
         ",\"password\":\"[0-9a-zA-Z]{40}\",\"primaryEmail\":\"Fransico.Buyo[0-9]{2}@domain\",\"suspended\":false");
   }
 
   @Then("the employee is correctly updated in gsuite with name {string}")
   public void the_employee_is_correctly_updated_in_gsuite(String name) throws IOException {
     String[] records = gsuiteMockUtils.getRecords();
-    String update = records[1];
+    String update = records[records.length - 1];
 
     JsonNode expectedMessageRootNode = objectMapper
         .readTree("{\"name\":{\"familyName\":\"Buyo\",\"givenName\":\"" + name + "\"}}");
@@ -60,7 +68,7 @@ public class GSuiteSteps {
   @Then("the employee is correctly moved in gsuite with roleId {string} to {string}")
   public void the_employee_is_correctly_moved_in_gsuite_with_roleId(String roleId, String orgUnit) throws IOException {
     String[] records = gsuiteMockUtils.getRecords();
-    String update = records[1];
+    String update = getLastRecord(records, roleId);
 
     JsonNode expectedMessageRootNode = objectMapper
         .readTree("{\"customSchemas\":{\"Employee_Information\":{\"RoleID\":\""+roleId+"\"}},\"name\":{\"familyName\":\"Buyo\",\"givenName\":\"Fransico\"},\"orgUnitPath\":\"/CFODS/"+orgUnit+"\",\"organizations\":[{\"department\":\""+orgUnit+"\",\"primary\":true}]}");
@@ -72,8 +80,8 @@ public class GSuiteSteps {
   @Then("the employee is correctly suspended in gsuite")
   public void theEmployeeIsCorrectlySuspendedInGsuite() {
     String[] records = gsuiteMockUtils.getRecords();
-    String suspended1 = records[1];
-    String suspended2 = records[2];
+    String suspended1 = records[records.length - 2];
+    String suspended2 = records[records.length - 1];
     assertEquals("{\"changePasswordAtNextLogin\":true,\"suspended\":true}", suspended1);
     assertEquals("{\"changePasswordAtNextLogin\":false}", suspended2);
   }
@@ -88,8 +96,12 @@ public class GSuiteSteps {
 
   @Then("the employee {string} is not updated in gsuite")
   public void the_employee_is_not_updated_in_gsuite(String id) {
+    int expextedCount = 0;
+    if (id.length() == 10) expextedCount = 3;
+    else if (id.length() == 7) expextedCount = 2;
+    else if (id.length() == 4) expextedCount = 1;
     String[] records = gsuiteMockUtils.getRecords();
-    assertEquals(1,records.length);
+    assertEquals(expextedCount, records.length);
   }
 
   @Then("the employee {string} is no longer in the following groups {string}")

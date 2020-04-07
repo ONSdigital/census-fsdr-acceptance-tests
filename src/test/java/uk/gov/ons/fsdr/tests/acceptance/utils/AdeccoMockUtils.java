@@ -81,6 +81,8 @@ public final class AdeccoMockUtils {
                 stmt.executeUpdate(sql);
                 sql = "DELETE FROM gsuite ";
                 stmt.executeUpdate(sql);
+                sql = "DELETE FROM xma ";
+                stmt.executeUpdate(sql);
 
             } else {
                 System.out.println("Failed to make connection!");
