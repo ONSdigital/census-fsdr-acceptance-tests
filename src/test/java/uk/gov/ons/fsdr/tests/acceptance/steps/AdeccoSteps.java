@@ -1,6 +1,5 @@
 package uk.gov.ons.fsdr.tests.acceptance.steps;
 
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import lombok.extern.slf4j.Slf4j;
@@ -18,12 +17,13 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.AREA_MANAGER_ROLE_ID_LENGTH;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.COORDINATOR_ROLE_ID_LENGTH;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.FIELD_OFFICER_ROLE_ID_LENGTH;
+
 @Slf4j
 @PropertySource("classpath:application.properties")
 public class AdeccoSteps {
-  public static final int AREA_MANAGER_ROLE_ID_LENGTH = 7;
-  public static final int COORDINATOR_ROLE_ID_LENGTH = 10;
-
 
   public static AdeccoResponse adeccoResponse = new AdeccoResponse();
   public static List<AdeccoResponse> adeccoResponseList = new ArrayList<>();
@@ -51,10 +51,10 @@ public class AdeccoSteps {
   @Given("a role id of {string}")
   public void a_role_id_of(String roleId) {
     adeccoResponse.getResponseJob().setRoleId(roleId);
-    if(roleId.length() == 10) {
+    if(roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
       adeccoResponse.getResponseJob().setLineManagerFirstName("Bob");
       adeccoResponse.getResponseJob().setLineManagerSurName("Jones");
-    } else if (roleId.length() == 7) {
+    } else if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
       adeccoResponse.getResponseJob().setLineManagerFirstName("Dave");
       adeccoResponse.getResponseJob().setLineManagerSurName("Davis");
     }
@@ -86,10 +86,10 @@ public class AdeccoSteps {
     moverResponse.setOperationalEndDate(adeccoResponse.getOperationalEndDate());
     moverResponse.setContractStartDate(adeccoResponse.getContractStartDate());
     moverResponse.setContractEndDate(adeccoResponse.getContractEndDate());
-    if(roleId.length() == 10) {
+    if(roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
       moverResponse.getResponseJob().setLineManagerFirstName("Bob");
       moverResponse.getResponseJob().setLineManagerSurName("Jones");
-    } else if (roleId.length() == 7) {
+    } else if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
       moverResponse.getResponseJob().setLineManagerFirstName("Dave");
       moverResponse.getResponseJob().setLineManagerSurName("Davis");
     }

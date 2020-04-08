@@ -30,8 +30,8 @@ Feature: Creates
       | 123456789 | ASSIGNED          | ACTIVE    | SA-CAR1-ZA    | is          | ADECCO | 2020-01-01 | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | sa-car1-group,sa-car1-za-group,ons_users,ons_drive,CE-group        |
       | 123456789 | ASSIGNED          | ACTIVE    | SA-CAR1-ZA-01 | is not      | ADECCO | 2020-01-01 | 8A2FEF60-9429-465F-B711-83753B234BDD | EW-Officers | sa-car1-za-group,ons_users,ons_drive,CE-group                   |
       | 123456789 | ASSIGNED          | ACTIVE    | CA-RLN1       | is          | ADECCO | 2020-01-01 | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | ca-rln1-group,ons_users,CCS-group                               |
-      | 123456789 | ASSIGNED          | ACTIVE    | CA-RLN1-CA    | is          | ADECCO | 2020-01-01 | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | ca-rln1-group,ca-rln1-za-group,ons_users,ccs_drive,CCS-group       |
-      | 123456789 | ASSIGNED          | ACTIVE    | CA-RLN1-CA-01 | is not      | ADECCO | 2020-01-01 | 8A2FEF60-9429-465F-B711-83753B234BDD | EW-Officers | ca-rln1-za-group,ons_users,ccs_drive,CCS-group                  |
+      | 123456789 | ASSIGNED          | ACTIVE    | CA-RLN1-ZA    | is          | ADECCO | 2020-01-01 | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | ca-rln1-group,ca-rln1-za-group,ons_users,ccs_drive,CCS-group       |
+      | 123456789 | ASSIGNED          | ACTIVE    | CA-RLN1-ZA-01 | is not      | ADECCO | 2020-01-01 | 8A2FEF60-9429-465F-B711-83753B234BDD | EW-Officers | ca-rln1-za-group,ons_users,ccs_drive,CCS-group                  |
 
   Scenario Outline: A record is not created in the downstream systems
     Given An employee exists in "<source>" with an id of "<id>"
@@ -94,16 +94,16 @@ Feature: Creates
     And a contract start date 6 days in the future
     And we ingest them
     When the employee "223456789" is sent to all downstream services
-    Then the employee "223456789" is correctly created in gsuite with roleId "CAR1" and orgUnit "Managers"
-    And the employee is correctly created in ServiceNow with "CAR1"
-    And the employee from "ADECCO" with roleId "CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
-    And the employee "is" in the Logisitics CSV with "CAR1" as a create
+    Then the employee "223456789" is correctly created in gsuite with roleId "HA-CAR1" and orgUnit "Managers"
+    And the employee is correctly created in ServiceNow with "HA-CAR1"
+    And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
+    And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
     And Check the employee "223456789" is sent to RCA
       ### LWS Requires a device to be created ###
-    And a device exists in XMA with "CAR1", "0123456789" and "Allocated"
+    And a device exists in XMA with "HA-CAR1", "0123456789" and "Allocated"
     And we retrieve the devices from xma
     And we ingest them
-    And the employee "223456789" is sent to LWS as an create with name "Fransico" and phone number "0123456789" and "CAR1"
+    And the employee "223456789" is sent to LWS as an create with name "Fransico" and phone number "0123456789" and "HA-CAR1"
 
   Scenario: A record with a start date less than 6 days in the future is created in the downstream systems
     Given An employee exists in "ADECCO" with an id of "323456789"
@@ -113,13 +113,13 @@ Feature: Creates
     And a contract start date 5 days in the future
     And we ingest them
     When the employee "323456789" is sent to all downstream services
-    Then the employee "323456789" is correctly created in gsuite with roleId "CAR1" and orgUnit "Managers"
-    And the employee is correctly created in ServiceNow with "CAR1"
-    And the employee from "ADECCO" with roleId "CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
-    And the employee "is" in the Logisitics CSV with "CAR1" as a create
+    Then the employee "323456789" is correctly created in gsuite with roleId "HA-CAR1" and orgUnit "Managers"
+    And the employee is correctly created in ServiceNow with "HA-CAR1"
+    And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
+    And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
     And Check the employee "323456789" is sent to RCA
       ### LWS Requires a device to be created ###
-    And a device exists in XMA with "CAR1", "0123456789" and "Allocated"
+    And a device exists in XMA with "HA-CAR1", "0123456789" and "Allocated"
     And we retrieve the devices from xma
     And we ingest them
-    And the employee "323456789" is sent to LWS as an create with name "Fransico" and phone number "0123456789" and "CAR1"
+    And the employee "323456789" is sent to LWS as an create with name "Fransico" and phone number "0123456789" and "HA-CAR1"

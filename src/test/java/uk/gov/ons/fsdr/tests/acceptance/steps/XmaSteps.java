@@ -12,7 +12,9 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoSteps.AREA_MANAGER_ROLE_ID_LENGTH;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.AREA_MANAGER_ROLE_ID_LENGTH;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.COORDINATOR_ROLE_ID_LENGTH;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.FIELD_OFFICER_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.gatewayEventMonitor;
 import static uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils.getLastRecord;
 
@@ -77,9 +79,9 @@ public class XmaSteps {
     @Then("the employee {string} is not updated in XMA")
     public void the_employee_is_not_updated_in_XMA(String id) {
         int expextedCount = 0;
-        if (id.length() == 10) expextedCount = 3;
-        else if (id.length() == 7) expextedCount = 2;
-        else if (id.length() == 4) expextedCount = 1;
+        if (id.length() == FIELD_OFFICER_ROLE_ID_LENGTH) expextedCount = 3;
+        else if (id.length() == COORDINATOR_ROLE_ID_LENGTH) expextedCount = 2;
+        else if (id.length() == AREA_MANAGER_ROLE_ID_LENGTH) expextedCount = 1;
         String[] records = xmaMockUtils.getRecords();
         assertEquals(expextedCount, records.length);
     }
