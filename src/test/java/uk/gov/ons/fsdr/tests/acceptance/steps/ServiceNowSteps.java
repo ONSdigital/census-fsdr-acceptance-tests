@@ -15,6 +15,8 @@ import java.util.Collection;
 import static junit.framework.TestCase.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.COORDINATOR_ROLE_ID_LENGTH;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.FIELD_OFFICER_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.gatewayEventMonitor;
 import static uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils.getLastRecord;
 
@@ -54,9 +56,9 @@ public class ServiceNowSteps {
     String update = getLastRecord(records, roleId);
     String expectedMessageRootNode = "";
     String lineManager = "\"u_lm_first_name_2\":null,\"u_lm_last_name_2\":null";
-    if( roleId.length() == 10) {
+    if( roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
       lineManager = "\"u_lm_first_name_2\":\"Bob\",\"u_lm_last_name_2\":\"Jones\"";
-    } else if (roleId.length() == 7) {
+    } else if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
       lineManager = "\"u_lm_first_name_2\":\"Dave\",\"u_lm_last_name_2\":\"Davis\"";
     }
     expectedMessageRootNode = "\"location\":\"London\",\"first_name\":\"Fransico"
@@ -84,9 +86,9 @@ public class ServiceNowSteps {
       assetId = "\"[0-9a-z-]{36}\"";
     }
     String lineManager = "\"u_lm_first_name_2\":null,\"u_lm_last_name_2\":null";
-    if( roleId.length() == 10) {
+    if( roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
       lineManager = "\"u_lm_first_name_2\":\"Bob\",\"u_lm_last_name_2\":\"Jones\"";
-    } else if (roleId.length() == 7) {
+    } else if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
       lineManager = "\"u_lm_first_name_2\":\"Dave\",\"u_lm_last_name_2\":\"Davis\"";
     }
     expectedMessageRootNode = "\"location\":\"London\",\"first_name\":\"" + name

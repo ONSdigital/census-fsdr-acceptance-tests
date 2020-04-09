@@ -27,14 +27,14 @@ Feature: Updates
 
     Examples:
       | id         | assignment_status | cr_status  | role_id       | inLogisitcs | source | new_name | group                                |
-      | 123456789  | ASSIGNED          | ACTIVE     | CAR1          | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A |
-      | 123456789  | ASSIGNED          | ACTIVE     | CAR1-HA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A |
-      | 123456789  | ASSIGNED          | ACTIVE     | CAR1-HA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD |
-      | 123456789  | ASSIGNED          | ACTIVE     | CAR1-SA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A |
-      | 123456789  | ASSIGNED          | ACTIVE     | CAR1-SA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD |
-      | 123456789  | ASSIGNED          | ACTIVE     | RLN1          | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A |
-      | 123456789  | ASSIGNED          | ACTIVE     | RLN1-CA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A |
-      | 123456789  | ASSIGNED          | ACTIVE     | RLN1-CA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD |
+      | 123456789  | ASSIGNED          | ACTIVE     | HA-CAR1          | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A |
+      | 123456789  | ASSIGNED          | ACTIVE     | HA-CAR1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A |
+      | 123456789  | ASSIGNED          | ACTIVE     | HA-CAR1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD |
+      | 123456789  | ASSIGNED          | ACTIVE     | SA-CAR1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A |
+      | 123456789  | ASSIGNED          | ACTIVE     | SA-CAR1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD |
+      | 123456789  | ASSIGNED          | ACTIVE     | CA-RLN1          | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A |
+      | 123456789  | ASSIGNED          | ACTIVE     | CA-RLN1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A |
+      | 123456789  | ASSIGNED          | ACTIVE     | CA-RLN1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD |
 
   Scenario Outline: A record in FSDR receives a device
     Given the managers of "<role_id>" exist
@@ -57,12 +57,12 @@ Feature: Updates
     And Check the employee "<id>" is sent to RCA
 
     Examples:
-      | id         | assignment_status | cr_status  | role_id       | inLogisitcs | source | name     | phone_number | status    |
-      | 123456781  | ASSIGNED          | ACTIVE     | CAR1          | is          | ADECCO | Fransico | 0123456781   | Allocated |
-      | 123456782  | ASSIGNED          | ACTIVE     | CAR1-HA       | is          | ADECCO | Fransico | 0123456785   | Allocated |
-      | 123456783  | ASSIGNED          | ACTIVE     | CAR1-HA-01    | is not      | ADECCO | Fransico | 0123456782   | Allocated |
-      | 123456784  | ASSIGNED          | ACTIVE     | CAR1-SA       | is          | ADECCO | Fransico | 0123456783   | Allocated |
-      | 123456785  | ASSIGNED          | ACTIVE     | CAR1-SA-01    | is not      | ADECCO | Fransico | 0123456784   | Allocated |
-      | 123456786  | ASSIGNED          | ACTIVE     | RLN1          | is          | ADECCO | Fransico | 0123456786   | Allocated |
-      | 123456787  | ASSIGNED          | ACTIVE     | RLN1-CA       | is          | ADECCO | Fransico | 0123456787   | Allocated |
-      | 123456788  | ASSIGNED          | ACTIVE     | RLN1-CA-01    | is not      | ADECCO | Fransico | 0123456788   | Allocated |
+      | id         | assignment_status | cr_status  | role_id          | inLogisitcs | source | name     | phone_number | status    |
+      | 123456781  | ASSIGNED          | ACTIVE     | HA-CAR1          | is          | ADECCO | Fransico | 0123456781   | Allocated |
+      | 123456782  | ASSIGNED          | ACTIVE     | HA-CAR1-ZA       | is          | ADECCO | Fransico | 0123456785   | Allocated |
+      | 123456783  | ASSIGNED          | ACTIVE     | HA-CAR1-ZA-01    | is not      | ADECCO | Fransico | 0123456782   | Allocated |
+      | 123456784  | ASSIGNED          | ACTIVE     | SA-CAR1-ZA       | is          | ADECCO | Fransico | 0123456783   | Allocated |
+      | 123456785  | ASSIGNED          | ACTIVE     | SA-CAR1-ZA-01    | is not      | ADECCO | Fransico | 0123456784   | Allocated |
+      | 123456786  | ASSIGNED          | ACTIVE     | CA-RLN1          | is          | ADECCO | Fransico | 0123456786   | Allocated |
+      | 123456787  | ASSIGNED          | ACTIVE     | CA-RLN1-ZA       | is          | ADECCO | Fransico | 0123456787   | Allocated |
+      | 123456788  | ASSIGNED          | ACTIVE     | CA-RLN1-ZA-01    | is not      | ADECCO | Fransico | 0123456788   | Allocated |

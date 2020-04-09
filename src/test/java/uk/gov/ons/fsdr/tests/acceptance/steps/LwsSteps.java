@@ -2,7 +2,6 @@ package uk.gov.ons.fsdr.tests.acceptance.steps;
 
 import cucumber.api.java.en.Then;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -12,8 +11,9 @@ import uk.gov.ons.fsdr.tests.acceptance.utils.SftpUtils;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
-import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.AREA_MANAGER;
-import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.COORDINATOR;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.AREA_MANAGER_ROLE_ID_LENGTH;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.COORDINATOR_ROLE_ID_LENGTH;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.FIELD_OFFICER_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.gatewayEventMonitor;
 
 @Slf4j
@@ -53,12 +53,12 @@ public class LwsSteps {
 
     String lmName = "";
 
-    if(roleId.length() == 4) {
+    if(roleId.length() == AREA_MANAGER_ROLE_ID_LENGTH) {
       assertThat(record).contains("\"operatorInstructions2\":\"areaManagerInstruction_CHANGE_ME\"");
     } else {
-      if (roleId.length() == 10) {
+      if (roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
         lmName = "Bob Jones";
-      } else if (roleId.length() == 7) {
+      } else if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
         lmName = "Dave Davis";
       }
       assertThat(record).contains("\"operatorInstructions2\":\"Check recent Yellow Alerts or Safe Check updates for additional information.\\\\n Contact the line manager ("+lmName+") on 0112233445\"");
@@ -95,12 +95,12 @@ public class LwsSteps {
 
     String lmName = "";
 
-    if(roleId.length() == 4) {
+    if(roleId.length() == AREA_MANAGER_ROLE_ID_LENGTH) {
       assertThat(record).contains("\"operatorInstructions2\":\"areaManagerInstruction_CHANGE_ME\"");
     } else {
-      if (roleId.length() == 10) {
+      if (roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
         lmName = "Bob Jones";
-      } else if (roleId.length() == 7) {
+      } else if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
         lmName = "Dave Davis";
       }
       assertThat(record).contains("\"operatorInstructions2\":\"Check recent Yellow Alerts or Safe Check updates for additional information.\\\\n Contact the line manager ("+lmName+") on 0112233445\"");
@@ -133,12 +133,12 @@ public class LwsSteps {
 
     String lmName = "";
 
-    if(roleId.length() == 4) {
+    if(roleId.length() == AREA_MANAGER_ROLE_ID_LENGTH) {
       assertThat(record).contains("\"operatorInstructions2\":\"areaManagerInstruction_CHANGE_ME\"");
     } else {
-      if (roleId.length() == 10) {
+      if (roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
         lmName = "Bob Jones";
-      } else if (roleId.length() == 7) {
+      } else if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
         lmName = "Dave Davis";
       }
       assertThat(record).contains("\"operatorInstructions2\":\"Check recent Yellow Alerts or Safe Check updates for additional information.\\\\n Contact the line manager ("+lmName+") on 0112233445\"");

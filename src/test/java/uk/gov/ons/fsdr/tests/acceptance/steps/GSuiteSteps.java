@@ -16,6 +16,9 @@ import java.util.Collection;
 import static junit.framework.TestCase.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.AREA_MANAGER_ROLE_ID_LENGTH;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.COORDINATOR_ROLE_ID_LENGTH;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.FIELD_OFFICER_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.gatewayEventMonitor;
 import static uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils.getLastRecord;
 
@@ -102,9 +105,9 @@ public class GSuiteSteps {
   public void the_employee_is_not_updated_in_gsuite(String id) {
     Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 10, 3000l);
     int expextedCount = 0;
-    if (id.length() == 10) expextedCount = 3;
-    else if (id.length() == 7) expextedCount = 2;
-    else if (id.length() == 4) expextedCount = 1;
+    if (id.length() == FIELD_OFFICER_ROLE_ID_LENGTH) expextedCount = 3;
+    else if (id.length() == COORDINATOR_ROLE_ID_LENGTH) expextedCount = 2;
+    else if (id.length() == AREA_MANAGER_ROLE_ID_LENGTH) expextedCount = 1;
     String[] records = gsuiteMockUtils.getRecords();
     assertEquals(expextedCount, events.size());
     assertEquals(expextedCount, records.length);

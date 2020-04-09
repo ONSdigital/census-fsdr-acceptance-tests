@@ -1,6 +1,5 @@
 package uk.gov.ons.fsdr.tests.acceptance.steps;
 
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +16,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.AREA_MANAGER_ROLE_ID_LENGTH;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.COORDINATOR_ROLE_ID_LENGTH;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.FIELD_OFFICER_ROLE_ID_LENGTH;
 
 @Slf4j
 @PropertySource("classpath:application.properties")
@@ -48,10 +51,10 @@ public class AdeccoSteps {
   @Given("a role id of {string}")
   public void a_role_id_of(String roleId) {
     adeccoResponse.getResponseJob().setRoleId(roleId);
-    if(roleId.length() == 10) {
+    if(roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
       adeccoResponse.getResponseJob().setLineManagerFirstName("Bob");
       adeccoResponse.getResponseJob().setLineManagerSurName("Jones");
-    } else if (roleId.length() == 7) {
+    } else if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
       adeccoResponse.getResponseJob().setLineManagerFirstName("Dave");
       adeccoResponse.getResponseJob().setLineManagerSurName("Davis");
     }
@@ -83,10 +86,10 @@ public class AdeccoSteps {
     moverResponse.setOperationalEndDate(adeccoResponse.getOperationalEndDate());
     moverResponse.setContractStartDate(adeccoResponse.getContractStartDate());
     moverResponse.setContractEndDate(adeccoResponse.getContractEndDate());
-    if(roleId.length() == 10) {
+    if(roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
       moverResponse.getResponseJob().setLineManagerFirstName("Bob");
       moverResponse.getResponseJob().setLineManagerSurName("Jones");
-    } else if (roleId.length() == 7) {
+    } else if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
       moverResponse.getResponseJob().setLineManagerFirstName("Dave");
       moverResponse.getResponseJob().setLineManagerSurName("Davis");
     }
@@ -111,11 +114,11 @@ public class AdeccoSteps {
   @Given("the managers of {string} exist")
   public void theManagersOfExist(String roleId) {
     Random random = new Random();
-    if (roleId.length() == 10) {
+    if (roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
       buildAreaManagerTypeManager(roleId, random.nextInt(1000));
       buildCoordinatorTypeManager(roleId, random.nextInt(1000));
     }
-    if (roleId.length() == 7) {
+    if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
       buildAreaManagerTypeManager(roleId, random.nextInt(1000));
     }
 
@@ -123,7 +126,7 @@ public class AdeccoSteps {
   }
 
   private void buildCoordinatorTypeManager(String roleId, int id) {
-    String managerRoleId = roleId.substring(0, 7);
+    String managerRoleId = roleId.substring(0, COORDINATOR_ROLE_ID_LENGTH);
     if(!sentManagerIds.contains(managerRoleId)) {
       AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id));
       managerAdeccoResponse.setContractStartDate("2020-01-01");
@@ -140,7 +143,7 @@ public class AdeccoSteps {
   }
 
   private void buildAreaManagerTypeManager(String roleId, int id) {
-    String managerRoleId = roleId.substring(0, 4);
+    String managerRoleId = roleId.substring(0, AREA_MANAGER_ROLE_ID_LENGTH);
     if(!sentManagerIds.contains(managerRoleId)) {
       AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id));
       managerAdeccoResponse.setContractStartDate("2020-01-01");
