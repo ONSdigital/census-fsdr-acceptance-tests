@@ -114,11 +114,11 @@ public class AdeccoSteps {
   @Given("the managers of {string} exist")
   public void theManagersOfExist(String roleId) {
     Random random = new Random();
-    if (roleId.length() == 13) {
+    if (roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
       buildAreaManagerTypeManager(roleId, random.nextInt(1000));
       buildCoordinatorTypeManager(roleId, random.nextInt(1000));
     }
-    if (roleId.length() == 10) {
+    if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
       buildAreaManagerTypeManager(roleId, random.nextInt(1000));
     }
 
