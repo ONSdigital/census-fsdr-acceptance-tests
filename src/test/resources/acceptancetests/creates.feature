@@ -17,8 +17,7 @@ Feature: Creates
     And the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" as a create
     And Check the employee "<id>" is sent to RCA
       ### LWS Requires a device to be created ###
-    And a device exists in XMA with "<role_id>", "0123456789" and "Allocated"
-    And we retrieve the devices from xma
+    And we ingest a device from pubsub for "<id>" with phone number "0123456789"
     And we ingest them
     And the employee "<id>" is sent to LWS as an create with name "Fransico" and phone number "0123456789" and "<role_id>"
 
@@ -100,8 +99,7 @@ Feature: Creates
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
     And Check the employee "223456789" is sent to RCA
       ### LWS Requires a device to be created ###
-    And a device exists in XMA with "HA-CAR1", "0123456789" and "Allocated"
-    And we retrieve the devices from xma
+    And we ingest a device from pubsub for "223456789" with phone number "0123456789"
     And we ingest them
     And the employee "223456789" is sent to LWS as an create with name "Fransico" and phone number "0123456789" and "HA-CAR1"
 
@@ -119,7 +117,6 @@ Feature: Creates
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
     And Check the employee "323456789" is sent to RCA
       ### LWS Requires a device to be created ###
-    And a device exists in XMA with "HA-CAR1", "0123456789" and "Allocated"
-    And we retrieve the devices from xma
+    And we ingest a device from pubsub for "323456789" with phone number "0123456789"
     And we ingest them
     And the employee "323456789" is sent to LWS as an create with name "Fransico" and phone number "0123456789" and "HA-CAR1"
