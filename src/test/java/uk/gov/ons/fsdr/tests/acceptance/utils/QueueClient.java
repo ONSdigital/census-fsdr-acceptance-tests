@@ -9,7 +9,7 @@ import java.net.URISyntaxException;
 @Slf4j
 @Component
 public final class QueueClient {
-  
+
   @Autowired
   private QueueUtils queueUtils;
 
@@ -32,7 +32,7 @@ public final class QueueClient {
       for (int i = 0; i < iterations; i++) {
         message = queueUtils.getMessageOffQueue(queueName);
         if (message != null) {
-          break; 
+          break;
         }
         Thread.sleep(msInterval);
       }
@@ -46,7 +46,24 @@ public final class QueueClient {
 //    }
 
     public void clearQueues() throws URISyntaxException {
-    }
+      clearQueue("FSDR.Events");
+      clearQueue("FSDR.EventsDLQ");
+      clearQueue("Gateway.Actions");
+      clearQueue("Gateway.ActionsDLQ");
+      clearQueue("Lws.Action");
+      clearQueue("Lws.ActionDLQ");
+      clearQueue("Snow.Action");
+      clearQueue("Snow.ActionDLQ");
+      clearQueue("Snow.Events");
+      clearQueue("Snow.Leaver");
+      clearQueue("Snow.Mover");
+      clearQueue("Xma.ActionDLQ");
+      clearQueue("Xma.Coordiantor");
+      clearQueue("Xma.Events");
+      clearQueue("Xma.FieldOfficer");
+      clearQueue("Xma.Leaver");
+      clearQueue("xma.transient.error");
+      clearQueue("report.events");    }
 
     private void clearQueue(String queueName) throws URISyntaxException {
        queueUtils.deleteMessage(queueName);

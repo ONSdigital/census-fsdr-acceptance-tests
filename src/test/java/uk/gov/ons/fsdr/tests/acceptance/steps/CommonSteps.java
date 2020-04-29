@@ -1,35 +1,41 @@
 package uk.gov.ons.fsdr.tests.acceptance.steps;
 
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.When;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
-import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
-import uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoMockUtils;
-import uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils;
-import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
-import uk.gov.ons.fsdr.tests.acceptance.utils.LwsMockUtils;
-import uk.gov.ons.fsdr.tests.acceptance.utils.SnowMockUtils;
-import uk.gov.ons.fsdr.tests.acceptance.utils.XmaMockUtils;
-
-import java.io.IOException;
-import java.util.List;
-
 import static junit.framework.TestCase.assertTrue;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoSteps.adeccoResponse;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoSteps.adeccoResponseLeaver;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoSteps.adeccoResponseList;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoSteps.adeccoResponseManagers;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.When;
+import lombok.extern.slf4j.Slf4j;
+import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
+import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
+import uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoMockUtils;
+import uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils;
+import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
+import uk.gov.ons.fsdr.tests.acceptance.utils.LwsMockUtils;
+import uk.gov.ons.fsdr.tests.acceptance.utils.QueueClient;
+import uk.gov.ons.fsdr.tests.acceptance.utils.SnowMockUtils;
+import uk.gov.ons.fsdr.tests.acceptance.utils.XmaMockUtils;
+
 @Slf4j
 @PropertySource("classpath:application.properties")
 public class CommonSteps {
+
+  @Autowired
+  private QueueClient queueClient;
+
 
   @Autowired
   private GsuiteMockUtils gsuiteMockUtils;
@@ -71,6 +77,7 @@ public class CommonSteps {
 
   @Before
   public void setup() throws Exception {
+    queueClient.clearQueues();
     adeccoMockUtils.clearMock();
     adeccoMockUtils.cleardb();
     adeccoResponseList.clear();
