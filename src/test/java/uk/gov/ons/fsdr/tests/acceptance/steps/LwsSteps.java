@@ -49,8 +49,8 @@ public class LwsSteps {
     gatewayEventMonitor.grabEventsTriggered("SENDING_LWS_ACTION_RESPONSE", 10, 5000L);
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 1000L));
     String record = lwsMockUtils.getRecords();
-    System.out.println(record);
 
+    String lwsNumber = "44" + number.substring(2);
     String lmName = "";
 
     if(roleId.length() == AREA_MANAGER_ROLE_ID_LENGTH) {
@@ -71,7 +71,7 @@ public class LwsSteps {
     assertThat(record).contains("\"hierarchyItem2\":\"Wales\"");
     assertThat(record).contains("\"hierarchyItem3\":\"" + roleId.substring(0,4)+"\"");
     assertThat(record).contains("\"takeOnCode\":\"ONSTAKEonLIVE\"");
-    assertThat(record).contains("\"phoneNumber\":\""+number+"\"");
+    assertThat(record).contains("\"phoneNumber\":\""+lwsNumber+"\"");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
     assertThat(record).contains("\"updateMode\":\"BULKLOADER\"");
@@ -93,6 +93,7 @@ public class LwsSteps {
     gatewayEventMonitor.grabEventsTriggered("SENDING_LWS_ACTION_RESPONSE", 10, 5000L);
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 1000L));
 
+    String lwsNumber = "44" + number.substring(2);
     String lmName = "";
 
     if(roleId.length() == AREA_MANAGER_ROLE_ID_LENGTH) {
@@ -113,7 +114,7 @@ public class LwsSteps {
     assertThat(record).contains("\"hierarchyItem2\":\"Wales\"");
     assertThat(record).contains("\"hierarchyItem3\":\"" + roleId.substring(0,4)+"\"");
     assertThat(record).contains("\"takeOnCode\":\"ONSTAKEonLIVE\"");
-    assertThat(record).contains("\"phoneNumber\":\""+number+"\"");
+    assertThat(record).contains("\"phoneNumber\":\""+lwsNumber+"\"");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
     assertThat(record).contains("\"updateMode\":\"BULKLOADER\"");
@@ -151,13 +152,13 @@ public class LwsSteps {
     assertThat(record).contains("\"hierarchyItem2\":\"Wales\"");
     assertThat(record).contains("\"hierarchyItem3\":\"" + roleId.substring(0,4)+"\"");
     assertThat(record).contains("\"takeOnCode\":\"ONSTAKEonLIVE\"");
-    assertThat(record).contains("\"phoneNumber\":\"0123456789\"");
+    assertThat(record).contains("\"phoneNumber\":\"4423456789\"");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
     assertThat(record).contains("\"updateMode\":\"BULKLOADER\"");
     assertThat(record).contains("\"templatePersonId\":-1");
     assertThat(record).contains("\"newPersonId\":-1");
-    assertThat(record).contains("\"operatorInstructions1\":\"Contact Lone Worker on mobile: 0123456789\"");
+    assertThat(record).contains("\"operatorInstructions1\":\"Contact Lone Worker on mobile: 0723456789\"");
     assertThat(record).containsPattern("\"operatorInstructions3\":\"Contact the Field Staff Contact Centre on: [0-9]{10}\"");
     assertThat(record).doesNotContain("\"takeOnPassword\":null");
   }
@@ -171,6 +172,7 @@ public class LwsSteps {
     gatewayEventMonitor.grabEventsTriggered("SENDING_LWS_ACTION_RESPONSE", 10, 3000L);
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 1000L));
 
+    String lwsNumber = "44" + number.substring(2);
     String lmName = "";
 
     assertThat(record).containsPattern("\"externalSystemPersonCode\":\"Fransico.Buyo[0-9]{2}@domain\"");
@@ -180,7 +182,7 @@ public class LwsSteps {
     assertThat(record).contains("\"hierarchyItem2\":null");
     assertThat(record).contains("\"hierarchyItem3\":null");
     assertThat(record).contains("\"takeOnCode\":\"ONSTAKEonLIVE\"");
-    assertThat(record).contains("\"phoneNumber\":\""+number+"\"");
+    assertThat(record).contains("\"phoneNumber\":\""+lwsNumber+"\"");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
     assertThat(record).contains("\"updateMode\":\"BULKLOADER\"");

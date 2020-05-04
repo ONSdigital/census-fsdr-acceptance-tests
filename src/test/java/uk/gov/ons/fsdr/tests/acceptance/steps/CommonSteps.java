@@ -109,6 +109,11 @@ public class CommonSteps {
 
     fsdrUtils.ingestAdecco();
     fsdrUtils.ingestRunFSDRProcess();
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
   }
 
   @Given("we ingest managers")

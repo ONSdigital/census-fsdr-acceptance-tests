@@ -28,6 +28,7 @@ public class LogisticsSteps {
 
   @Then("the employee {string} in the Logisitics CSV with {string} as a create")
   public void the_employee_in_the_Logisitics_CSV_with_as_a_create(String inCsv, String roleId) throws Exception {
+
     String csvFilename = sftpUtils.getLogisticsFileName();
       String csv = sftpUtils.getCsv("logistics/", csvFilename);
     if (inCsv.contains("is not")) {

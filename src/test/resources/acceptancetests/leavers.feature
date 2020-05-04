@@ -3,17 +3,18 @@ Feature: Leavers
 
   Scenario Outline: A record in FSDR becomes a leaver
     Given An employee exists in "<source>" with an id of "<id>"
-    And an assignment status of "<assignment_status>"
-    And a closing report status of "<cr_status>"
+    And an assignment status of "ASSIGNED"
+    And a closing report status of "ACTIVE"
     And a role id of "<role_id>"
     And the managers of "<role_id>" exist
     And we ingest managers
     And we ingest them
     And the employee "<id>" is sent to all downstream services
       ### LWS Requires a device to be created ###
-    And a device exists in XMA with "<role_id>", "<phone_number>" and "<status>"
+    And a device exists in XMA with "<role_id>", "<phone_number>" and "Allocated"
     And we retrieve the devices from xma
     And we ingest them
+    And the employee "<id>" is sent to all downstream services
       ###
     And we receive a job role update from adecco for employee  "<id>"
     And an assignment status of "<new_assignment_status>"
@@ -30,28 +31,28 @@ Feature: Leavers
     And Check the employee "<id>" is not sent to RCA
 
     Examples:
-      | id        | assignment_status | cr_status | role_id    | new_assignment_status | new_cr_status | inLogisitcs | source | op_end_date | phone_number | status    |
-      | 123456780 | ASSIGNED          | ACTIVE    | HA-CAR1       | ASSIGNMENT_CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | 0123456789   | Allocated |
-      | 123456781 | ASSIGNED          | ACTIVE    | HA-CAR1-ZA    | ASSIGNMENT_CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | 0123456789   | Allocated |
-      | 123456782 | ASSIGNED          | ACTIVE    | HA-CAR1-ZA-01 | ASSIGNMENT_CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | 0123456789   | Allocated |
-      | 123456783 | ASSIGNED          | ACTIVE    | SA-CAR1-ZA    | ASSIGNMENT_CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | 0123456789   | Allocated |
-      | 123456784 | ASSIGNED          | ACTIVE    | SA-CAR1-ZA-01 | ASSIGNMENT_CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | 0123456789   | Allocated |
-      | 123456785 | ASSIGNED          | ACTIVE    | CA-RLN1       | ASSIGNMENT_CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | 0123456789   | Allocated |
-      | 123456786 | ASSIGNED          | ACTIVE    | CA-RLN1-ZA    | ASSIGNMENT_CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | 0123456789   | Allocated |
-      | 123456787 | ASSIGNED          | ACTIVE    | CA-RLN1-ZA-01 | ASSIGNMENT_CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | 0123456789   | Allocated |
-      | 123456788 | ASSIGNED          | ACTIVE    | HA-CAR1       | ASSIGNMENT_ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | 0123456789   | Allocated |
-      | 123456789 | ASSIGNED          | ACTIVE    | HA-CAR1-ZA    | ASSIGNMENT_ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | 0123456789   | Allocated |
-      | 123456780 | ASSIGNED          | ACTIVE    | HA-CAR1-ZA-01 | ASSIGNMENT_ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | 0123456789   | Allocated |
-      | 223456781 | ASSIGNED          | ACTIVE    | SA-CAR1-ZA    | ASSIGNMENT_ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | 0123456789   | Allocated |
-      | 223456782 | ASSIGNED          | ACTIVE    | SA-CAR1-ZA-01 | ASSIGNMENT_ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | 0123456789   | Allocated |
-      | 223456783 | ASSIGNED          | ACTIVE    | CA-RLN1       | ASSIGNMENT_ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | 0123456789   | Allocated |
-      | 223456784 | ASSIGNED          | ACTIVE    | CA-RLN1-ZA    | ASSIGNMENT_ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | 0123456789   | Allocated |
-      | 223456785 | ASSIGNED          | ACTIVE    | CA-RLN1-ZA-01 | ASSIGNMENT_ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | 0123456789   | Allocated |
-      | 223456786 | ASSIGNED          | ACTIVE    | HA-CAR1       | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | 0123456789   | Allocated |
-      | 223456787 | ASSIGNED          | ACTIVE    | HA-CAR1-ZA    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | 0123456789   | Allocated |
-      | 223456788 | ASSIGNED          | ACTIVE    | HA-CAR1-ZA-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | 0123456789   | Allocated |
-      | 223456789 | ASSIGNED          | ACTIVE    | SA-CAR1-ZA    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | 0123456789   | Allocated |
-      | 223456780 | ASSIGNED          | ACTIVE    | SA-CAR1-ZA-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | 0123456789   | Allocated |
-      | 323456781 | ASSIGNED          | ACTIVE    | CA-RLN1       | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | 0123456789   | Allocated |
-      | 323456782 | ASSIGNED          | ACTIVE    | CA-RLN1-ZA    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | 0123456789   | Allocated |
-      | 323456783 | ASSIGNED          | ACTIVE    | CA-RLN1-ZA-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | 0123456789   | Allocated |
+      | id        | role_id       | new_assignment_status | new_cr_status | inLogisitcs | source | op_end_date | phone_number |
+      | 123456780 | HA-CAR1       | ASSIGNMENT_CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | 0723456789   |
+      | 123456781 | HA-CAR1-ZA    | ASSIGNMENT_CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | 0723456789   |
+      | 123456782 | HA-CAR1-ZA-01 | ASSIGNMENT_CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | 0723456789   |
+      | 123456783 | SA-CAR1-ZA    | ASSIGNMENT_CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | 0723456789   |
+      | 123456784 | SA-CAR1-ZA-01 | ASSIGNMENT_CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | 0723456789   |
+      | 123456785 | CA-RLN1       | ASSIGNMENT_CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | 0723456789   |
+      | 123456786 | CA-RLN1-ZA    | ASSIGNMENT_CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | 0723456789   |
+      | 123456787 | CA-RLN1-ZA-01 | ASSIGNMENT_CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | 0723456789   |
+      | 123456788 | HA-CAR1       | ASSIGNMENT_ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | 0723456789   |
+      | 123456789 | HA-CAR1-ZA    | ASSIGNMENT_ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | 0723456789   |
+      | 123456780 | HA-CAR1-ZA-01 | ASSIGNMENT_ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | 0723456789   |
+      | 223456781 | SA-CAR1-ZA    | ASSIGNMENT_ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | 0723456789   |
+      | 223456782 | SA-CAR1-ZA-01 | ASSIGNMENT_ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | 0723456789   |
+      | 223456783 | CA-RLN1       | ASSIGNMENT_ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | 0723456789   |
+      | 223456784 | CA-RLN1-ZA    | ASSIGNMENT_ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | 0723456789   |
+      | 223456785 | CA-RLN1-ZA-01 | ASSIGNMENT_ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | 0723456789   |
+      | 223456786 | HA-CAR1       | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | 0723456789   |
+      | 223456787 | HA-CAR1-ZA    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | 0723456789   |
+      | 223456788 | HA-CAR1-ZA-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | 0723456789   |
+      | 223456789 | SA-CAR1-ZA    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | 0723456789   |
+      | 223456780 | SA-CAR1-ZA-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | 0723456789   |
+      | 323456781 | CA-RLN1       | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | 0723456789   |
+      | 323456782 | CA-RLN1-ZA    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | 0723456789   |
+      | 323456783 | CA-RLN1-ZA-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | 0723456789   |

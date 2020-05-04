@@ -48,8 +48,6 @@ public final class QueueClient {
     public void clearQueues() throws URISyntaxException {
       clearQueue("FSDR.Events");
       clearQueue("FSDR.EventsDLQ");
-      clearQueue("Gateway.Actions");
-      clearQueue("Gateway.ActionsDLQ");
       clearQueue("Lws.Action");
       clearQueue("Lws.ActionDLQ");
       clearQueue("Snow.Action");
@@ -62,8 +60,9 @@ public final class QueueClient {
       clearQueue("Xma.Events");
       clearQueue("Xma.FieldOfficer");
       clearQueue("Xma.Leaver");
-      clearQueue("xma.transient.error");
-      clearQueue("report.events");    }
+     // clearQueue("xma.transient.error");
+      clearQueue("report.events");
+    }
 
     private void clearQueue(String queueName) throws URISyntaxException {
        queueUtils.deleteMessage(queueName);

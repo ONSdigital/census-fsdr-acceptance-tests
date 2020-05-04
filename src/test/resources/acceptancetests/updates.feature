@@ -5,13 +5,13 @@ Feature: Updates
     Given the managers of "<role_id>" exist
     And we ingest managers
     And An employee exists in "<source>" with an id of "<id>"
-    And an assignment status of "<assignment_status>"
-    And a closing report status of "<cr_status>"
+    And an assignment status of "ASSIGNED"
+    And a closing report status of "ACTIVE"
     And a role id of "<role_id>"
     And we ingest them
     And the employee "<id>" is sent to all downstream services
       ### LWS requires a device to be created ###
-    And a device exists in XMA with "<role_id>", "0123456789" and "Allocated"
+    And a device exists in XMA with "<role_id>", "<number>" and "Allocated"
     And we retrieve the devices from xma
     And we ingest them
       ###
@@ -19,33 +19,33 @@ Feature: Updates
     And we ingest them
     When the employee "<id>" is sent to all downstream services
     Then the employee is correctly updated in gsuite with name "<new_name>"
-    Then the employee "<id>" is sent to LWS as an update with name "<new_name>" and phone number "0123456789" and "<role_id>"
-    Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number "0123456789"
+    Then the employee "<id>" is sent to LWS as an update with name "<new_name>" and phone number "<number>" and "<role_id>"
+    Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number "<number>"
     Then the employee from "<source>" with roleId "<role_id>" is correctly updated in XMA with name "<new_name>" and group "<group>"
-    Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "0123456789" as an update with name "<new_name>"
+    Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<number>" as an update with name "<new_name>"
     And Check the employee "<id>" is sent to RCA
 
     Examples:
-      | id         | assignment_status | cr_status  | role_id       | inLogisitcs | source | new_name | group                                |
-      | 123456789  | ASSIGNED          | ACTIVE     | HA-CAR1          | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A |
-      | 123456789  | ASSIGNED          | ACTIVE     | HA-CAR1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A |
-      | 123456789  | ASSIGNED          | ACTIVE     | HA-CAR1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD |
-      | 123456789  | ASSIGNED          | ACTIVE     | SA-CAR1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A |
-      | 123456789  | ASSIGNED          | ACTIVE     | SA-CAR1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD |
-      | 123456789  | ASSIGNED          | ACTIVE     | CA-RLN1          | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A |
-      | 123456789  | ASSIGNED          | ACTIVE     | CA-RLN1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A |
-      | 123456789  | ASSIGNED          | ACTIVE     | CA-RLN1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD |
+      | id         | role_id          | inLogisitcs | source | new_name | group                                | number     |
+      | 123456781  | HA-CAR1          | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 0723456789 |
+      | 123456782  | HA-CAR1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 0723456789 |
+      | 123456783  | HA-CAR1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD | 0723456789 |
+      | 123456784  | SA-CAR1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 0723456789 |
+      | 123456785  | SA-CAR1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD | 0723456789 |
+      | 123456786  | CA-RLN1          | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 0723456789 |
+      | 123456787  | CA-RLN1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 0723456789 |
+      | 123456788  | CA-RLN1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD | 0723456789 |
 
   Scenario Outline: A record in FSDR receives a device
     Given the managers of "<role_id>" exist
     And we ingest managers
     And An employee exists in "<source>" with an id of "<id>"
-    And an assignment status of "<assignment_status>"
-    And a closing report status of "<cr_status>"
+    And an assignment status of "ASSIGNED"
+    And a closing report status of "ACTIVE"
     And a role id of "<role_id>"
     And we ingest them
     And the employee "<id>" is sent to all downstream services
-    And a device exists in XMA with "<role_id>", "<phone_number>" and "<status>"
+    And a device exists in XMA with "<role_id>", "<phone_number>" and "Allocated"
     And we retrieve the devices from xma
     And we run create actions
     When the employee "<id>" is sent to all downstream services
@@ -57,12 +57,12 @@ Feature: Updates
     And Check the employee "<id>" is sent to RCA
 
     Examples:
-      | id         | assignment_status | cr_status  | role_id          | inLogisitcs | source | name     | phone_number | status    |
-      | 123456781  | ASSIGNED          | ACTIVE     | HA-CAR1          | is          | ADECCO | Fransico | 0123456781   | Allocated |
-      | 123456782  | ASSIGNED          | ACTIVE     | HA-CAR1-ZA       | is          | ADECCO | Fransico | 0123456785   | Allocated |
-      | 123456783  | ASSIGNED          | ACTIVE     | HA-CAR1-ZA-01    | is not      | ADECCO | Fransico | 0123456782   | Allocated |
-      | 123456784  | ASSIGNED          | ACTIVE     | SA-CAR1-ZA       | is          | ADECCO | Fransico | 0123456783   | Allocated |
-      | 123456785  | ASSIGNED          | ACTIVE     | SA-CAR1-ZA-01    | is not      | ADECCO | Fransico | 0123456784   | Allocated |
-      | 123456786  | ASSIGNED          | ACTIVE     | CA-RLN1          | is          | ADECCO | Fransico | 0123456786   | Allocated |
-      | 123456787  | ASSIGNED          | ACTIVE     | CA-RLN1-ZA       | is          | ADECCO | Fransico | 0123456787   | Allocated |
-      | 123456788  | ASSIGNED          | ACTIVE     | CA-RLN1-ZA-01    | is not      | ADECCO | Fransico | 0123456788   | Allocated |
+      | id         | role_id          | inLogisitcs | source | name     | phone_number |
+      | 123456781  | HA-CAR1          | is          | ADECCO | Fransico | 0723456781   |
+      | 123456782  | HA-CAR1-ZA       | is          | ADECCO | Fransico | 0723456785   |
+      | 123456783  | HA-CAR1-ZA-01    | is not      | ADECCO | Fransico | 0723456782   |
+      | 123456784  | SA-CAR1-ZA       | is          | ADECCO | Fransico | 0723456783   |
+      | 123456785  | SA-CAR1-ZA-01    | is not      | ADECCO | Fransico | 0723456784   |
+      | 123456786  | CA-RLN1          | is          | ADECCO | Fransico | 0723456786   |
+      | 123456787  | CA-RLN1-ZA       | is          | ADECCO | Fransico | 0723456787   |
+      | 123456788  | CA-RLN1-ZA-01    | is not      | ADECCO | Fransico | 0723456788   |
