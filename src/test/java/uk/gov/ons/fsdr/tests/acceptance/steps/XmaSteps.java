@@ -157,9 +157,4 @@ public class XmaSteps {
 
     }
 
-    @Given("a device exists in XMA with {string}, {string} and {string}")
-    public void a_device_exists_in_XMA_with_and(String roleId, String phoneNumber, String status) {
-        xmaMockUtils.postDevice(roleId, phoneNumber, status);
-    }
-
 }

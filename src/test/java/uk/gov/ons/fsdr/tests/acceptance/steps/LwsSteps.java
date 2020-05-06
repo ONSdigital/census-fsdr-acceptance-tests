@@ -50,7 +50,7 @@ public class LwsSteps {
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 1000L));
     String record = lwsMockUtils.getRecords();
 
-    String lwsNumber = "44" + number.substring(2);
+    String lwsNumber = "44" + number.substring(1);
     String lmName = "";
 
     if(roleId.length() == AREA_MANAGER_ROLE_ID_LENGTH) {
@@ -93,7 +93,7 @@ public class LwsSteps {
     gatewayEventMonitor.grabEventsTriggered("SENDING_LWS_ACTION_RESPONSE", 10, 5000L);
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 1000L));
 
-    String lwsNumber = "44" + number.substring(2);
+    String lwsNumber = "44" + number.substring(1);
     String lmName = "";
 
     if(roleId.length() == AREA_MANAGER_ROLE_ID_LENGTH) {
@@ -152,7 +152,7 @@ public class LwsSteps {
     assertThat(record).contains("\"hierarchyItem2\":\"Wales\"");
     assertThat(record).contains("\"hierarchyItem3\":\"" + roleId.substring(0,4)+"\"");
     assertThat(record).contains("\"takeOnCode\":\"ONSTAKEonLIVE\"");
-    assertThat(record).contains("\"phoneNumber\":\"4423456789\"");
+    assertThat(record).contains("\"phoneNumber\":\"44723456789\"");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
     assertThat(record).contains("\"updateMode\":\"BULKLOADER\"");
@@ -172,7 +172,7 @@ public class LwsSteps {
     gatewayEventMonitor.grabEventsTriggered("SENDING_LWS_ACTION_RESPONSE", 10, 3000L);
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 1000L));
 
-    String lwsNumber = "44" + number.substring(2);
+    String lwsNumber = "44" + number.substring(1);
     String lmName = "";
 
     assertThat(record).containsPattern("\"externalSystemPersonCode\":\"Fransico.Buyo[0-9]{2}@domain\"");

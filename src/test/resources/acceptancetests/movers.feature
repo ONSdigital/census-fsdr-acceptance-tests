@@ -11,8 +11,7 @@ Feature: Movers
     And we ingest managers
     And we ingest them
     And the employee "<id>" is sent to all downstream services
-    And a device exists in XMA with "<role_id>", "0723456789" and "Allocated"
-    And we retrieve the devices from xma
+    And we ingest a device from pubsub for "<id>" with phone number "0123456789"
     And we run create actions
     And their old job role gets cancelled
     And we receive a new active job role from adecco for employee "<id>" with new role_id "<new_role_id>"

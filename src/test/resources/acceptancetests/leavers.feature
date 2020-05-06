@@ -11,8 +11,7 @@ Feature: Leavers
     And we ingest them
     And the employee "<id>" is sent to all downstream services
       ### LWS Requires a device to be created ###
-    And a device exists in XMA with "<role_id>", "<phone_number>" and "Allocated"
-    And we retrieve the devices from xma
+    And we ingest a device from pubsub for "<id>" with phone number "<phone_number>"
     And we ingest them
     And the employee "<id>" is sent to all downstream services
       ###

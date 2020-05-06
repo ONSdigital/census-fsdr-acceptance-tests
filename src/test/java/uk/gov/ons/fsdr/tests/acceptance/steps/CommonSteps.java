@@ -155,11 +155,6 @@ public class CommonSteps {
     fsdrUtils.rcaExtract();
   }
 
-  @Given("we retrieve the devices from xma")
-  public void we_retrieve_the_devices_from_xma() throws IOException {
-    fsdrUtils.devices();
-  }
-
   @And("we ingest the cancel")
   public void weIngestTheCancel() throws IOException {
     if (adeccoResponseLeaver.isPresent()) {
