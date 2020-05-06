@@ -23,7 +23,7 @@ import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.FIELD_OFFICER_R
 
 @Slf4j
 @PropertySource("classpath:application.properties")
-public class AdeccoSteps {
+public class AdeccoIngestSteps {
 
   public static AdeccoResponse adeccoResponse = new AdeccoResponse();
   public static List<AdeccoResponse> adeccoResponseList = new ArrayList<>();

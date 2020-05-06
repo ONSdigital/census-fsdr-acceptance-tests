@@ -1,10 +1,10 @@
 package uk.gov.ons.fsdr.tests.acceptance.steps;
 
 import static junit.framework.TestCase.assertTrue;
-import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoSteps.adeccoResponse;
-import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoSteps.adeccoResponseLeaver;
-import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoSteps.adeccoResponseList;
-import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoSteps.adeccoResponseManagers;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponse;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponseLeaver;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponseList;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponseManagers;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
 import uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoMockUtils;
+import uk.gov.ons.fsdr.tests.acceptance.utils.MockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.LwsMockUtils;
@@ -42,6 +43,9 @@ public class CommonSteps {
 
   @Autowired
   private AdeccoMockUtils adeccoMockUtils;
+
+  @Autowired
+  private MockUtils mockUtils;
 
   @Autowired
   private XmaMockUtils xmaMockUtils;
@@ -78,20 +82,21 @@ public class CommonSteps {
   @Before
   public void setup() throws Exception {
     queueClient.clearQueues();
-    adeccoMockUtils.clearMock();
-    adeccoMockUtils.cleardb();
+    mockUtils.clearMock();
+    mockUtils.cleardb();
     adeccoResponseList.clear();
-    adeccoMockUtils.enableRequestRecorder();
+    mockUtils.enableRequestRecorder();
 
     gatewayEventMonitor.enableEventMonitor(rabbitLocation, rabbitUsername, rabbitPassword);
   }
 
   @After
   public void tearDownGatewayEventMonitor() throws IOException {
-    adeccoMockUtils.disableRequestRecorder();
+    mockUtils.disableRequestRecorder();
     gsuiteMockUtils.clearMock();
     snowMockUtils.clearMock();
     xmaMockUtils.clearMock();
+    adeccoMockUtils.clearUpdates();
 
     lwsMockUtils.clearMock();
 
