@@ -152,13 +152,13 @@ public class LwsSteps {
     assertThat(record).contains("\"hierarchyItem2\":\"Wales\"");
     assertThat(record).contains("\"hierarchyItem3\":\"" + roleId.substring(0,4)+"\"");
     assertThat(record).contains("\"takeOnCode\":\"ONSTAKEonLIVE\"");
-    assertThat(record).contains("\"phoneNumber\":\"44723456789\"");
+    assertThat(record).contains("\"phoneNumber\":\"447234567890\"");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
     assertThat(record).contains("\"updateMode\":\"BULKLOADER\"");
     assertThat(record).contains("\"templatePersonId\":-1");
     assertThat(record).contains("\"newPersonId\":-1");
-    assertThat(record).contains("\"operatorInstructions1\":\"Contact Lone Worker on mobile: 0723456789\"");
+    assertThat(record).contains("\"operatorInstructions1\":\"Contact Lone Worker on mobile: 07234567890\"");
     assertThat(record).containsPattern("\"operatorInstructions3\":\"Contact the Field Staff Contact Centre on: [0-9]{10}\"");
     assertThat(record).doesNotContain("\"takeOnPassword\":null");
   }

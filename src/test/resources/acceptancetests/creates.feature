@@ -17,9 +17,9 @@ Feature: Creates
     And the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" as a create
     And Check the employee "<id>" is sent to RCA
       ### LWS Requires a device to be created ###
-    And we ingest a device from pubsub for "<id>" with phone number "0123456789"
+    And we ingest a device from pubsub for "<id>" with phone number "07234567890"
     And we ingest them
-    And the employee "<id>" is sent to LWS as an create with name "Fransico" and phone number "0723456789" and "<role_id>"
+    And the employee "<id>" is sent to LWS as an create with name "Fransico" and phone number "07234567890" and "<role_id>"
 
     Examples:
       | id        | role_id       | inLogisitcs | source | group                                | org_unit    | new_groups                                                         |
@@ -99,9 +99,9 @@ Feature: Creates
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
     And Check the employee "223456789" is sent to RCA
       ### LWS Requires a device to be created ###
-    And we ingest a device from pubsub for "223456789" with phone number "0723456789"
+    And we ingest a device from pubsub for "223456789" with phone number "07234567890"
     And we ingest them
-    And the employee "223456789" is sent to LWS as an create with name "Fransico" and phone number "0723456789" and "HA-CAR1"
+    And the employee "223456789" is sent to LWS as an create with name "Fransico" and phone number "07234567890" and "HA-CAR1"
 
   Scenario: A record with a start date less than 6 days in the future is created in the downstream systems
     Given An employee exists in "ADECCO" with an id of "323456789"
@@ -117,6 +117,6 @@ Feature: Creates
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
     And Check the employee "323456789" is sent to RCA
       ### LWS Requires a device to be created ###
-    And we ingest a device from pubsub for "323456789" with phone number "0723456789"
+    And we ingest a device from pubsub for "323456789" with phone number "07234567890"
     And we ingest them
-    And the employee "323456789" is sent to LWS as an create with name "Fransico" and phone number "0723456789" and "HA-CAR1"
+    And the employee "323456789" is sent to LWS as an create with name "Fransico" and phone number "07234567890" and "HA-CAR1"

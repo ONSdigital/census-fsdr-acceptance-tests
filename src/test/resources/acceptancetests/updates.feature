@@ -11,7 +11,7 @@ Feature: Updates
     And we ingest them
     And the employee "<id>" is sent to all downstream services
       ### LWS requires a device to be created ###
-    And we ingest a device from pubsub for "<id>" with phone number "0123456789"
+    And we ingest a device from pubsub for "<id>" with phone number "<number>"
     And we ingest them
       ###
     And we receive an update from adecco for employee "<id>" with new first name "<new_name>"
@@ -26,14 +26,14 @@ Feature: Updates
 
     Examples:
       | id         | role_id          | inLogisitcs | source | new_name | group                                | number     |
-      | 123456781  | HA-CAR1          | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 0723456789 |
-      | 123456782  | HA-CAR1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 0723456789 |
-      | 123456783  | HA-CAR1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD | 0723456789 |
-      | 123456784  | SA-CAR1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 0723456789 |
-      | 123456785  | SA-CAR1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD | 0723456789 |
-      | 123456786  | CA-RLN1          | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 0723456789 |
-      | 123456787  | CA-RLN1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 0723456789 |
-      | 123456788  | CA-RLN1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD | 0723456789 |
+      | 123456781  | HA-CAR1          | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 07234567890 |
+      | 123456782  | HA-CAR1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 07234567890 |
+      | 123456783  | HA-CAR1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD | 07234567890 |
+      | 123456784  | SA-CAR1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 07234567890 |
+      | 123456785  | SA-CAR1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD | 07234567890 |
+      | 123456786  | CA-RLN1          | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 07234567890 |
+      | 123456787  | CA-RLN1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 07234567890 |
+      | 123456788  | CA-RLN1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD | 07234567890 |
 
   Scenario Outline: A record in FSDR receives a device
     Given the managers of "<role_id>" exist
@@ -55,12 +55,12 @@ Feature: Updates
     And Check the employee "<id>" is sent to RCA
 
     Examples:
-      | id         | role_id          | inLogisitcs | source | name     | phone_number |
-      | 123456781  | HA-CAR1          | is          | ADECCO | Fransico | 0723456781   |
-      | 123456782  | HA-CAR1-ZA       | is          | ADECCO | Fransico | 0723456785   |
-      | 123456783  | HA-CAR1-ZA-01    | is not      | ADECCO | Fransico | 0723456782   |
-      | 123456784  | SA-CAR1-ZA       | is          | ADECCO | Fransico | 0723456783   |
-      | 123456785  | SA-CAR1-ZA-01    | is not      | ADECCO | Fransico | 0723456784   |
-      | 123456786  | CA-RLN1          | is          | ADECCO | Fransico | 0723456786   |
-      | 123456787  | CA-RLN1-ZA       | is          | ADECCO | Fransico | 0723456787   |
-      | 123456788  | CA-RLN1-ZA-01    | is not      | ADECCO | Fransico | 0723456788   |
+      | id        | role_id       | inLogisitcs | source | name     | phone_number |
+      | 123456781 | HA-CAR1       | is          | ADECCO | Fransico | 07234567810  |
+      | 123456782 | HA-CAR1-ZA    | is          | ADECCO | Fransico | 07234567850  |
+      | 123456783 | HA-CAR1-ZA-01 | is not      | ADECCO | Fransico | 07234567820  |
+      | 123456784 | SA-CAR1-ZA    | is          | ADECCO | Fransico | 07234567830  |
+      | 123456785 | SA-CAR1-ZA-01 | is not      | ADECCO | Fransico | 07234567840  |
+      | 123456786 | CA-RLN1       | is          | ADECCO | Fransico | 07234567860  |
+      | 123456787 | CA-RLN1-ZA    | is          | ADECCO | Fransico | 07234567870  |
+      | 123456788 | CA-RLN1-ZA-01 | is not      | ADECCO | Fransico | 07234567880  |
