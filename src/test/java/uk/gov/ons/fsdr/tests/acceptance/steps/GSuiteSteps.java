@@ -72,7 +72,7 @@ public class GSuiteSteps {
 
   @Then("the employee is correctly moved in gsuite with roleId {string} to {string}")
   public void the_employee_is_correctly_moved_in_gsuite_with_roleId(String roleId, String orgUnit) throws IOException {
-    Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 10, 3000l);
+    Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 10, 5000L);
 
     String[] records = gsuiteMockUtils.getRecords();
     String update = getLastRecord(records, roleId);
