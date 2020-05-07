@@ -103,7 +103,7 @@ public class ServiceNowSteps {
   @Then("the employee {string} is correctly suspended in ServiceNow with {string}")
   public void theEmployeeIsCorrectlySuspendedInSNow(String id, String roleId) {
     gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 5, 3000L);
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 2000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 3000L));
 
     String[] records = snowMockUtils.getRecords();
     String suspended = getLastRecord(records, roleId);

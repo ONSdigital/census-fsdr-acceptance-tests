@@ -39,17 +39,9 @@ public final class QueueClient {
       return message;
     }
 
-//    public void sendToQueue(String message) throws URISyntaxException {
-//        String exchangeName = "";
-//        String routingKey = "RM.Field";
-//        queueUtils.addMessage(exchangeName, routingKey, message);
-//    }
-
     public void clearQueues() throws URISyntaxException {
       clearQueue("FSDR.Events");
       clearQueue("FSDR.EventsDLQ");
-      clearQueue("Gateway.Actions");
-      clearQueue("Gateway.ActionsDLQ");
       clearQueue("Lws.Action");
       clearQueue("Lws.ActionDLQ");
       clearQueue("Snow.Action");
@@ -68,7 +60,8 @@ public final class QueueClient {
       clearQueue("Adecco.ActionDLQ");
 
       clearQueue("xma.transient.error");
-      clearQueue("report.events");    }
+      clearQueue("report.events");
+    }
 
     private void clearQueue(String queueName) throws URISyntaxException {
        queueUtils.deleteMessage(queueName);

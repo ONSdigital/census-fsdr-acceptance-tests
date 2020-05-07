@@ -23,11 +23,21 @@ public class AdeccoExtractSteps {
 
   @Then("the employee {string} is sent to Adecco")
   public void the_employee_is_sent_to_Adecco(String id) {
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_ADECCO_ACTION_RESPONSE", 3000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_ADECCO_ACTION_RESPONSE", 30000L));
 
     String[] messages = adeccoMockUtils.getAdeccoUpdateMessagesById(id);
     assertEquals(1, messages.length);
     assertThat(messages[0]).contains("\"Phone\":null,");
+    assertThat(messages[0]).containsPattern("\"TR1__Work_Email__c\":\"Fransico.Buyo[0-9]{2}@domain\"");
+  }
+
+  @Then("the employee {string} is sent to Adecco with phone number {string}")
+  public void the_employee_is_sent_to_Adecco_with_phone_number(String id, String number) {
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_ADECCO_ACTION_RESPONSE", 3000L));
+
+    String[] messages = adeccoMockUtils.getAdeccoUpdateMessagesById(id);
+    assertEquals(1, messages.length);
+    assertThat(messages[0]).contains("\"Phone\":\""+number+"\",");
     assertThat(messages[0]).containsPattern("\"TR1__Work_Email__c\":\"Fransico.Buyo[0-9]{2}@domain\"");
   }
 }
