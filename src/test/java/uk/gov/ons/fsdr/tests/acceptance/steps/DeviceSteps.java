@@ -43,7 +43,7 @@ public class DeviceSteps {
         String onsId = getOnsId(employeeId);
         if (onsId == null) fail("failed to find ons id for employee " + employeeId);
         postDevice(onsId, phoneNumber);
-        assertTrue(gatewayEventMonitor.hasEventTriggered("<N/A>", "SAVE_DEVICE"));
+        assertTrue(gatewayEventMonitor.hasEventTriggered(employeeId, "SAVE_DEVICE"));
 
     }
 

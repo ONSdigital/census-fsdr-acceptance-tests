@@ -84,7 +84,14 @@ public class CommonSteps {
     queueClient.clearQueues();
     mockUtils.clearMock();
     mockUtils.cleardb();
+    gsuiteMockUtils.clearMock();
+    snowMockUtils.clearMock();
+    xmaMockUtils.clearMock();
+    adeccoMockUtils.clearUpdates();
+
+    lwsMockUtils.clearMock();
     adeccoResponseList.clear();
+    adeccoResponseManagers.clear();
     mockUtils.enableRequestRecorder();
 
     gatewayEventMonitor.enableEventMonitor(rabbitLocation, rabbitUsername, rabbitPassword);
@@ -93,16 +100,7 @@ public class CommonSteps {
   @After
   public void tearDownGatewayEventMonitor() throws IOException {
     mockUtils.disableRequestRecorder();
-    gsuiteMockUtils.clearMock();
-    snowMockUtils.clearMock();
-    xmaMockUtils.clearMock();
-    adeccoMockUtils.clearUpdates();
-
-    lwsMockUtils.clearMock();
-
     gatewayEventMonitor.tearDownGatewayEventMonitor();
-    adeccoResponseList.clear();
-    adeccoResponseManagers.clear();
   }
 
   @Given("we ingest them")

@@ -62,6 +62,11 @@ public final class QueueClient {
       clearQueue("Xma.Events");
       clearQueue("Xma.FieldOfficer");
       clearQueue("Xma.Leaver");
+
+      clearQueue("Action.Result");
+      clearQueue("Adecco.Action");
+      clearQueue("Adecco.ActionDLQ");
+
       clearQueue("xma.transient.error");
       clearQueue("report.events");    }
 
