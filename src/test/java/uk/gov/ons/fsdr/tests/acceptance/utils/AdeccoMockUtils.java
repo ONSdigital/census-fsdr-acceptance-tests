@@ -81,4 +81,5 @@ public class AdeccoMockUtils {
       throw new MockInaccessibleException("Failed : HTTP error code : " + httpURLConnection.getResponseCode());
     }
   }
+
 }

@@ -13,10 +13,10 @@ Feature: Creates
     When the employee "<id>" is sent to all downstream services
     Then the employee "<id>" is correctly created in gsuite with roleId "<role_id>" and orgUnit "<org_unit>"
     And the employee "<id>" is now in the current groups "<new_groups>"
-    Then the employee "<id>" is sent to Adecco
     And the employee from "<source>" with roleId "<role_id>" is correctly created in XMA with group "<group>"
     And the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" as a create
     And Check the employee "<id>" is sent to RCA
+    Then the employee "<id>" is sent to Adecco
       ### LWS Requires a device to be created ###
     And we ingest a device from pubsub for "<id>" with phone number "0123456789"
     And we ingest them

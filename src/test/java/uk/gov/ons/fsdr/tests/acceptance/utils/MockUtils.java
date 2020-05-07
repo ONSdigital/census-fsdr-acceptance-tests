@@ -120,24 +120,4 @@ public final class MockUtils {
     }
   }
 
-//  public ResponseEntity<AdeccoResponseList> getEmployeeBySource(String source) {
-//    RestTemplate restTemplate = new RestTemplate();
-//    String postHit = mockAdeccoUrl + "/getResponse";
-//    ResponseEntity<AdeccoResponseList> results = restTemplate.exchange(postHit, HttpMethod.GET, null,
-//        AdeccoResponseList.class);
-//    return results;
-//  }
-//
-//  public ResponseEntity<AdeccoResponseList> getEmployeeById(String employeeId) {
-//    RestTemplate restTemplate = new RestTemplate();
-//    String postHit = mockAdeccoUrl + "fsdr/getEmployee/";
-//
-//    UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(postHit)
-//        .queryParam("employeeId", employeeId);
-//    ResponseEntity<AdeccoResponseList> results = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, null,
-//        AdeccoResponseList.class);
-//
-//    return results;
-//  }
-
 }
