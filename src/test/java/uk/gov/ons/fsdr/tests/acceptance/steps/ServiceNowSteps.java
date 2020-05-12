@@ -43,10 +43,10 @@ public class ServiceNowSteps {
 
     String lmName = "\"u_lm_first_name_2\":null,\"u_lm_last_name_2\":null";
 
-    if(roleId.length() == 13) {
+    if(roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
       lmName = "\"u_lm_first_name_2\":\"Bob\",\"u_lm_last_name_2\":\"Jones\"";
     }
-    if(roleId.length() == 10) {
+    if(roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
       lmName = "\"u_lm_first_name_2\":\"Dave\",\"u_lm_last_name_2\":\"Davis\"";
     }
     String expectedMessageRootNode =
