@@ -10,7 +10,7 @@ Feature: Updates
     And a role id of "<role_id>"
     And we ingest them
     And the employee "<id>" is sent to all downstream services
-   # Then the employee "<id>" is sent to Adecco
+    Then the employee "<id>" is sent to Adecco
       ### LWS requires a device to be created ###
     And we ingest a device from pubsub for "<id>" with phone number "<number>"
     And we ingest them
