@@ -36,20 +36,29 @@ public class ServiceNowSteps {
   @Value("${service.rabbit.password}")
   private String rabbitPassword;
 
-  @Then("the employee is correctly created in ServiceNow with {string}")
-  public void the_employee_is_correctly_create_in_ServiceNow_with(String roleId) {
+  @Then("the employee {string} is correctly created in ServiceNow with {string}")
+  public void the_employee_is_correctly_create_in_ServiceNow_with(String employeeId, String roleId) {
     String[] records = snowMockUtils.getRecords();
-    String create = records[0];
+    String create = records[records.length-1];
+
+    String lmName = "\"u_lm_first_name_2\":null,\"u_lm_last_name_2\":null";
+
+    if(roleId.length() == 13) {
+      lmName = "\"u_lm_first_name_2\":\"Bob\",\"u_lm_last_name_2\":\"Jones\"";
+    }
+    if(roleId.length() == 10) {
+      lmName = "\"u_lm_first_name_2\":\"Dave\",\"u_lm_last_name_2\":\"Davis\"";
+    }
     String expectedMessageRootNode =
-        "\"location\":\"London\",\"first_name\":\"Fransico\",\"last_name\":\"Buyo\",\"u_preferred_name\":null,\"u_badge_number\":null,\"u_lm_first_name_2\":null,\"u_lm_last_name_2\":null,\"user_name\":\""
+        "\"location\":\"London\",\"first_name\":\"Fransico\",\"last_name\":\"Buyo\",\"u_preferred_name\":null,\"u_badge_number\":null,"+lmName+",\"employee_number\":\""
             + roleId
-            + "\",\"u_job_role_2\":null,\"u_contract_start_date\":\"[0-9-]{10}\",\"u_contract_end_date\":\"[0-9-]{10}\",\"u_employment_status\":\"ACTIVE\",\"zip\":\"FA43 1AB\",\"u_ons_id\":\"Fransico.Buyo[0-9]{2}@domain\",\"u_asset_number\":null,\"u_ons_device_number\":null,\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true";
+            + "\",\"u_job_role_2\":null,\"u_contract_start_date\":\"[0-9-]{10}\",\"u_contract_end_date\":\"[0-9-]{10}\",\"u_employment_status\":\"ACTIVE\",\"zip\":\"FA43 1AB\",\"u_ons_id\":\"Fransico.Buyo[0-9]{2}@domain\",\"u_asset_number\":null,\"u_ons_device_number\":null,\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true,\"user_name\":\""+employeeId+"\"";
 
     assertThat(create).containsPattern(expectedMessageRootNode);
   }
 
-  @Then("the employee is correctly moved in ServiceNow with {string}")
-  public void the_employee_is_correctly_moved_in_ServiceNow_with(String roleId) {
+  @Then("the employee {string} is correctly moved in ServiceNow with {string}")
+  public void the_employee_is_correctly_moved_in_ServiceNow_with(String employeeId, String roleId) {
     Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 10, 5000l);
     String[] records = snowMockUtils.getRecords();
     System.out.println(records);
@@ -62,10 +71,10 @@ public class ServiceNowSteps {
       lineManager = "\"u_lm_first_name_2\":\"Dave\",\"u_lm_last_name_2\":\"Davis\"";
     }
     expectedMessageRootNode = "\"location\":\"London\",\"first_name\":\"Fransico"
-        + "\",\"last_name\":\"Buyo\",\"u_preferred_name\":null,\"u_badge_number\":null,"+lineManager+",\"user_name\":\""
+        + "\",\"last_name\":\"Buyo\",\"u_preferred_name\":null,\"u_badge_number\":null,"+lineManager+",\"employee_number\":\""
         + roleId
         + "\",\"u_job_role_2\":null,\"u_contract_start_date\":\"2020-01-01\",\"u_contract_end_date\":\""+ LocalDate.now().plusDays(5)+"\",\"u_employment_status\":\"ACTIVE\",\"zip\":\"FA43 1AB\",\"u_ons_id\":\"Fransico.Buyo[0-9]{2}@domain\",\"u_asset_number\":\"[0-9a-z-]{36}\",\"u_ons_device_number\":\""
-        + "0123456789\",\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true";
+        + "07234567890\",\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true,\"user_name\":\""+employeeId+"\"";
 
     Assertions.assertThat(update).containsPattern(expectedMessageRootNode);
   }
@@ -92,10 +101,10 @@ public class ServiceNowSteps {
       lineManager = "\"u_lm_first_name_2\":\"Dave\",\"u_lm_last_name_2\":\"Davis\"";
     }
     expectedMessageRootNode = "\"location\":\"London\",\"first_name\":\"" + name
-        + "\",\"last_name\":\"Buyo\",\"u_preferred_name\":null,\"u_badge_number\":null,"+lineManager+",\"user_name\":\""
+        + "\",\"last_name\":\"Buyo\",\"u_preferred_name\":null,\"u_badge_number\":null,"+lineManager+",\"employee_number\":\""
         + roleId
         + "\",\"u_job_role_2\":null,\"u_contract_start_date\":\"2020-01-01\",\"u_contract_end_date\":\""+ LocalDate.now().plusDays(5)+"\",\"u_employment_status\":\"ACTIVE\",\"zip\":\"FA43 1AB\",\"u_ons_id\":\"Fransico.Buyo[0-9]{2}@domain\",\"u_asset_number\":"+assetId+",\"u_ons_device_number\":"
-        + phoneNumber + ",\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true";
+        + phoneNumber + ",\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true,\"user_name\":\""+id+"\"";
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 10000L));
     assertThat(update).containsPattern(expectedMessageRootNode);
   }
@@ -110,8 +119,8 @@ public class ServiceNowSteps {
 
     assertThat(suspended).containsPattern("\"active\":false");
     assertThat(suspended).containsPattern("\"u_employment_status\":\"Left\"");
-    assertThat(suspended).containsPattern(".*\"user_name\":\""+roleId+"[0-9]{6}\".*");
-
+    assertThat(suspended).containsPattern(".*\"employee_number\":\""+roleId+"\".*");
+    assertThat(suspended).containsPattern(".*\"user_name\":\""+id+"\".*");
   }
 
   @Then("the employee {string} is not created in ServiceNow")

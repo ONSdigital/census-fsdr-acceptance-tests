@@ -15,6 +15,7 @@ Feature: Creates
     And the employee "<id>" is now in the current groups "<new_groups>"
     And the employee from "<source>" with roleId "<role_id>" is correctly created in XMA with group "<group>"
     And the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" as a create
+    And the employee "<id>" is correctly created in ServiceNow with "<role_id>"
     And Check the employee "<id>" is sent to RCA
       ### LWS Requires a device to be created ###
     And we ingest a device from pubsub for "<id>" with phone number "07234567890"
@@ -94,7 +95,7 @@ Feature: Creates
     And we ingest them
     When the employee "223456789" is sent to all downstream services
     Then the employee "223456789" is correctly created in gsuite with roleId "HA-CAR1" and orgUnit "Managers"
-    And the employee is correctly created in ServiceNow with "HA-CAR1"
+    And the employee "223456789" is correctly created in ServiceNow with "HA-CAR1"
     And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
     And Check the employee "223456789" is sent to RCA
@@ -112,7 +113,7 @@ Feature: Creates
     And we ingest them
     When the employee "323456789" is sent to all downstream services
     Then the employee "323456789" is correctly created in gsuite with roleId "HA-CAR1" and orgUnit "Managers"
-    And the employee is correctly created in ServiceNow with "HA-CAR1"
+    And the employee "323456789" is correctly created in ServiceNow with "HA-CAR1"
     And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
     And Check the employee "323456789" is sent to RCA
