@@ -67,7 +67,7 @@ public class LogisticsSteps {
       assertThat(csv).doesNotContain("\""+roleId+"\"");
     } else {
       assertThat(csv).containsPattern(
-          "\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\",\"0123456789\",,\"" + roleId
+          "\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\",\"07234567890\",,\"" + roleId
               + "\",,\"ACTIVE\"");
     }
   }
