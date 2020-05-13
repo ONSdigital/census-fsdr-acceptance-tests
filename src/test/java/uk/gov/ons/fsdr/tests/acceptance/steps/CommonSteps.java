@@ -87,7 +87,7 @@ public class CommonSteps {
     gsuiteMockUtils.clearMock();
     snowMockUtils.clearMock();
     xmaMockUtils.clearMock();
-    adeccoMockUtils.clearUpdates();
+   // adeccoMockUtils.clearUpdates();
 
     lwsMockUtils.clearMock();
     adeccoResponseList.clear();
