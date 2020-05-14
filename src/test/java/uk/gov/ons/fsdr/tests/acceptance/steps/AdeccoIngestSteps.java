@@ -50,8 +50,8 @@ public class AdeccoIngestSteps {
 
   @Given("a role id of {string}")
   public void a_role_id_of(String roleId) {
-    adeccoResponse.getResponseJob().setRoleId(roleId);
-    if(roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
+    adeccoResponse.setRoleId(roleId);
+    if (roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
       adeccoResponse.getResponseJob().setLineManagerFirstName("Bob");
       adeccoResponse.getResponseJob().setLineManagerSurName("Jones");
     } else if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
@@ -80,13 +80,14 @@ public class AdeccoIngestSteps {
     AdeccoResponse moverResponse = new AdeccoResponse();
     moverResponse.setAdeccoResponseWorker(new AdeccoResponseWorker(id));
     moverResponse.setResponseContact(adeccoResponse.getResponseContact());
-    moverResponse.setResponseJob(new AdeccoResponseJob(null,null,null,null,roleId));
+    moverResponse.setRoleId(roleId);
+    moverResponse.setResponseJob(new AdeccoResponseJob(null, null, null, null));
     moverResponse.setStatus("ASSIGNED");
     moverResponse.setCrStatus("ACTIVE");
     moverResponse.setOperationalEndDate(adeccoResponse.getOperationalEndDate());
     moverResponse.setContractStartDate(adeccoResponse.getContractStartDate());
     moverResponse.setContractEndDate(adeccoResponse.getContractEndDate());
-    if(roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
+    if (roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
       moverResponse.getResponseJob().setLineManagerFirstName("Bob");
       moverResponse.getResponseJob().setLineManagerSurName("Jones");
     } else if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
@@ -122,12 +123,11 @@ public class AdeccoIngestSteps {
       buildAreaManagerTypeManager(roleId, random.nextInt(1000));
     }
 
-
   }
 
   private void buildCoordinatorTypeManager(String roleId, int id) {
     String managerRoleId = roleId.substring(0, COORDINATOR_ROLE_ID_LENGTH);
-    if(!sentManagerIds.contains(managerRoleId)) {
+    if (!sentManagerIds.contains(managerRoleId)) {
       AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id));
       managerAdeccoResponse.setContractStartDate("2020-01-01");
       managerAdeccoResponse.setStatus("ASSIGNED");
@@ -135,7 +135,7 @@ public class AdeccoIngestSteps {
       managerAdeccoResponse.getResponseContact().setFirstName("Dave");
       managerAdeccoResponse.getResponseContact().setLastName("Davis");
       managerAdeccoResponse.getResponseContact().setTelephoneNo1("0112233445");
-      managerAdeccoResponse.getResponseJob().setRoleId(managerRoleId);
+      managerAdeccoResponse.setRoleId(managerRoleId);
       sentManagerIds.add(managerRoleId);
 
       adeccoResponseManagers.add(managerAdeccoResponse);
@@ -144,7 +144,7 @@ public class AdeccoIngestSteps {
 
   private void buildAreaManagerTypeManager(String roleId, int id) {
     String managerRoleId = roleId.substring(0, AREA_MANAGER_ROLE_ID_LENGTH);
-    if(!sentManagerIds.contains(managerRoleId)) {
+    if (!sentManagerIds.contains(managerRoleId)) {
       AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id));
       managerAdeccoResponse.setContractStartDate("2020-01-01");
       managerAdeccoResponse.setStatus("ASSIGNED");
@@ -152,7 +152,7 @@ public class AdeccoIngestSteps {
       managerAdeccoResponse.getResponseContact().setFirstName("Bob");
       managerAdeccoResponse.getResponseContact().setLastName("Jones");
       managerAdeccoResponse.getResponseContact().setTelephoneNo1("0112233445");
-      managerAdeccoResponse.getResponseJob().setRoleId(managerRoleId);
+      managerAdeccoResponse.setRoleId(managerRoleId);
       sentManagerIds.add(managerRoleId);
       adeccoResponseManagers.add(managerAdeccoResponse);
     }
@@ -161,8 +161,8 @@ public class AdeccoIngestSteps {
   @Given("the managers of {string} exist before moving to {string}")
   public void theManagersOfExistBeforeMovingTo(String roleId, String newRoleId) {
     theManagersOfExist(roleId);
-    adeccoResponseLeaver = adeccoResponseManagers.stream().filter(adecco -> adecco.getResponseJob().
-            getRoleId().equals(newRoleId)).findFirst();
+    adeccoResponseLeaver = adeccoResponseManagers.stream().filter(adecco -> adecco.getRoleId().equals(newRoleId))
+        .findFirst();
   }
 
   @Given("the managers of {string} exist before moving from {string}")
@@ -170,7 +170,7 @@ public class AdeccoIngestSteps {
     if (roleId.startsWith(newRoleId)) {
       return;
     }
-      theManagersOfExist(newRoleId);
+    theManagersOfExist(newRoleId);
   }
 
   @Given("the previous {string} gets cancelled")
