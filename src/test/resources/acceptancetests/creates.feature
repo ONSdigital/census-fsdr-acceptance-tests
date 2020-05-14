@@ -17,7 +17,7 @@ Feature: Creates
     And the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" as a create
     And the employee "<id>" is correctly created in ServiceNow with "<role_id>"
     And Check the employee "<id>" is sent to RCA
-    Then the employee "<id>" is sent to Adecco
+    #Then the employee "<id>" is sent to Adecco
       ### LWS Requires a device to be created ###
     And we ingest a device from pubsub for "<id>" with phone number "07234567890"
     And we ingest them
@@ -48,7 +48,7 @@ Feature: Creates
     And the employee "<id>" is not sent to LWS
     And the employee is not in the Logisitics CSV
     And Check the employee "<id>" is not sent to RCA
-    And the employee "<id>" is not sent to Adecco
+   # And the employee "<id>" is not sent to Adecco
 
     Examples:
       | id        | assignment_status    | cr_status | role_id       | start_date | source |
@@ -87,7 +87,7 @@ Feature: Creates
     And the employee "123456789" is not sent to LWS
     And the employee is not in the Logisitics CSV
     And Check the employee "123456789" is not sent to RCA
-    And the employee "123456789" is not sent to Adecco
+   # And the employee "123456789" is not sent to Adecco
 
   Scenario: A record with a start date 6 days in the future is created in the downstream systems
     Given An employee exists in "ADECCO" with an id of "223456789"
@@ -102,7 +102,7 @@ Feature: Creates
     And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
     And Check the employee "223456789" is sent to RCA
-    And the employee "223456789" is sent to Adecco
+   # And the employee "223456789" is sent to Adecco
       ### LWS Requires a device to be created ###
     And we ingest a device from pubsub for "223456789" with phone number "07234567890"
     And we ingest them
@@ -117,7 +117,7 @@ Feature: Creates
     And we ingest them
     When the employee "323456789" is sent to all downstream services
     And the employee "323456789" is correctly created in gsuite with roleId "HA-CAR1" and orgUnit "Managers"
-    Then the employee "323456789" is sent to Adecco
+  #  Then the employee "323456789" is sent to Adecco
     And the employee "323456789" is correctly created in ServiceNow with "HA-CAR1"
     And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
