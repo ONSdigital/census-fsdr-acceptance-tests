@@ -55,7 +55,7 @@ Feature: Updates
     Then the employee "<role_id>" is not updated in XMA
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<phone_number>" as an update with name "<name>"
     And Check the employee "<id>" is sent to RCA
-    Then the employee "<id>" is sent to Adecco with phone number "<number>"
+    Then the employee "<id>" is sent to Adecco with phone number "<phone_number>"
 
     Examples:
       | id        | role_id       | inLogisitcs | source | name     | phone_number |
