@@ -11,7 +11,7 @@ Feature: Movers
     And we ingest managers
     And we ingest them
     And the employee "<id>" is sent to all downstream services
-#    And we ingest a device from pubsub for "<id>" with phone number "07234567890"
+    And we ingest a device from pubsub for "<id>" with phone number "07234567890"
     And we run create actions
     And their old job role gets cancelled
     And we receive a new active job role from adecco for employee "<id>" with new role_id "<new_role_id>"
@@ -20,11 +20,11 @@ Feature: Movers
     Then the employee is correctly moved in gsuite with roleId "<new_role_id>" to "<new_org_unit>"
     And the employee "<id>" is no longer in the following groups "<old_groups>"
     And the employee "<id>" is now in the current groups "<new_groups>"
-#    Then the employee "<id>" is sent to LWS as a mover with roleId "<new_role_id>"
-#    Then the employee "<id>" is correctly moved in ServiceNow with "<new_role_id>"
-#    Then the employee from "<source>" with old roleId "<role_id>" and new roleId "<new_role_id>" is correctly moved in XMA with group "<new_group>"
-#    Then the employee "<inLogisitcs>" in the Logisitics CSV with "<new_role_id>"
-#    And Check the employee "<id>" is sent to RCA
+    Then the employee "<id>" is sent to LWS as a mover with roleId "<new_role_id>"
+    Then the employee "<id>" is correctly moved in ServiceNow with "<new_role_id>"
+    Then the employee from "<source>" with old roleId "<role_id>" and new roleId "<new_role_id>" is correctly moved in XMA with group "<new_group>"
+    Then the employee "<inLogisitcs>" in the Logisitics CSV with "<new_role_id>"
+    And Check the employee "<id>" is sent to RCA
 
     Examples:
      | id        | role_id          | inLogisitcs | source | new_group                            | new_role_id    | new_org_unit | new_groups                                                            | old_groups                                            |
