@@ -25,9 +25,9 @@ Feature: Creates
 
     Examples:
       | id        | role_id       | inLogisitcs | source | group                                | org_unit    | new_groups                                                         |
-      | 123456781 | HA-CAR1       | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | ha-car1-group,ons_users,Household-group                            |
-      | 123456782 | HA-CAR1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | ha-car1-group,ha-car1-za-group,ons_users,ons_drive,Household-group |
-      | 123456783 | HA-CAR1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | EW-Officers | ha-car1-za-group,ons_users,ons_drive,Household-group               |
+      | 123456781 | HA-CAR1       | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | ha-car1-group,ons_users,household-group                            |
+      | 123456782 | HA-CAR1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | ha-car1-group,ha-car1-za-group,ons_users,ons_drive,household-group |
+      | 123456783 | HA-CAR1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | EW-Officers | ha-car1-za-group,ons_users,ons_drive,household-group               |
       | 123456784 | SA-CAR1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | sa-car1-group,sa-car1-za-group,ons_users,ons_drive,CE-group        |
       | 123456785 | SA-CAR1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | EW-Officers | sa-car1-za-group,ons_users,ons_drive,CE-group                      |
       | 123456786 | CA-RLN1       | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | Managers    | ca-rln1-group,ons_users,CCS-group                                  |
