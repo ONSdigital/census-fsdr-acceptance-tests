@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.PropertySource;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponseJob;
+import uk.gov.ons.fsdr.common.dto.AdeccoResponseJobRoleCode;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponseWorker;
 import uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoPeopleFactory;
 
@@ -50,7 +51,9 @@ public class AdeccoIngestSteps {
 
   @Given("a role id of {string}")
   public void a_role_id_of(String roleId) {
-    adeccoResponse.setRoleId(roleId);
+    AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
+    adeccoResponseJobRoleCode.setRoleId(roleId);
+    adeccoResponse.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
     if (roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
       adeccoResponse.getResponseJob().setLineManagerFirstName("Bob");
       adeccoResponse.getResponseJob().setLineManagerSurName("Jones");
@@ -80,7 +83,9 @@ public class AdeccoIngestSteps {
     AdeccoResponse moverResponse = new AdeccoResponse();
     moverResponse.setAdeccoResponseWorker(new AdeccoResponseWorker(id));
     moverResponse.setResponseContact(adeccoResponse.getResponseContact());
-    moverResponse.setRoleId(roleId);
+    AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
+    adeccoResponseJobRoleCode.setRoleId(roleId);
+    moverResponse.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
     moverResponse.setResponseJob(new AdeccoResponseJob(null, null, null, null));
     moverResponse.setStatus("ASSIGNED");
     moverResponse.setCrStatus("ACTIVE");
@@ -135,7 +140,9 @@ public class AdeccoIngestSteps {
       managerAdeccoResponse.getResponseContact().setFirstName("Dave");
       managerAdeccoResponse.getResponseContact().setLastName("Davis");
       managerAdeccoResponse.getResponseContact().setTelephoneNo1("0112233445");
-      managerAdeccoResponse.setRoleId(managerRoleId);
+      AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
+      adeccoResponseJobRoleCode.setRoleId(roleId);
+      managerAdeccoResponse.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
       sentManagerIds.add(managerRoleId);
 
       adeccoResponseManagers.add(managerAdeccoResponse);
@@ -152,7 +159,9 @@ public class AdeccoIngestSteps {
       managerAdeccoResponse.getResponseContact().setFirstName("Bob");
       managerAdeccoResponse.getResponseContact().setLastName("Jones");
       managerAdeccoResponse.getResponseContact().setTelephoneNo1("0112233445");
-      managerAdeccoResponse.setRoleId(managerRoleId);
+      AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
+      adeccoResponseJobRoleCode.setRoleId(roleId);
+      managerAdeccoResponse.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
       sentManagerIds.add(managerRoleId);
       adeccoResponseManagers.add(managerAdeccoResponse);
     }
@@ -161,7 +170,7 @@ public class AdeccoIngestSteps {
   @Given("the managers of {string} exist before moving to {string}")
   public void theManagersOfExistBeforeMovingTo(String roleId, String newRoleId) {
     theManagersOfExist(roleId);
-    adeccoResponseLeaver = adeccoResponseManagers.stream().filter(adecco -> adecco.getRoleId().equals(newRoleId))
+    adeccoResponseLeaver = adeccoResponseManagers.stream().filter(adecco -> adecco.getAdeccoResponseJobRoleCode().getRoleId().equals(newRoleId))
         .findFirst();
   }
 
