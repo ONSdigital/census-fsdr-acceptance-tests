@@ -97,7 +97,7 @@ Feature: Creates
     And a contract start date 6 days in the future
     And we ingest them
     When the employee "223456789" is sent to all downstream services
-    Then the employee "223456789" is correctly created in gsuite with roleId "HA-CAR1" and orgUnit "Managers"
+    Then the employee "223456789" is correctly created in gsuite with roleId "HA-CAR1" and orgUnit "ONS Managers"
     And the employee "223456789" is correctly created in ServiceNow with "HA-CAR1"
     And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
@@ -116,7 +116,7 @@ Feature: Creates
     And a contract start date 5 days in the future
     And we ingest them
     When the employee "323456789" is sent to all downstream services
-    And the employee "323456789" is correctly created in gsuite with roleId "HA-CAR1" and orgUnit "Managers"
+    And the employee "323456789" is correctly created in gsuite with roleId "HA-CAR1" and orgUnit "ONS Managers"
     Then the employee "323456789" is sent to Adecco
     And the employee "323456789" is correctly created in ServiceNow with "HA-CAR1"
     And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"

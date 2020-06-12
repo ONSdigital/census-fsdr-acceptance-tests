@@ -141,7 +141,7 @@ public class AdeccoIngestSteps {
       managerAdeccoResponse.getResponseContact().setLastName("Davis");
       managerAdeccoResponse.getResponseContact().setTelephoneNo1("0112233445");
       AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
-      adeccoResponseJobRoleCode.setRoleId(roleId);
+      adeccoResponseJobRoleCode.setRoleId(managerRoleId);
       managerAdeccoResponse.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
       sentManagerIds.add(managerRoleId);
 
@@ -160,7 +160,7 @@ public class AdeccoIngestSteps {
       managerAdeccoResponse.getResponseContact().setLastName("Jones");
       managerAdeccoResponse.getResponseContact().setTelephoneNo1("0112233445");
       AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
-      adeccoResponseJobRoleCode.setRoleId(roleId);
+      adeccoResponseJobRoleCode.setRoleId(managerRoleId);
       managerAdeccoResponse.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
       sentManagerIds.add(managerRoleId);
       adeccoResponseManagers.add(managerAdeccoResponse);
