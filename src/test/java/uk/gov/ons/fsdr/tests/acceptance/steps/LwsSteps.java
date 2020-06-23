@@ -51,18 +51,6 @@ public class LwsSteps {
     String record = lwsMockUtils.getRecords();
 
     String lwsNumber = "44" + number.substring(1);
-    String lmName = "";
-
-    if(roleId.length() == AREA_MANAGER_ROLE_ID_LENGTH) {
-      assertThat(record).contains("\"operatorInstructions2\":\"areaManagerInstruction_CHANGE_ME\"");
-    } else {
-      if (roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
-        lmName = "Bob Jones";
-      } else if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
-        lmName = "Dave Davis";
-      }
-      assertThat(record).contains("\"operatorInstructions2\":\"Check recent Yellow Alerts or Safe Check updates for additional information.\\\\n Contact the line manager ("+lmName+") on 0112233445\"");
-    }
 
     assertThat(record).containsPattern("\"externalSystemPersonCode\":\"Fransico.Buyo[0-9]{2}@domain\"");
     assertThat(record).contains("\"isActivated\":1");
@@ -70,15 +58,16 @@ public class LwsSteps {
     assertThat(record).contains("\"hierarchyItem1\":\"ONS\"");
     assertThat(record).contains("\"hierarchyItem2\":\"Wales\"");
     assertThat(record).contains("\"hierarchyItem3\":\"" + roleId.substring(0,4)+"\"");
-    assertThat(record).contains("\"takeOnCode\":\"ONSTAKEonLIVE\"");
+    assertThat(record).contains("\"takeOnCode\":\"ONSAPP\"");
     assertThat(record).contains("\"phoneNumber\":\""+lwsNumber+"\"");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
     assertThat(record).contains("\"updateMode\":\"BULKLOADER\"");
     assertThat(record).contains("\"templatePersonId\":-1");
     assertThat(record).contains("\"newPersonId\":-1");
-    assertThat(record).contains("\"operatorInstructions1\":\"Contact Lone Worker on mobile: "+number+"\"");
-    assertThat(record).containsPattern("\"operatorInstructions3\":\"Contact the Field Staff Contact Centre on: [0-9]{10}\"");
+    assertThat(record).contains("\"operatorInstructions1\":\"a. Check Yellow/Safe Check messages for contextual information\\nb. Call the lone worker on "+number+"\"");
+    assertThat(record).contains("\"operatorInstructions2\":\"a. Call on Personal mobile number "+ "0987654321"+" (leave voice mail)\\nb. Wait 10 minutes and repeat Operator Instructions No.1\"");
+    assertThat(record).contains("\"operatorInstructions3\":\"Escalate to Field Staff Support - CFS\"");
     assertThat(record).doesNotContain("\"takeOnPassword\":null");
     assertThat(record).containsPattern("emailAddress\":\"Fransico.Buyo[0-9]{2}@domain");
     assertThat(record).contains("\"loginEnabled\":0");
@@ -94,18 +83,6 @@ public class LwsSteps {
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 1000L));
 
     String lwsNumber = "44" + number.substring(1);
-    String lmName = "";
-
-    if(roleId.length() == AREA_MANAGER_ROLE_ID_LENGTH) {
-      assertThat(record).contains("\"operatorInstructions2\":\"areaManagerInstruction_CHANGE_ME\"");
-    } else {
-      if (roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
-        lmName = "Bob Jones";
-      } else if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
-        lmName = "Dave Davis";
-      }
-      assertThat(record).contains("\"operatorInstructions2\":\"Check recent Yellow Alerts or Safe Check updates for additional information.\\\\n Contact the line manager ("+lmName+") on 0112233445\"");
-    }
 
     assertThat(record).containsPattern("\"externalSystemPersonCode\":\"Fransico.Buyo[0-9]{2}@domain\"");
     assertThat(record).contains("\"isActivated\":1");
@@ -113,15 +90,16 @@ public class LwsSteps {
     assertThat(record).contains("\"hierarchyItem1\":\"ONS\"");
     assertThat(record).contains("\"hierarchyItem2\":\"Wales\"");
     assertThat(record).contains("\"hierarchyItem3\":\"" + roleId.substring(0,4)+"\"");
-    assertThat(record).contains("\"takeOnCode\":\"ONSTAKEonLIVE\"");
+    assertThat(record).contains("\"takeOnCode\":\"ONSAPP\"");
     assertThat(record).contains("\"phoneNumber\":\""+lwsNumber+"\"");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
     assertThat(record).contains("\"updateMode\":\"BULKLOADER\"");
     assertThat(record).contains("\"templatePersonId\":-1");
     assertThat(record).contains("\"newPersonId\":-1");
-    assertThat(record).contains("\"operatorInstructions1\":\"Contact Lone Worker on mobile: "+number+"\"");
-    assertThat(record).containsPattern("\"operatorInstructions3\":\"Contact the Field Staff Contact Centre on: [0-9]{10}\"");
+    assertThat(record).contains("\"operatorInstructions1\":\"a. Check Yellow/Safe Check messages for contextual information\\nb. Call the lone worker on "+number+"\"");
+    assertThat(record).contains("\"operatorInstructions2\":\"a. Call on Personal mobile number "+ "0987654321"+" (leave voice mail)\\nb. Wait 10 minutes and repeat Operator Instructions No.1\"");
+    assertThat(record).contains("\"operatorInstructions3\":\"Escalate to Field Staff Support - CFS\"");
     assertThat(record).doesNotContain("\"takeOnPassword\":null");
   }
 
@@ -132,34 +110,22 @@ public class LwsSteps {
     gatewayEventMonitor.grabEventsTriggered("SENDING_LWS_ACTION_RESPONSE", 10, 5000L);
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 1000L));
 
-    String lmName = "";
-
-    if(roleId.length() == AREA_MANAGER_ROLE_ID_LENGTH) {
-      assertThat(record).contains("\"operatorInstructions2\":\"areaManagerInstruction_CHANGE_ME\"");
-    } else {
-      if (roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
-        lmName = "Bob Jones";
-      } else if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
-        lmName = "Dave Davis";
-      }
-      assertThat(record).contains("\"operatorInstructions2\":\"Check recent Yellow Alerts or Safe Check updates for additional information.\\\\n Contact the line manager ("+lmName+") on 0112233445\"");
-    }
-
     assertThat(record).containsPattern("\"externalSystemPersonCode\":\"Fransico.Buyo[0-9]{2}@domain\"");
     assertThat(record).contains("\"isActivated\":1");
     assertThat(record).contains("\"personName\":\"Fransico Buyo\"");
     assertThat(record).contains("\"hierarchyItem1\":\"ONS\"");
     assertThat(record).contains("\"hierarchyItem2\":\"Wales\"");
     assertThat(record).contains("\"hierarchyItem3\":\"" + roleId.substring(0,4)+"\"");
-    assertThat(record).contains("\"takeOnCode\":\"ONSTAKEonLIVE\"");
+    assertThat(record).contains("\"takeOnCode\":\"ONSAPP\"");
     assertThat(record).contains("\"phoneNumber\":\"447234567890\"");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
     assertThat(record).contains("\"updateMode\":\"BULKLOADER\"");
     assertThat(record).contains("\"templatePersonId\":-1");
     assertThat(record).contains("\"newPersonId\":-1");
-    assertThat(record).contains("\"operatorInstructions1\":\"Contact Lone Worker on mobile: 07234567890\"");
-    assertThat(record).containsPattern("\"operatorInstructions3\":\"Contact the Field Staff Contact Centre on: [0-9]{10}\"");
+    assertThat(record).contains("\"operatorInstructions1\":\"a. Check Yellow/Safe Check messages for contextual information\\nb. Call the lone worker on 07234567890\"");
+    assertThat(record).contains("\"operatorInstructions2\":\"a. Call on Personal mobile number "+ "0987654321"+" (leave voice mail)\\nb. Wait 10 minutes and repeat Operator Instructions No.1\"");
+    assertThat(record).contains("\"operatorInstructions3\":\"Escalate to Field Staff Support - CFS\"");
     assertThat(record).doesNotContain("\"takeOnPassword\":null");
   }
 
@@ -173,7 +139,6 @@ public class LwsSteps {
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 1000L));
 
     String lwsNumber = "44" + number.substring(1);
-    String lmName = "";
 
     assertThat(record).containsPattern("\"externalSystemPersonCode\":\"Fransico.Buyo[0-9]{2}@domain\"");
     assertThat(record).contains("\"isActivated\":0");
@@ -181,7 +146,7 @@ public class LwsSteps {
     assertThat(record).contains("\"hierarchyItem1\":null");
     assertThat(record).contains("\"hierarchyItem2\":null");
     assertThat(record).contains("\"hierarchyItem3\":null");
-    assertThat(record).contains("\"takeOnCode\":\"ONSTAKEonLIVE\"");
+    assertThat(record).contains("\"takeOnCode\":\"ONSAPP\"");
     assertThat(record).contains("\"phoneNumber\":\""+lwsNumber+"\"");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
