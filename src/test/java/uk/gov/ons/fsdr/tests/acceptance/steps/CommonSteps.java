@@ -27,7 +27,7 @@ import uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.LwsMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.QueueClient;
-import uk.gov.ons.fsdr.tests.acceptance.utils.SnowMockUtils;
+import uk.gov.ons.fsdr.tests.acceptance.utils.ServiceNowMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.XmaMockUtils;
 
 @Slf4j
@@ -54,7 +54,7 @@ public class CommonSteps {
   private LwsMockUtils lwsMockUtils;
 
   @Autowired
-  private SnowMockUtils snowMockUtils;
+  private ServiceNowMockUtils serviceNowMockUtils;
 
   @Autowired
   private FsdrUtils fsdrUtils;
@@ -85,7 +85,7 @@ public class CommonSteps {
     mockUtils.clearMock();
     mockUtils.cleardb();
     gsuiteMockUtils.clearMock();
-    snowMockUtils.clearMock();
+    serviceNowMockUtils.clearMock();
     xmaMockUtils.clearMock();
     adeccoMockUtils.clearUpdates();
 

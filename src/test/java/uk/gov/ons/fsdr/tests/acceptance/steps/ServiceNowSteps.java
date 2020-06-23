@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
-import uk.gov.ons.fsdr.tests.acceptance.utils.SnowMockUtils;
+import uk.gov.ons.fsdr.tests.acceptance.utils.ServiceNowMockUtils;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -25,7 +25,7 @@ import static uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils.getLastRecord;
 public class ServiceNowSteps {
 
   @Autowired
-  private SnowMockUtils snowMockUtils;
+  private ServiceNowMockUtils serviceNowMockUtils;
 
   @Value("${service.rabbit.url}")
   private String rabbitLocation;
@@ -38,7 +38,7 @@ public class ServiceNowSteps {
 
   @Then("the employee {string} is correctly created in ServiceNow with {string}")
   public void the_employee_is_correctly_create_in_ServiceNow_with(String employeeId, String roleId) {
-    String[] records = snowMockUtils.getRecords();
+    String[] records = serviceNowMockUtils.getRecords();
     String create = records[records.length-1];
 
     String lmName = "\"u_lm_first_name_2\":null,\"u_lm_last_name_2\":null";
@@ -60,7 +60,7 @@ public class ServiceNowSteps {
   @Then("the employee {string} is correctly moved in ServiceNow with {string}")
   public void the_employee_is_correctly_moved_in_ServiceNow_with(String employeeId, String roleId) {
     Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 10, 5000l);
-    String[] records = snowMockUtils.getRecords();
+    String[] records = serviceNowMockUtils.getRecords();
     System.out.println(records);
     String update = getLastRecord(records, roleId);
     String expectedMessageRootNode = "";
@@ -82,7 +82,7 @@ public class ServiceNowSteps {
   @Then("the employee {string} is correctly updated in ServiceNow with {string} and name {string} and number {string}")
   public void the_employee_is_correctly_updated_in_ServiceNow_with(String id, String roleId, String name, String phoneNumber) {
     Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 10, 3000l);
-    String[] records = snowMockUtils.getRecords();
+    String[] records = serviceNowMockUtils.getRecords();
     String update = getLastRecord(records,roleId);
     String expectedMessageRootNode = "";
     String assetId;
@@ -110,11 +110,11 @@ public class ServiceNowSteps {
   }
 
   @Then("the employee {string} is correctly suspended in ServiceNow with {string}")
-  public void theEmployeeIsCorrectlySuspendedInSNow(String id, String roleId) {
+  public void theEmployeeIsCorrectlySuspendedInServiceNow(String id, String roleId) {
     gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 5, 3000L);
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 3000L));
 
-    String[] records = snowMockUtils.getRecords();
+    String[] records = serviceNowMockUtils.getRecords();
     String suspended = getLastRecord(records, roleId);
 
     assertThat(suspended).containsPattern("\"active\":false");
@@ -127,7 +127,7 @@ public class ServiceNowSteps {
   public void the_employee_is_not_created_in_ServiceNow(String id) {
     gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 5, 3000L);
     assertFalse(gatewayEventMonitor.hasEventTriggered(id, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 2000L));
-    String[] records = snowMockUtils.getRecords();
+    String[] records = serviceNowMockUtils.getRecords();
     assertThat(records).isEmpty();
   }
 }

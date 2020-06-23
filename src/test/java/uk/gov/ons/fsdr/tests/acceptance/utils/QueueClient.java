@@ -44,11 +44,11 @@ public final class QueueClient {
       clearQueue("FSDR.EventsDLQ");
       clearQueue("Lws.Action");
       clearQueue("Lws.ActionDLQ");
-      clearQueue("Snow.Action");
-      clearQueue("Snow.ActionDLQ");
-      clearQueue("Snow.Events");
-      clearQueue("Snow.Leaver");
-      clearQueue("Snow.Mover");
+      clearQueue("ServiceNow.Action");
+      clearQueue("ServiceNow.ActionDLQ");
+      clearQueue("ServiceNow.Events");
+      clearQueue("ServiceNow.Leaver");
+      clearQueue("ServiceNow.Mover");
       clearQueue("Xma.ActionDLQ");
       clearQueue("Xma.Coordiantor");
       clearQueue("Xma.Events");

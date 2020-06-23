@@ -13,12 +13,12 @@ import java.net.URL;
 
 @Slf4j
 @Component
-public class SnowMockUtils {
-    @Value("${snow.baseUrl}")
-    private String mockSnowUrl;
+public class ServiceNowMockUtils {
+    @Value("${servicenow.baseUrl}")
+    private String mockServiceNowUrl;
 
     public void clearMock() throws IOException {
-        URL url = new URL(mockSnowUrl + "messages/reset");
+        URL url = new URL(mockServiceNowUrl + "messages/reset");
         log.info("clear-mock_url:" + url.toString());
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("DELETE");
@@ -29,7 +29,7 @@ public class SnowMockUtils {
 
     public  String[] getRecords() {
         RestTemplate restTemplate = new RestTemplate();
-        String url = mockSnowUrl + "messages";
+        String url = mockServiceNowUrl + "messages";
         log.info("getRecords-mock_url:" + url);
         ResponseEntity<String[]> responseEntity;
         responseEntity = restTemplate.getForEntity(url, String[].class);
@@ -38,7 +38,7 @@ public class SnowMockUtils {
 
     public String[] getRecords(String sysId) {
         RestTemplate restTemplate = new RestTemplate();
-        String url = mockSnowUrl + "messages/" + sysId;
+        String url = mockServiceNowUrl + "messages/" + sysId;
         log.info("getRecords-mock_url:" + url);
         ResponseEntity<String[]> responseEntity;
         responseEntity = restTemplate.getForEntity(url, String[].class);
