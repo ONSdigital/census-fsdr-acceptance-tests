@@ -19,7 +19,7 @@ Feature: Updates
     And we ingest them
     When the employee "<id>" is sent to all downstream services
     Then the employee is correctly updated in gsuite with name "<new_name>"
-   # Then the employee "<id>" is sent to LWS as an update with name "<new_name>" and phone number "<number>" and "<role_id>"
+    Then the employee "<id>" is sent to LWS as an update with name "<new_name>" and phone number "<number>" and "<role_id>"
     Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number "<number>"
     Then the employee from "<source>" with roleId "<role_id>" is correctly updated in XMA with name "<new_name>" and group "<group>"
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<number>" as an update with name "<new_name>"
@@ -51,7 +51,7 @@ Feature: Updates
     When the employee "<id>" is sent to all downstream services
     Then the employee "<role_id>" is not updated in gsuite
     Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<name>" and number "<phone_number>"
-   # Then the employee "<id>" is sent to LWS as an update with name "<name>" and phone number "<phone_number>" and "<role_id>"
+    Then the employee "<id>" is sent to LWS as an update with name "<name>" and phone number "<phone_number>" and "<role_id>"
     Then the employee "<role_id>" is not updated in XMA
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<phone_number>" as an update with name "<name>"
     And Check the employee "<id>" is sent to RCA

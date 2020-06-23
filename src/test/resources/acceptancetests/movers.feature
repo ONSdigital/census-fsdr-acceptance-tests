@@ -20,7 +20,7 @@ Feature: Movers
     Then the employee is correctly moved in gsuite with roleId "<new_role_id>" to "<new_org_unit>"
     And the employee "<id>" is no longer in the following groups "<old_groups>"
     And the employee "<id>" is now in the current groups "<new_groups>"
-  #  Then the employee "<id>" is sent to LWS as a mover with roleId "<new_role_id>"
+    Then the employee "<id>" is sent to LWS as a mover with roleId "<new_role_id>"
     Then the employee "<id>" is correctly moved in ServiceNow with "<new_role_id>"
     Then the employee from "<source>" with old roleId "<role_id>" and new roleId "<new_role_id>" is correctly moved in XMA with group "<new_group>"
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<new_role_id>"
