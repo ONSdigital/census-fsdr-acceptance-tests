@@ -89,6 +89,8 @@ public final class MockUtils {
         stmt.executeUpdate(sql);
         sql = "DELETE FROM xma.xma ";
         stmt.executeUpdate(sql);
+        sql = "DELETE FROM service_now.service_now ";
+        stmt.executeUpdate(sql);
       } else {
         System.out.println("Failed to make connection!");
       }
