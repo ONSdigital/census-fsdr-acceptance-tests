@@ -1,5 +1,6 @@
 package uk.gov.ons.fsdr.tests.acceptance.steps;
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -48,29 +50,17 @@ public class DeviceSteps {
     }
 
     private String getOnsId(String employeeId) throws Exception {
-        Statement stmt = null;
+        String sql = String.format("SELECT ons_email_address FROM fsdr.employee WHERE unique_employee_id = '%s'", employeeId);
+        String result = getDatabaseResult(sql, "ons_email_address");
 
-        String result = null;
-
-        try (Connection conn = DriverManager.getConnection(
-                url, username, password)) {
-            if (conn != null) {
-                System.out.println("Connected to the database!");
-                stmt = conn.createStatement();
-                String sql = String.format("SELECT ons_email_address FROM fsdr.employee WHERE unique_employee_id = '%s'", employeeId);
-                ResultSet resultSet = stmt.executeQuery(sql);
-                resultSet.next();
-                result = resultSet.getString("ons_email_address");
-            }
-        } finally {
-            // finally block used to close resources
-            try {
-                if (stmt != null)
-                    stmt.close();
-            } catch (SQLException se) {
-            } // do nothing
-        }
         return result;
+    }
+
+    private int countDevices(String employeeId) throws Exception {
+        String sql = String.format("select count(*) from fsdr.device where unique_employee_id = '%s';", employeeId);
+        String result = getDatabaseResult(sql, "count");
+
+        return Integer.parseInt(result);
     }
 
     public void postDevice(String onsId, String phoneNumber) {
@@ -91,5 +81,34 @@ public class DeviceSteps {
                 builder.toUriString(),
                 HttpMethod.POST,
                 entity, HttpStatus.class);
+    }
+
+    @Then("the employee {string} will only have one phone")
+    public void theEmployeeWillOnlyHaveOnePhone(String employeeId) throws Exception {
+        int deviceCount = countDevices(employeeId);
+        assertEquals(deviceCount, 1);
+    }
+
+    private String getDatabaseResult(String statement, String column) throws Exception {
+        Statement stmt = null;
+
+        String result = null;
+        try (Connection conn = DriverManager.getConnection(url, username, password)) {
+            if (conn != null) {
+                System.out.println("Connected to the database!");
+                stmt = conn.createStatement();
+                ResultSet resultSet = stmt.executeQuery(statement);
+                resultSet.next();
+                result = resultSet.getString(column);
+            }
+        } finally {
+            // finally block used to close resources
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException se) {
+            } // do nothing
+        }
+        return result;
     }
 }

@@ -67,3 +67,34 @@ Feature: Updates
       | 123456786 | CA-RLN1       | is          | ADECCO | Fransico | 07234567860  |
       | 123456787 | CA-RLN1-ZA    | is          | ADECCO | Fransico | 07234567870  |
       | 123456788 | CA-RLN1-ZA-01 | is not      | ADECCO | Fransico | 07234567880  |
+
+    Scenario: A record in FSDR receives a replacement device
+      Given the managers of "HA-CAR1-ZA-01" exist
+      And we ingest managers
+      And An employee exists in "ADECCO" with an id of "123456781"
+      And an assignment status of "ASSIGNED"
+      And a closing report status of "ACTIVE"
+      And a role id of "HA-CAR1-ZA-01"
+      And we ingest them
+      And the employee "123456781" is sent to all downstream services
+      Then the employee "123456781" is sent to Adecco
+      And we ingest a device from pubsub for "123456781" with phone number "07234567810"
+      And we run create actions
+      When the employee "123456781" is sent to all downstream services
+      Then the employee "HA-CAR1-ZA-01" is not updated in gsuite
+      Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567810"
+      Then the employee "123456781" is sent to LWS as an update with name "Fransico" and phone number "07234567810" and "HA-CAR1-ZA-01"
+      Then the employee "HA-CAR1-ZA-01" is not updated in XMA
+      Then the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" and phone number "07234567810" as an update with name "Fransico"
+      And Check the employee "123456781" is sent to RCA
+      Then the employee "123456781" is sent to Adecco with phone number "07234567810"
+      When we ingest a device from pubsub for "123456781" with phone number "07234567811"
+      And we run create actions
+      And the employee "123456781" will only have one phone
+      When the employee "123456781" is sent to all downstream services
+      Then the employee "HA-CAR1-ZA-01" is not updated in gsuite
+      Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567811"
+      Then the employee "123456781" is sent to LWS as an update with name "Fransico" and phone number "07234567811" and "HA-CAR1-ZA-01"
+      Then the employee "HA-CAR1-ZA-01" is not updated in XMA
+      Then the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" and phone number "07234567811" as an update with name "Fransico"
+      And Check the employee "123456781" is sent to RCA
