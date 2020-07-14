@@ -59,8 +59,6 @@ public final class MockUtils {
         stmt.executeUpdate(sql);
         sql = "DELETE FROM fsdr.device ";
         stmt.executeUpdate(sql);
-        sql = "DELETE FROM fsdr.device_history ";
-        stmt.executeUpdate(sql);
         sql = "DELETE FROM fsdr.job_role ";
         stmt.executeUpdate(sql);
         sql = "DELETE FROM fsdr.job_role_history ";
@@ -74,12 +72,6 @@ public final class MockUtils {
         sql = "DELETE FROM fsdr.update_state ";
         stmt.executeUpdate(sql);
         sql = "DELETE FROM fsdr.user_authentication ";
-        stmt.executeUpdate(sql);
-        sql = "DELETE FROM fsdr.service_now ";
-        stmt.executeUpdate(sql);
-        sql = "DELETE FROM fsdr.lws ";
-        stmt.executeUpdate(sql);
-        sql = "DELETE FROM fsdr.xma ";
         stmt.executeUpdate(sql);
         sql = "DELETE FROM fsdr.adecco ";
         stmt.executeUpdate(sql);
