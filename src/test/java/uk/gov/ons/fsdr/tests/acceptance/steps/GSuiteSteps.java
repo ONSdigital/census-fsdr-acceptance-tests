@@ -63,7 +63,6 @@ public class GSuiteSteps {
   public void the_hq_employee_is_correctly_created_in_gsuite(String id, String orgUnit) {
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 5000L));
     String[] records = gsuiteMockUtils.getRecords();
-    System.out.println(records[0]);
 
     assertThat(records[0]).contains("\"changePasswordAtNextLogin\":true,"
         + "\"hashFunction\":\"SHA-1\","
@@ -108,8 +107,6 @@ public class GSuiteSteps {
   public void theEmployeeIsCorrectlySuspendedInGsuite(String id) {
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_USER_SUSPEND_COMPLETE", 5000L));
     String[] records = gsuiteMockUtils.getRecords();
-    System.out.println(records.length);
-    System.out.println(records[0]);
     String suspended1 = records[records.length - 2];
     String suspended2 = records[records.length - 1];
     assertEquals("{\"changePasswordAtNextLogin\":true,\"suspended\":true}", suspended1);

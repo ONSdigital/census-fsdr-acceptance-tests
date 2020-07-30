@@ -31,7 +31,6 @@ public class CsvIngestSteps {
   public void put_hq_create_csv_in_sftp(String source, String fileName) throws JSchException, SftpException, IOException {
     if(source.equals("HQ")) {
       sftpUtils.putFiletoSftp(hqDirectory, hqingestFiles.getPath() + fileName);
-      System.out.println(hqingestFiles + " " + hqDirectory);
     } else {
       //TODO NISRA stuff
     }

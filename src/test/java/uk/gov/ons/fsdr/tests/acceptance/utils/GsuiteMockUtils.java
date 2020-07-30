@@ -63,7 +63,6 @@ public class GsuiteMockUtils {
     log.info("getRecords-mock_url:" + url);
     HqJobRole jobRole = new HqJobRole(employeeId, roleId);
     HttpEntity<HqJobRole> role = new HttpEntity<>(jobRole);
-    System.out.println(jobRole.getUniqueRoleId());
     restTemplate.postForEntity(url, role, ResponseEntity.class);
   }
 

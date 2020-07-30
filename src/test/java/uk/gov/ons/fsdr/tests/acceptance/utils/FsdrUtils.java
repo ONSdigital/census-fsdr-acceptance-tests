@@ -90,7 +90,6 @@ public final class FsdrUtils {
     RestTemplate restTemplate = new RestTemplate();
 
     String url = fsdrServiceUrl + "/fieldforce/byId/" + id;
-    System.out.println(url);
     ResponseEntity<Employee> employeeEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(createHeaders()), Employee.class);
     return employeeEntity;
   }
