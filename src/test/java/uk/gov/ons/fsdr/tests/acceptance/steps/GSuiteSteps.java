@@ -2,6 +2,7 @@ package uk.gov.ons.fsdr.tests.acceptance.steps;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,25 @@ public class GSuiteSteps {
         ",\"password\":\"[0-9a-zA-Z]{40}\",\"primaryEmail\":\"Fransico.Buyo[0-9]{2}@domain\",\"suspended\":false");
   }
 
+  @Then("the HQ employee {string} is correctly created in gsuite with orgUnit {string}")
+  public void the_hq_employee_is_correctly_created_in_gsuite(String id, String orgUnit) {
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 5000L));
+    String[] records = gsuiteMockUtils.getRecords();
+    System.out.println(records[0]);
+
+    assertThat(records[0]).contains("\"changePasswordAtNextLogin\":true,"
+        + "\"hashFunction\":\"SHA-1\","
+        + "\"includeInGlobalAddressList\":true,"
+        + "\"ipWhitelisted\":false,"
+        + "\"name\":{\"familyName\":\"Wardle\",\"givenName\":\"Kieran\"},"
+        + "\"orgUnitPath\":\"/CFODS/" + orgUnit + "\","
+        + "\"organizations\":[{\"department\":\"" + orgUnit + "\",\"primary\":true}]");
+    assertThat(records[0]).containsPattern(",\"password\":\"[0-9a-zA-Z]{40}\","
+        + "\"primaryEmail\":\"Kieran.Wardle[0-9]{2}@domain\","
+        + "\"recoveryEmail\":\""+id+"@test\","
+        + "\"suspended\":false");
+  }
+
   @Then("the employee is correctly updated in gsuite with name {string}")
   public void the_employee_is_correctly_updated_in_gsuite(String name) throws IOException {
     String[] records = gsuiteMockUtils.getRecords();
@@ -84,9 +104,12 @@ public class GSuiteSteps {
     assertEquals(expectedMessageRootNode, actualMessageRootNode);
   }
 
-  @Then("the employee is correctly suspended in gsuite")
-  public void theEmployeeIsCorrectlySuspendedInGsuite() {
+  @Then("the employee {string} is correctly suspended in gsuite")
+  public void theEmployeeIsCorrectlySuspendedInGsuite(String id) {
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_USER_SUSPEND_COMPLETE", 5000L));
     String[] records = gsuiteMockUtils.getRecords();
+    System.out.println(records.length);
+    System.out.println(records[0]);
     String suspended1 = records[records.length - 2];
     String suspended2 = records[records.length - 1];
     assertEquals("{\"changePasswordAtNextLogin\":true,\"suspended\":true}", suspended1);
@@ -133,5 +156,24 @@ public class GSuiteSteps {
       assertThat(currentMemberGroups).contains(group+"@domain");
     }
     assertEquals(newGroupList.length, currentMemberGroups.length);
+  }
+
+  @Given("the roleId for {string} is set to {string} in gsuite")
+  public void the_employees_roleId_is_set_to_in_gsuite(String id, String roleId) {
+    gsuiteMockUtils.addRoleId(id, roleId);
+  }
+
+  @Then("the hq employee {string} is correctly updated in gsuite")
+  public void the_hq_employee_is_correctly_updated_in_gsuite(String id) throws IOException {
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_USER_UPDATE_COMPLETE", 5000L));
+
+    String[] records = gsuiteMockUtils.getRecords();
+    String update = records[records.length - 1];
+
+    JsonNode expectedMessageRootNode = objectMapper
+        .readTree("{\"name\":{\"familyName\":\"Smith\",\"givenName\":\"Kieran\"}}");
+    JsonNode actualMessageRootNode = objectMapper.readTree(update);
+
+    assertEquals(expectedMessageRootNode, actualMessageRootNode);
   }
 }

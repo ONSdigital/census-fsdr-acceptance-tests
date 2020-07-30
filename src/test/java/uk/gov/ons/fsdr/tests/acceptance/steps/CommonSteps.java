@@ -28,6 +28,7 @@ import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.LwsMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.QueueClient;
 import uk.gov.ons.fsdr.tests.acceptance.utils.ServiceNowMockUtils;
+import uk.gov.ons.fsdr.tests.acceptance.utils.SftpUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.XmaMockUtils;
 
 @Slf4j
@@ -36,7 +37,6 @@ public class CommonSteps {
 
   @Autowired
   private QueueClient queueClient;
-
 
   @Autowired
   private GsuiteMockUtils gsuiteMockUtils;
@@ -58,6 +58,9 @@ public class CommonSteps {
 
   @Autowired
   private FsdrUtils fsdrUtils;
+
+  @Autowired
+  private SftpUtils sftpUtils;
 
   public static GatewayEventMonitor gatewayEventMonitor = new GatewayEventMonitor();
   public static final int AREA_MANAGER_ROLE_ID_LENGTH = 7;
@@ -88,6 +91,7 @@ public class CommonSteps {
     serviceNowMockUtils.clearMock();
     xmaMockUtils.clearMock();
     adeccoMockUtils.clearUpdates();
+    sftpUtils.clerarSftp();
 
     lwsMockUtils.clearMock();
     adeccoResponseList.clear();
@@ -167,6 +171,11 @@ public class CommonSteps {
     gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 4, 3000l);
     gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 4, 10000l);
     }
-
   }
+
+  @Given("we retrieve the roleIds from GSuite")
+  public void we_retrieve_the_roleIds_from_GSuite() throws IOException {
+    fsdrUtils.retrieveHqRoleIds();
+  }
+
 }

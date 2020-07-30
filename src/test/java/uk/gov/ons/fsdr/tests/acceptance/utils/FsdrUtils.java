@@ -112,4 +112,30 @@ public final class FsdrUtils {
             .reduce((first, second) -> second).get();
   }
 
+  public void ingestHqCsv() throws IOException {
+    URL url = new URL(fsdrServiceUrl + "/hq/ingest");
+    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+    addBasicAuthentication(httpURLConnection);
+
+    httpURLConnection.setRequestMethod("GET");
+    if (httpURLConnection.getResponseCode() != 200) {
+      log.error("failed to initiate HQ ingest" + httpURLConnection.getResponseCode()
+          + httpURLConnection.getResponseMessage());
+      throw new RuntimeException(httpURLConnection.getResponseMessage());
+    }
+  }
+
+  public void retrieveHqRoleIds() throws IOException {
+    URL url = new URL(fsdrServiceUrl + "/hq/roleId");
+    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+    addBasicAuthentication(httpURLConnection);
+
+    httpURLConnection.setRequestMethod("GET");
+    if (httpURLConnection.getResponseCode() != 200) {
+      log.error("failed to initiate Hq roleId retrievl" + httpURLConnection.getResponseCode()
+          + httpURLConnection.getResponseMessage());
+      throw new RuntimeException(httpURLConnection.getResponseMessage());
+    }
+  }
+
 }
