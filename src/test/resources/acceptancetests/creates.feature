@@ -126,3 +126,11 @@ Feature: Creates
     And we ingest a device from pubsub for "323456789" with phone number "07234567890"
     And we ingest them
     And the employee "323456789" is sent to LWS as an create with name "Fransico" and phone number "07234567890" and "HA-CAR1"
+
+  Scenario: A HQ record is ingested and created
+    Given A "HQ" ingest CSV "00000000_000001_CFOD_HQ_Extract.csv" exists in SFTP
+    And we ingest the HQ CSV
+    And the HQ employee "00000001" is correctly created in gsuite with orgUnit "ONS HQ Staff"
+    And the roleId for "00000001" is set to "AB-CDE1-23" in gsuite
+    And we retrieve the roleIds from GSuite
+      ### Add in extra service creates once implemented

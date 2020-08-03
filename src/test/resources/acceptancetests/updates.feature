@@ -98,3 +98,23 @@ Feature: Updates
       Then the employee "HA-CAR1-ZA-01" is not updated in XMA
       Then the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" and phone number "07234567811" as an update with name "Fransico"
       And Check the employee "123456781" is sent to RCA
+
+  Scenario: An existing HQ record is ingested and updated
+    Given A "HQ" ingest CSV "00000000_000001_CFOD_HQ_Extract.csv" exists in SFTP
+    And we ingest the HQ CSV
+    And the HQ employee "00000001" is correctly created in gsuite with orgUnit "ONS HQ Staff"
+    And the roleId for "00000001" is set to "AB-CDE1" in gsuite
+    And we retrieve the roleIds from GSuite
+    When A "HQ" ingest CSV "00000000_000003_CFOD_HQ_Extract.csv" exists in SFTP
+    And we ingest the HQ CSV
+    Then the hq employee "00000001" is correctly updated in gsuite
+
+  Scenario: An existing HQ record not ingested or updated
+    Given A "HQ" ingest CSV "00000000_000001_CFOD_HQ_Extract.csv" exists in SFTP
+    And we ingest the HQ CSV
+    And the HQ employee "00000001" is correctly created in gsuite with orgUnit "ONS HQ Staff"
+    And the roleId for "00000001" is set to "AB-CDE1" in gsuite
+    And we retrieve the roleIds from GSuite
+    When A "HQ" ingest CSV "00000000_000004_CFOD_HQ_Extract.csv" exists in SFTP
+    And we ingest the HQ CSV
+    Then the employee "AB-CDE1" is not updated in gsuite

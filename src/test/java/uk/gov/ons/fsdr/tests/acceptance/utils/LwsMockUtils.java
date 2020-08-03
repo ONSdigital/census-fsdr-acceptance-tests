@@ -35,7 +35,6 @@ public class LwsMockUtils {
     ResponseEntity<String> responseEntity;
     responseEntity = restTemplate.getForEntity(url, String.class);
 
-    System.out.println(responseEntity.getBody());
     return responseEntity.getBody();
   }
 

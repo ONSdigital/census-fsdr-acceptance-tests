@@ -90,7 +90,6 @@ public final class FsdrUtils {
     RestTemplate restTemplate = new RestTemplate();
 
     String url = fsdrServiceUrl + "/fieldforce/byId/" + id;
-    System.out.println(url);
     ResponseEntity<Employee> employeeEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(createHeaders()), Employee.class);
     return employeeEntity;
   }
@@ -110,6 +109,32 @@ public final class FsdrUtils {
   public static String getLastRecord(String[] records, String search) {
     return Arrays.stream(records).filter(x -> x.contains(search))
             .reduce((first, second) -> second).get();
+  }
+
+  public void ingestHqCsv() throws IOException {
+    URL url = new URL(fsdrServiceUrl + "/hq/ingest");
+    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+    addBasicAuthentication(httpURLConnection);
+
+    httpURLConnection.setRequestMethod("GET");
+    if (httpURLConnection.getResponseCode() != 200) {
+      log.error("failed to initiate HQ ingest" + httpURLConnection.getResponseCode()
+          + httpURLConnection.getResponseMessage());
+      throw new RuntimeException(httpURLConnection.getResponseMessage());
+    }
+  }
+
+  public void retrieveHqRoleIds() throws IOException {
+    URL url = new URL(fsdrServiceUrl + "/hq/roleId");
+    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+    addBasicAuthentication(httpURLConnection);
+
+    httpURLConnection.setRequestMethod("GET");
+    if (httpURLConnection.getResponseCode() != 200) {
+      log.error("failed to initiate Hq roleId retrievl" + httpURLConnection.getResponseCode()
+          + httpURLConnection.getResponseMessage());
+      throw new RuntimeException(httpURLConnection.getResponseMessage());
+    }
   }
 
 }

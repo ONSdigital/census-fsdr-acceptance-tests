@@ -22,7 +22,7 @@ Feature: Leavers
     And an operational end date of "<op_end_date>"
     And we ingest them
     When the employee "<id>" is sent to all downstream services
-    Then the employee is correctly suspended in gsuite
+    Then the employee "<id>" is correctly suspended in gsuite
     And the employee "<id>" is correctly suspended in ServiceNow with "<role_id>"
     And the employee with roleId "<role_id>" is correctly suspended in XMA
     And the employee "<id>" is sent to LWS as an leaver with "<phone_number>"
@@ -55,3 +55,11 @@ Feature: Leavers
       | 323456781 | CA-RLN1       | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | 07234567890  |
       | 323456782 | CA-RLN1-ZA    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | 07234567890  |
       | 323456783 | CA-RLN1-ZA-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | 07234567890  |
+
+  Scenario: A HQ record is left
+    Given A "HQ" ingest CSV "00000000_000001_CFOD_HQ_Extract.csv" exists in SFTP
+    When we ingest the HQ CSV
+    Then the HQ employee "00000001" is correctly created in gsuite with orgUnit "ONS HQ Staff"
+    Given A "HQ" ingest CSV "00000000_000002_CFOD_HQ_Extract.csv" exists in SFTP
+    When we ingest the HQ CSV
+    Then the employee "00000001" is correctly suspended in gsuite

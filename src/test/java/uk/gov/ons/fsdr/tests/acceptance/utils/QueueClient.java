@@ -61,6 +61,8 @@ public final class QueueClient {
 
       clearQueue("xma.transient.error");
       clearQueue("report.events");
+      clearQueue("Hq.RoleId");
+      clearQueue("GSuite.Events");
     }
 
     private void clearQueue(String queueName) throws URISyntaxException {
