@@ -1,6 +1,5 @@
 package uk.gov.ons.fsdr.tests.acceptance.steps;
 
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,11 +39,11 @@ public class DeviceSteps {
     @Value("${device.baseUrl}")
     private String mockDeviceUrl;
 
-    @Then("we ingest a device from pubsub for {string} with phone number {string}")
-    public void weIngestADeviceFromPubsubForWithPhoneNumber(String employeeId, String phoneNumber) throws Exception {
+    @Then("we ingest a device from pubsub for {string} with phone number {string} and IMEI number {string}")
+    public void weIngestADeviceFromPubsubForWithPhoneNumber(String employeeId, String phoneNumber, String imeiNumber) throws Exception {
         String onsId = getOnsId(employeeId);
         if (onsId == null) fail("failed to find ons id for employee " + employeeId);
-        postDevice(onsId, phoneNumber);
+        postDevice(onsId, phoneNumber, imeiNumber);
         assertTrue(gatewayEventMonitor.hasEventTriggered(employeeId, "SAVE_DEVICE"));
 
     }
@@ -63,7 +62,7 @@ public class DeviceSteps {
         return Integer.parseInt(result);
     }
 
-    public void postDevice(String onsId, String phoneNumber) {
+    public void postDevice(String onsId, String phoneNumber, String imeiNumber) {
         RestTemplate restTemplate = new RestTemplate();
         String url = mockDeviceUrl + "createPubSub";
         log.info("createDevice-mock_url:" + url);
@@ -73,7 +72,8 @@ public class DeviceSteps {
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
                 .queryParam("onsId", onsId)
-                .queryParam("phoneNumber", phoneNumber);
+                .queryParam("phoneNumber", phoneNumber)
+                .queryParam("imeiNumber", imeiNumber);
 
         HttpEntity<?> entity = new HttpEntity<>(headers);
 

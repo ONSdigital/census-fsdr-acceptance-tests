@@ -33,7 +33,7 @@ public class XmaMockUtils {
         }
     }
 
-    public  String[] getRecords() {
+    public  String[] getEmployeeRecords() {
         RestTemplate restTemplate = new RestTemplate();
         String url = mockXmaUrl + "messages";
         log.info("getRecords-mock_url:" + url);
@@ -63,7 +63,7 @@ public class XmaMockUtils {
         return response.getBody();
     }
 
-    public String[] getRecords(String email) {
+    public String[] getEmployeeRecords(String email) {
         RestTemplate restTemplate = new RestTemplate();
         String url = mockXmaUrl + "messages/" + email;
         log.info("getRecords-mock_url:" + url);
@@ -91,6 +91,15 @@ public class XmaMockUtils {
             builder.toUriString(),
             HttpMethod.POST,
             entity, HttpStatus.class);
+    }
+
+    public  String[] getDeviceAllocationRecords() {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = mockXmaUrl + "messages/devices";
+        log.info("getDeviceAllocationRecords-mock_url:" + url);
+        ResponseEntity<String[]> responseEntity;
+        responseEntity = restTemplate.getForEntity(url, String[].class);
+        return responseEntity.getBody();
     }
 
 

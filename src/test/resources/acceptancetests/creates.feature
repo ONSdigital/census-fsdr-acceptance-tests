@@ -19,9 +19,11 @@ Feature: Creates
     And Check the employee "<id>" is sent to RCA
     Then the employee "<id>" is sent to Adecco
       ### LWS Requires a device to be created ###
-    And we ingest a device from pubsub for "<id>" with phone number "07234567890"
+    And we ingest a device from pubsub for "<id>" with phone number "07234567890" and IMEI number "990000888888888"
     And we ingest them
     And the employee "<id>" is sent to LWS as an create with name "Fransico" and phone number "07234567890" and "<role_id>"
+    And the employee "<id>" with roleId "<role_id>" device allocation details are sent to xma with IMEI number "990000888888888"
+
 
     Examples:
       | id        | role_id       | inLogisitcs | source | group                                | org_unit     | new_groups                                                         |
@@ -104,9 +106,10 @@ Feature: Creates
     And Check the employee "223456789" is sent to RCA
     And the employee "223456789" is sent to Adecco
       ### LWS Requires a device to be created ###
-    And we ingest a device from pubsub for "223456789" with phone number "07234567890"
+    And we ingest a device from pubsub for "223456789" with phone number "07234567890" and IMEI number "990000888888888"
     And we ingest them
     And the employee "223456789" is sent to LWS as an create with name "Fransico" and phone number "07234567890" and "HA-CAR1"
+    And the employee "223456789" with roleId "HA-CAR1" device allocation details are sent to xma with IMEI number "990000888888888"
 
   Scenario: A record with a start date less than 6 days in the future is created in the downstream systems
     Given An employee exists in "ADECCO" with an id of "323456789"
@@ -123,6 +126,7 @@ Feature: Creates
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
     And Check the employee "323456789" is sent to RCA
       ### LWS Requires a device to be created ###
-    And we ingest a device from pubsub for "323456789" with phone number "07234567890"
+    And we ingest a device from pubsub for "323456789" with phone number "07234567890" and IMEI number "990000888888888"
     And we ingest them
     And the employee "323456789" is sent to LWS as an create with name "Fransico" and phone number "07234567890" and "HA-CAR1"
+    And the employee "323456789" with roleId "HA-CAR1" device allocation details are sent to xma with IMEI number "990000888888888"
