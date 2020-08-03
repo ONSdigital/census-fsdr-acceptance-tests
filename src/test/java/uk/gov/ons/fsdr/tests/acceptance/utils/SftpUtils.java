@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openpgp.PGPCompressedData;
 import org.bouncycastle.openpgp.PGPEncryptedDataList;
@@ -65,9 +67,11 @@ public class SftpUtils {
     @Value("${sftp.pgp.csvKeyPassphrase}")
     private String csvKeyPassword;
 
+    @Value("${sftp.directory.hq}")
+    private String hqDirectory;
+
     @Autowired
     private StorageUtils storageUtils;
-
 
     public String getCsv(String directory, String csvFilename) throws Exception {
         JSch jsch = new JSch();
@@ -190,6 +194,52 @@ public class SftpUtils {
             csvFilename = gatewayEventDTO.getMetadata().get("CSV Filename");
         }
         return csvFilename;
+    }
+
+    public void putFiletoSftp(String directory, String filename) throws JSchException, IOException, SftpException {
+        JSch jsch = new JSch();
+
+        Session session = jsch.getSession(sftpUser, sftpHost, sftpPort);
+
+        Properties config = new Properties();
+        config.put("StrictHostKeyChecking", "no");
+        session.setConfig(config);
+
+        InputStream sftpPrivateKeyStream = storageUtils.getFileInputStream(sftpPrivateKey);
+        jsch.addIdentity("name", sftpPrivateKeyStream.readAllBytes(), null, sftpPrivateKeyPassphrase.getBytes());
+        sftpPrivateKeyStream.close();
+        session.connect();
+        Channel channel = session.openChannel("sftp");
+        channel.connect();
+        ChannelSftp sftp = (ChannelSftp) channel;
+
+        sftp.put(filename, directory);
+
+        sftp.exit();
+        session.disconnect();
+    }
+
+    public void clerarSftp() throws JSchException, IOException, SftpException {
+        JSch jsch = new JSch();
+
+        Session session = jsch.getSession(sftpUser, sftpHost, sftpPort);
+
+        Properties config = new Properties();
+        config.put("StrictHostKeyChecking", "no");
+        session.setConfig(config);
+
+        InputStream sftpPrivateKeyStream = storageUtils.getFileInputStream(sftpPrivateKey);
+        jsch.addIdentity("name", sftpPrivateKeyStream.readAllBytes(), null, sftpPrivateKeyPassphrase.getBytes());
+        sftpPrivateKeyStream.close();
+        session.connect();
+        Channel channel = session.openChannel("sftp");
+        channel.connect();
+        ChannelSftp sftp = (ChannelSftp) channel;
+
+        sftp.rm(hqDirectory + "/*.csv");
+
+        sftp.exit();
+        session.disconnect();
     }
 }
 

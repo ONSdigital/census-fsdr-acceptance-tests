@@ -24,7 +24,6 @@ Feature: Creates
     And the employee "<id>" is sent to LWS as an create with name "Fransico" and phone number "07234567890" and "<role_id>"
     And the employee "<id>" with roleId "<role_id>" device allocation details are sent to xma with IMEI number "990000888888888"
 
-
     Examples:
       | id        | role_id       | inLogisitcs | source | group                                | org_unit     | new_groups                                                         |
       | 123456781 | HA-CAR1       | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ha-car1-group,ons_users,household-group                            |
@@ -130,3 +129,11 @@ Feature: Creates
     And we ingest them
     And the employee "323456789" is sent to LWS as an create with name "Fransico" and phone number "07234567890" and "HA-CAR1"
     And the employee "323456789" with roleId "HA-CAR1" device allocation details are sent to xma with IMEI number "990000888888888"
+
+  Scenario: A HQ record is ingested and created
+    Given A "HQ" ingest CSV "00000000_000001_CFOD_HQ_Extract.csv" exists in SFTP
+    And we ingest the HQ CSV
+    And the HQ employee "00000001" is correctly created in gsuite with orgUnit "ONS HQ Staff"
+    And the roleId for "00000001" is set to "AB-CDE1-23" in gsuite
+    And we retrieve the roleIds from GSuite
+      ### Add in extra service creates once implemented

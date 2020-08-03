@@ -61,7 +61,6 @@ public class ServiceNowSteps {
   public void the_employee_is_correctly_moved_in_ServiceNow_with(String employeeId, String roleId, String assetId) {
     Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 10, 5000l);
     String[] records = serviceNowMockUtils.getRecords();
-    System.out.println(records);
     String update = getLastRecord(records, roleId);
     String expectedMessageRootNode = "";
     String lineManager = "\"u_lm_first_name_2\":null,\"u_lm_last_name_2\":null";
