@@ -52,9 +52,9 @@ public class GSuiteSteps {
       }
 
     assertThat(records[i]).contains(
-        "\"changePasswordAtNextLogin\":true,\"customSchemas\":{\"Employee_Information\":{\"RoleID\":\"" + roleId
-            + "\"}},\"externalIds\":[{\"type\":\"organization\",\"value\":\""+id+"\"}],\"hashFunction\":\"SHA-1\",\"includeInGlobalAddressList\":true,\"ipWhitelisted\":false,\"name\":{\"familyName\":\"Buyo\",\"givenName\":\"Fransico\"},\"orgUnitPath\":\"/CFODS/"
-            + orgUnit + "\",\"organizations\":[{\"department\":\"" + orgUnit + "\",\"primary\":true}]");
+        "\"changePasswordAtNextLogin\":false,\"customSchemas\":{\"Employee_Information\":{\"RoleID\":\"" + roleId
+            + "\"}},\"externalIds\":[{\"type\":\"organization\",\"value\":\""+id+"\"}],\"hashFunction\":\"SHA-1\",\"includeInGlobalAddressList\":true,\"ipWhitelisted\":false,\"name\":{\"familyName\":\"Buyo\",\"givenName\":\"Fransico\"},\"orgUnitPath\":\"/CFODS/Zero Access"
+            + "\",\"organizations\":[{\"department\":\"Zero Access\",\"primary\":true}]");
     assertThat(records[i]).containsPattern(
         ",\"password\":\"[0-9a-zA-Z]{40}\",\"primaryEmail\":\"Fransico.Buyo[0-9]{2}@domain\",\"suspended\":false");
   }
