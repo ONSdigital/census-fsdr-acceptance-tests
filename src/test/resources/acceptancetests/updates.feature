@@ -12,7 +12,7 @@ Feature: Updates
     And the employee "<id>" is sent to all downstream services
     Then the employee "<id>" is sent to Adecco
       ### LWS requires a device to be created ###
-    And we ingest a device from pubsub for "<id>" with phone number "<number>"
+    And we ingest a device from pubsub for "<id>" with phone number "<number>" and IMEI number "990000888888888"
     And we ingest them
       ###
     And we receive an update from adecco for employee "<id>" with new first name "<new_name>"
@@ -20,10 +20,11 @@ Feature: Updates
     When the employee "<id>" is sent to all downstream services
     Then the employee is correctly updated in gsuite with name "<new_name>"
     Then the employee "<id>" is sent to LWS as an update with name "<new_name>" and phone number "<number>" and "<role_id>"
-    Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number "<number>"
+    Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number "<number>" and asset id "990000888888888"
     Then the employee from "<source>" with roleId "<role_id>" is correctly updated in XMA with name "<new_name>" and group "<group>"
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<number>" as an update with name "<new_name>"
     And Check the employee "<id>" is sent to RCA
+    And the employee "<id>" with roleId "<role_id>" device allocation details are sent to xma with IMEI number "990000888888888"
 
     Examples:
       | id         | role_id          | inLogisitcs | source | new_name | group                                | number     |
@@ -46,16 +47,17 @@ Feature: Updates
     And we ingest them
     And the employee "<id>" is sent to all downstream services
     Then the employee "<id>" is sent to Adecco
-    And we ingest a device from pubsub for "<id>" with phone number "<phone_number>"
+    And we ingest a device from pubsub for "<id>" with phone number "<phone_number>" and IMEI number "990000888888888"
     And we run create actions
     When the employee "<id>" is sent to all downstream services
     Then the employee "<role_id>" is not updated in gsuite
-    Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<name>" and number "<phone_number>"
+    Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<name>" and number "<phone_number>" and asset id "990000888888888"
     Then the employee "<id>" is sent to LWS as an update with name "<name>" and phone number "<phone_number>" and "<role_id>"
     Then the employee "<role_id>" is not updated in XMA
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<phone_number>" as an update with name "<name>"
     And Check the employee "<id>" is sent to RCA
     Then the employee "<id>" is sent to Adecco with phone number "<phone_number>"
+    And the employee "<id>" with roleId "<role_id>" device allocation details are sent to xma with IMEI number "990000888888888"
 
     Examples:
       | id        | role_id       | inLogisitcs | source | name     | phone_number |
@@ -78,26 +80,28 @@ Feature: Updates
       And we ingest them
       And the employee "123456781" is sent to all downstream services
       Then the employee "123456781" is sent to Adecco
-      And we ingest a device from pubsub for "123456781" with phone number "07234567810"
+      And we ingest a device from pubsub for "123456781" with phone number "07234567810" and IMEI number "990000888888888"
       And we run create actions
       When the employee "123456781" is sent to all downstream services
       Then the employee "HA-CAR1-ZA-01" is not updated in gsuite
-      Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567810"
+      Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567810" and asset id "990000888888888"
       Then the employee "123456781" is sent to LWS as an update with name "Fransico" and phone number "07234567810" and "HA-CAR1-ZA-01"
       Then the employee "HA-CAR1-ZA-01" is not updated in XMA
       Then the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" and phone number "07234567810" as an update with name "Fransico"
       And Check the employee "123456781" is sent to RCA
       Then the employee "123456781" is sent to Adecco with phone number "07234567810"
-      When we ingest a device from pubsub for "123456781" with phone number "07234567811"
+      And the employee "123456781" with roleId "HA-CAR1-ZA-01" device allocation details are sent to xma with IMEI number "990000888888888"
+      When we ingest a device from pubsub for "123456781" with phone number "07234567811" and IMEI number "990000777777777"
       And we run create actions
       And the employee "123456781" will only have one phone
       When the employee "123456781" is sent to all downstream services
       Then the employee "HA-CAR1-ZA-01" is not updated in gsuite
-      Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567811"
+      Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567811" and asset id "990000777777777"
       Then the employee "123456781" is sent to LWS as an update with name "Fransico" and phone number "07234567811" and "HA-CAR1-ZA-01"
       Then the employee "HA-CAR1-ZA-01" is not updated in XMA
       Then the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" and phone number "07234567811" as an update with name "Fransico"
       And Check the employee "123456781" is sent to RCA
+      And the employee "123456781" with roleId "HA-CAR1-ZA-01" device allocation details are sent to xma with IMEI number "990000777777777"
 
   Scenario: An existing HQ record is ingested and updated
     Given A "HQ" ingest CSV "00000000_000001_CFOD_HQ_Extract.csv" exists in SFTP

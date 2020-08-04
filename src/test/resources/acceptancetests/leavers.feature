@@ -11,7 +11,7 @@ Feature: Leavers
     And we ingest them
     And the employee "<id>" is sent to all downstream services
       ### LWS Requires a device to be created ###
-    And we ingest a device from pubsub for "<id>" with phone number "<phone_number>"
+    And we ingest a device from pubsub for "<id>" with phone number "<phone_number>" and IMEI number "990000888888888"
     And we ingest them
     And the employee "<id>" is sent to all downstream services
       ###
