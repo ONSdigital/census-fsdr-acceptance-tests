@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.XmaMockUtils;
 
 import java.time.LocalDate;
@@ -23,6 +24,9 @@ public class XmaSteps {
 
     @Autowired
     private XmaMockUtils xmaMockUtils;
+
+    @Autowired
+    private FsdrUtils fsdrUtils;
 
     @Value("${service.rabbit.url}")
     private String rabbitLocation;
@@ -156,7 +160,12 @@ public class XmaSteps {
     }
 
   @Then("the employee {string} with roleId {string} device allocation details are sent to xma with IMEI number {string}")
-  public void theEmployeeDeviceAllocationDetailsAreSentToXma(String employeeId, String roleId, String imeiNumber) {
+  public void theEmployeeDeviceAllocationDetailsAreSentToXma(String employeeId, String roleId, String imeiNumber)
+      throws Exception {
+    fsdrUtils.sendDeviceAllocation();
+
+    gatewayEventMonitor.grabEventsTriggered("DEVICE_DETAILS_COMPLETE", 1, 10000l);
+
     String id = xmaMockUtils.getId(roleId);
     final String[] records = xmaMockUtils.getDeviceAllocationRecords();
     final String expectedRequest = "{\"className\":\"RequestManagement.Request\",\"formValues\":[{\"name\":\"RaiseUser\",\"value\":\"d2ba61a5-f0c7-4904-b02a-362a3b348899\"},{\"name\":\"_eTrackerAllocUserObj\",\"value\":\"" + id + "\"},{\"name\":\"_eTrackerIMEI\",\"value\":\"" + imeiNumber + "\"},{\"name\":\"_SystemPartition\",\"value\":\"762a653c-35bf-456a-9de3-41444504e6d6\"},{\"name\":\"Title\",\"value\":\"eTracker API Device Allocation\"},{\"name\":\"Description\",\"value\":\"eTracker API Device Allocation\"}],\"lifecycle_name\":\"NewProcess12\"}";

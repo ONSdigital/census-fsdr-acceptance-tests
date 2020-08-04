@@ -137,4 +137,17 @@ public final class FsdrUtils {
     }
   }
 
+  public void sendDeviceAllocation() throws IOException {
+    URL url = new URL(fsdrServiceUrl + "/fsdr/deviceAllocation");
+    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+    addBasicAuthentication(httpURLConnection);
+
+    httpURLConnection.setRequestMethod("GET");
+    if (httpURLConnection.getResponseCode() != 200) {
+      log.error("failed to initiate device allocation sending" + httpURLConnection.getResponseCode()
+          + httpURLConnection.getResponseMessage());
+      throw new RuntimeException(httpURLConnection.getResponseMessage());
+    }
+  }
+
 }
