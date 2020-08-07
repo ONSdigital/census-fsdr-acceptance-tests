@@ -19,7 +19,7 @@ Feature: Updates
     And we ingest them
     When the employee "<id>" is sent to all downstream services
     Then the employee is correctly updated in gsuite with name "<new_name>"
-    Then the employee "<id>" is sent to LWS as an update with name "<new_name>" and phone number "<number>" and "<role_id>"
+    Then the employee "<id>" is sent to LWS as an update with name "<new_name>" and phone number "<number>" and "<role_id>" with expected hierarchy items "<hier1>" "<hier2>" "<hier3>" "<hier4>" "<hier5>" "<hier6>" "<hier7>"
     Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number "<number>" and asset id "990000888888888"
     Then the employee from "<source>" with roleId "<role_id>" is correctly updated in XMA with name "<new_name>" and group "<group>"
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<number>" as an update with name "<new_name>"
@@ -27,15 +27,15 @@ Feature: Updates
     And the employee "<id>" with roleId "<role_id>" device allocation details are sent to xma with IMEI number "990000888888888"
 
     Examples:
-      | id         | role_id          | inLogisitcs | source | new_name | group                                | number     |
-      | 123456781  | HA-CAR1          | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 07234567890 |
-      | 123456782  | HA-CAR1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 07234567890 |
-      | 123456783  | HA-CAR1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD | 07234567890 |
-      | 123456784  | SA-CAR1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 07234567890 |
-      | 123456785  | SA-CAR1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD | 07234567890 |
-      | 123456786  | CA-RLN1          | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 07234567890 |
-      | 123456787  | CA-RLN1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 07234567890 |
-      | 123456788  | CA-RLN1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD | 07234567890 |
+      | id         | role_id          | inLogisitcs | source | new_name | group                                | number      | hier1           | hier2                   | hier3 | hier4     | hier5          | hier6         | hier7        |
+      | 123456781  | HA-CAR1          | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 07234567890 | England & Wales | Household               | A     | Carlisle  | Area Manager 1 |               |              |
+      | 123456782  | HA-CAR1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 07234567890 | England & Wales | Household               | A     | Carlisle  | Area Manager 1 | Team Leader A |              |
+      | 123456783  | HA-CAR1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD | 07234567890 | England & Wales | Household               | A     | Carlisle  | Area Manager 1 | Team Leader A | 01 Tranche 1 |
+      | 123456784  | SA-CAR1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 07234567890 | England & Wales | Communal Establishments | A     | Carlisle  | Area Manager 1 | Team Leader A |              |
+      | 123456785  | SA-CAR1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD | 07234567890 | England & Wales | Communal Establishments | A     | Carlisle  | Area Manager 1 | Team Leader A | 01 Tranche 1 |
+      | 123456786  | CA-RUN1          | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 07234567890 | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 |               |              |
+      | 123456787  | CA-RUN1-ZA       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | 07234567890 | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 | Team Leader A |              |
+      | 123456788  | CA-RUN1-ZA-01    | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD | 07234567890 | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 | Team Leader A | 01 Tranche 1 |
 
   Scenario Outline: A record in FSDR receives a device
     Given the managers of "<role_id>" exist
@@ -52,7 +52,7 @@ Feature: Updates
     When the employee "<id>" is sent to all downstream services
     Then the employee "<role_id>" is not updated in gsuite
     Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<name>" and number "<phone_number>" and asset id "990000888888888"
-    Then the employee "<id>" is sent to LWS as an update with name "<name>" and phone number "<phone_number>" and "<role_id>"
+    Then the employee "<id>" is sent to LWS as an update with name "<name>" and phone number "<phone_number>" and "<role_id>" with expected hierarchy items "<hier1>" "<hier2>" "<hier3>" "<hier4>" "<hier5>" "<hier6>" "<hier7>"
     Then the employee "<role_id>" is not updated in XMA
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<phone_number>" as an update with name "<name>"
     And Check the employee "<id>" is sent to RCA
@@ -60,15 +60,15 @@ Feature: Updates
     And the employee "<id>" with roleId "<role_id>" device allocation details are sent to xma with IMEI number "990000888888888"
 
     Examples:
-      | id        | role_id       | inLogisitcs | source | name     | phone_number |
-      | 123456781 | HA-CAR1       | is          | ADECCO | Fransico | 07234567810  |
-      | 123456782 | HA-CAR1-ZA    | is          | ADECCO | Fransico | 07234567850  |
-      | 123456783 | HA-CAR1-ZA-01 | is not      | ADECCO | Fransico | 07234567820  |
-      | 123456784 | SA-CAR1-ZA    | is          | ADECCO | Fransico | 07234567830  |
-      | 123456785 | SA-CAR1-ZA-01 | is not      | ADECCO | Fransico | 07234567840  |
-      | 123456786 | CA-RLN1       | is          | ADECCO | Fransico | 07234567860  |
-      | 123456787 | CA-RLN1-ZA    | is          | ADECCO | Fransico | 07234567870  |
-      | 123456788 | CA-RLN1-ZA-01 | is not      | ADECCO | Fransico | 07234567880  |
+      | id        | role_id       | inLogisitcs | source | name     | phone_number | hier1           | hier2                   | hier3 | hier4     | hier5          | hier6         | hier7        |
+      | 123456781 | HA-CAR1       | is          | ADECCO | Fransico | 07234567810  | England & Wales | Household               | A     | Carlisle  | Area Manager 1 |               |              |
+      | 123456782 | HA-CAR1-ZA    | is          | ADECCO | Fransico | 07234567850  | England & Wales | Household               | A     | Carlisle  | Area Manager 1 | Team Leader A |              |
+      | 123456783 | HA-CAR1-ZA-01 | is not      | ADECCO | Fransico | 07234567820  | England & Wales | Household               | A     | Carlisle  | Area Manager 1 | Team Leader A | 01 Tranche 1 |
+      | 123456784 | SA-CAR1-ZA    | is          | ADECCO | Fransico | 07234567830  | England & Wales | Communal Establishments | A     | Carlisle  | Area Manager 1 | Team Leader A |              |
+      | 123456785 | SA-CAR1-ZA-01 | is not      | ADECCO | Fransico | 07234567840  | England & Wales | Communal Establishments | A     | Carlisle  | Area Manager 1 | Team Leader A | 01 Tranche 1 |
+      | 123456786 | CA-RUN1       | is          | ADECCO | Fransico | 07234567860  | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 |               |              |
+      | 123456787 | CA-RUN1-ZA    | is          | ADECCO | Fransico | 07234567870  | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 | Team Leader A |              |
+      | 123456788 | CA-RUN1-ZA-01 | is not      | ADECCO | Fransico | 07234567880  | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 | Team Leader A | 01 Tranche 1 |
 
     Scenario: A record in FSDR receives a replacement device
       Given the managers of "HA-CAR1-ZA-01" exist
@@ -85,7 +85,7 @@ Feature: Updates
       When the employee "123456781" is sent to all downstream services
       Then the employee "HA-CAR1-ZA-01" is not updated in gsuite
       Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567810" and asset id "990000888888888"
-      Then the employee "123456781" is sent to LWS as an update with name "Fransico" and phone number "07234567810" and "HA-CAR1-ZA-01"
+      Then the employee "123456781" is sent to LWS as an update with name "Fransico" and phone number "07234567810" and "HA-CAR1-ZA-01" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "Team Leader A" "01 Tranche 1"
       Then the employee "HA-CAR1-ZA-01" is not updated in XMA
       Then the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" and phone number "07234567810" as an update with name "Fransico"
       And Check the employee "123456781" is sent to RCA
@@ -97,7 +97,7 @@ Feature: Updates
       When the employee "123456781" is sent to all downstream services
       Then the employee "HA-CAR1-ZA-01" is not updated in gsuite
       Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567811" and asset id "990000777777777"
-      Then the employee "123456781" is sent to LWS as an update with name "Fransico" and phone number "07234567811" and "HA-CAR1-ZA-01"
+      Then the employee "123456781" is sent to LWS as an update with name "Fransico" and phone number "07234567811" and "HA-CAR1-ZA-01" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "Team Leader A" "01 Tranche 1"
       Then the employee "HA-CAR1-ZA-01" is not updated in XMA
       Then the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" and phone number "07234567811" as an update with name "Fransico"
       And Check the employee "123456781" is sent to RCA
