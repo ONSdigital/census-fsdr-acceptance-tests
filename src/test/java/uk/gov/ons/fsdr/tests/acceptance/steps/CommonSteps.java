@@ -9,6 +9,7 @@ import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoRes
 import java.io.IOException;
 import java.util.List;
 
+import cucumber.api.java.en.Then;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -173,9 +174,11 @@ public class CommonSteps {
     }
   }
 
-  @Given("we retrieve the roleIds from GSuite")
-  public void we_retrieve_the_roleIds_from_GSuite() throws IOException {
+  @Given("we retrieve the roleIds from GSuite for {string}")
+  public void we_retrieve_the_roleIds_from_GSuite(String id) throws IOException {
     fsdrUtils.retrieveHqRoleIds();
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "HQ_ROLE_ID_RECEIVED", 5000L));
+
   }
 
 }

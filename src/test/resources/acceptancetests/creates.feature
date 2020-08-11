@@ -26,13 +26,13 @@ Feature: Creates
     Examples:
       | id        | role_id       | inLogisitcs | source | group                                | org_unit     | new_groups                                                         |
       | 123456781 | HA-CAR1       | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ha-car1-group,ons_users,household-group                            |
-      | 123456782 | HA-CAR1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ha-car1-group,ha-car1-za-group,ons_users,ons_drive,household-group |
-      | 123456783 | HA-CAR1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | ONS Officers | ha-car1-za-group,ons_users,ons_drive,household-group               |
-      | 123456784 | SA-CAR1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | sa-car1-group,sa-car1-za-group,ons_users,ons_drive,CE-group        |
-      | 123456785 | SA-CAR1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | ONS Officers | sa-car1-za-group,ons_users,ons_drive,CE-group                      |
-      | 123456786 | CA-RLN1       | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ca-rln1-group,ons_users,CCS-group                                  |
-      | 123456787 | CA-RLN1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ca-rln1-group,ca-rln1-za-group,ons_users,ccs_drive,CCS-group       |
-      | 123456788 | CA-RLN1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | ONS Officers | ca-rln1-za-group,ons_users,ccs_drive,CCS-group                     |
+#      | 123456782 | HA-CAR1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ha-car1-group,ha-car1-za-group,ons_users,ons_drive,household-group |
+#      | 123456783 | HA-CAR1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | ONS Officers | ha-car1-za-group,ons_users,ons_drive,household-group               |
+#      | 123456784 | SA-CAR1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | sa-car1-group,sa-car1-za-group,ons_users,ons_drive,CE-group        |
+#      | 123456785 | SA-CAR1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | ONS Officers | sa-car1-za-group,ons_users,ons_drive,CE-group                      |
+#      | 123456786 | CA-RLN1       | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ca-rln1-group,ons_users,CCS-group                                  |
+#      | 123456787 | CA-RLN1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ca-rln1-group,ca-rln1-za-group,ons_users,ccs_drive,CCS-group       |
+#      | 123456788 | CA-RLN1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | ONS Officers | ca-rln1-za-group,ons_users,ccs_drive,CCS-group                     |
 
   Scenario Outline: A record is not created in the downstream systems
     Given An employee exists in "<source>" with an id of "<id>"
@@ -127,10 +127,16 @@ Feature: Creates
     And we ingest them
     And the employee "323456789" is sent to LWS as an create with name "Fransico" and phone number "07234567890" and "HA-CAR1"
 
-  Scenario: A HQ record is ingested and created
+  Scenario Outline: A HQ record is ingested and created
     Given A "HQ" ingest CSV "00000000_000001_CFOD_HQ_Extract.csv" exists in SFTP
-    And we ingest the HQ CSV
-    And the HQ employee "00000001" is correctly created in gsuite with orgUnit "ONS HQ Staff"
-    And the roleId for "00000001" is set to "AB-CDE1-23" in gsuite
-    And we retrieve the roleIds from GSuite
+    When we ingest the HQ CSV
+    Then the HQ employee "00000001" is correctly created in gsuite with orgUnit "ONS HQ Staff"
+    Given the roleId for "00000001" is set to "<role_id>" in gsuite
+    When we retrieve the roleIds from GSuite for "00000001"
+    Then the user "00000001" is added to the following groups "<groups>"
+    Examples:
+      | role_id    | groups            | lws   | xma   |
+      | xx-RMTx    | hq-all,rmt-all    | false | false |
+      | PT-FPHx-xx | hq-all,pt-fph-all | false | false |
+      | PT-FPTx-xx | hq-all,pt-fpt-all | false | false |
       ### Add in extra service creates once implemented
