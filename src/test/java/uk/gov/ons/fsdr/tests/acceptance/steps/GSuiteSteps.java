@@ -64,7 +64,7 @@ public class GSuiteSteps {
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 5000L));
     String[] records = gsuiteMockUtils.getRecords();
 
-    assertThat(records[0]).contains("\"changePasswordAtNextLogin\":true,"
+    assertThat(records[0]).contains("\"changePasswordAtNextLogin\":false,"
         + "\"hashFunction\":\"SHA-1\","
         + "\"includeInGlobalAddressList\":true,"
         + "\"ipWhitelisted\":false,"
@@ -172,5 +172,17 @@ public class GSuiteSteps {
     JsonNode actualMessageRootNode = objectMapper.readTree(update);
 
     assertEquals(expectedMessageRootNode, actualMessageRootNode);
+  }
+
+  @Then("the user {string} is added to the following groups {string}")
+  public void the_user_is_added_to_the_following_groups(String id, String grps) throws InterruptedException {
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 5000L));
+
+    String[] groups = grps.split(",");
+    String[] currentMemberGroups = gsuiteMockUtils.getGroups(id);
+    System.out.println(currentMemberGroups.length);
+    for(String group : groups) {
+      assertThat(currentMemberGroups).contains(group+"@domain");
+    }
   }
 }
