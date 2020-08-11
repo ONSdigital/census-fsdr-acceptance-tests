@@ -1,11 +1,11 @@
 package uk.gov.ons.fsdr.tests.acceptance.steps;
 
-import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.XmaMockUtils;
 
 import java.time.LocalDate;
@@ -25,6 +25,9 @@ public class XmaSteps {
     @Autowired
     private XmaMockUtils xmaMockUtils;
 
+    @Autowired
+    private FsdrUtils fsdrUtils;
+
     @Value("${service.rabbit.url}")
     private String rabbitLocation;
 
@@ -41,7 +44,7 @@ public class XmaSteps {
 
       boolean hasManager = roleId.length() > AREA_MANAGER_ROLE_ID_LENGTH;
 
-        String[] records = xmaMockUtils.getRecords();
+        String[] records = xmaMockUtils.getEmployeeRecords();
         int i = 0;
         for (String record : records) {
             boolean contains = record.contains(String.format("\"name\":\"_RoleID\",\"value\":\"%s\"", roleId));
@@ -72,7 +75,7 @@ public class XmaSteps {
 
   @Then("the employee  is not created in XMA")
     public void the_employee_is_not_created_in_XMA() {
-        String[] records = xmaMockUtils.getRecords();
+        String[] records = xmaMockUtils.getEmployeeRecords();
         assertThat(records).isEmpty();
     }
 
@@ -82,7 +85,7 @@ public class XmaSteps {
         if (id.length() == FIELD_OFFICER_ROLE_ID_LENGTH) expextedCount = 3;
         else if (id.length() == COORDINATOR_ROLE_ID_LENGTH) expextedCount = 2;
         else if (id.length() == AREA_MANAGER_ROLE_ID_LENGTH) expextedCount = 1;
-        String[] records = xmaMockUtils.getRecords();
+        String[] records = xmaMockUtils.getEmployeeRecords();
         assertEquals(expextedCount, records.length);
     }
 
@@ -91,7 +94,7 @@ public class XmaSteps {
       gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 6, 20000l);
 
         boolean hasManager = roleId.length() > AREA_MANAGER_ROLE_ID_LENGTH;
-        String[] records = xmaMockUtils.getRecords();
+        String[] records = xmaMockUtils.getEmployeeRecords();
         String update = getLastRecord(records, roleId);
 
         assertThat(update).contains(
@@ -122,7 +125,7 @@ public class XmaSteps {
         boolean hasManager = roleId.length() > AREA_MANAGER_ROLE_ID_LENGTH;
 
 
-        String[] records = xmaMockUtils.getRecords();
+        String[] records = xmaMockUtils.getEmployeeRecords();
 
         assertThat(records[records.length - 1]).contains(
                 "{\"className\":\"System.EndUser\",\"formValues\":[{\"name\":\"_BadgeNumber\",\"value\":null},{\"name\":\"_EmploymentStatus\",\"value\":\"ACTIVE\"},{\"name\":\"_FirstName\",\"value\":"
@@ -150,10 +153,25 @@ public class XmaSteps {
 
         String id = xmaMockUtils.getId(roleId);
 
-        String[] records = xmaMockUtils.getRecords();
+        String[] records = xmaMockUtils.getEmployeeRecords();
 
         assertEquals("{\"className\":\"RequestManagement.Request\",\"formValues\":[{\"name\":\"_DeletionUser\",\"value\":\"" + id + "\"}],\"lifecycle_name\":\"NewProcess8\"}", records[records.length - 1]);
 
     }
 
+  @Then("the employee {string} with roleId {string} device allocation details are sent to xma with IMEI number {string}")
+  public void theEmployeeDeviceAllocationDetailsAreSentToXma(String employeeId, String roleId, String imeiNumber)
+      throws Exception {
+    fsdrUtils.sendDeviceAllocation();
+
+    gatewayEventMonitor.grabEventsTriggered("DEVICE_DETAILS_COMPLETE", 1, 10000l);
+
+    String id = xmaMockUtils.getId(roleId);
+    final String[] records = xmaMockUtils.getDeviceAllocationRecords();
+    final String expectedRequest = "{\"className\":\"RequestManagement.Request\",\"formValues\":[{\"name\":\"RaiseUser\",\"value\":\"d2ba61a5-f0c7-4904-b02a-362a3b348899\"},{\"name\":\"_eTrackerAllocUserObj\",\"value\":\"" + id + "\"},{\"name\":\"_eTrackerIMEI\",\"value\":\"" + imeiNumber + "\"},{\"name\":\"_SystemPartition\",\"value\":\"762a653c-35bf-456a-9de3-41444504e6d6\"},{\"name\":\"Title\",\"value\":\"eTracker API Device Allocation\"},{\"name\":\"Description\",\"value\":\"eTracker API Device Allocation\"}],\"lifecycle_name\":\"NewProcess12\"}";
+
+    assertEquals(expectedRequest, records[records.length - 1]);
+
+
+  }
 }

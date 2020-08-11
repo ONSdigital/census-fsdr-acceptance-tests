@@ -11,7 +11,7 @@ Feature: Leavers
     And we ingest them
     And the employee "<id>" is sent to all downstream services
       ### LWS Requires a device to be created ###
-    And we ingest a device from pubsub for "<id>" with phone number "<phone_number>"
+    And we ingest a device from pubsub for "<id>" with phone number "<phone_number>" and IMEI number "990000888888888"
     And we ingest them
     And the employee "<id>" is sent to all downstream services
       ###
@@ -36,25 +36,25 @@ Feature: Leavers
       | 123456782 | HA-CAR1-ZA-01 | ASSIGNMENT_CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | 07234567890  |
       | 123456783 | SA-CAR1-ZA    | ASSIGNMENT_CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | 07234567890  |
       | 123456784 | SA-CAR1-ZA-01 | ASSIGNMENT_CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | 07234567890  |
-      | 123456785 | CA-RLN1       | ASSIGNMENT_CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | 07234567890  |
-      | 123456786 | CA-RLN1-ZA    | ASSIGNMENT_CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | 07234567890  |
-      | 123456787 | CA-RLN1-ZA-01 | ASSIGNMENT_CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | 07234567890  |
+      | 123456785 | CA-RUN1       | ASSIGNMENT_CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | 07234567890  |
+      | 123456786 | CA-RUN1-ZA    | ASSIGNMENT_CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | 07234567890  |
+      | 123456787 | CA-RUN1-ZA-01 | ASSIGNMENT_CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | 07234567890  |
       | 123456788 | HA-CAR1       | ASSIGNMENT_ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | 07234567890  |
       | 123456789 | HA-CAR1-ZA    | ASSIGNMENT_ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | 07234567890  |
       | 123456780 | HA-CAR1-ZA-01 | ASSIGNMENT_ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | 07234567890  |
       | 223456781 | SA-CAR1-ZA    | ASSIGNMENT_ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | 07234567890  |
       | 223456782 | SA-CAR1-ZA-01 | ASSIGNMENT_ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | 07234567890  |
-      | 223456783 | CA-RLN1       | ASSIGNMENT_ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | 07234567890  |
-      | 223456784 | CA-RLN1-ZA    | ASSIGNMENT_ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | 07234567890  |
-      | 223456785 | CA-RLN1-ZA-01 | ASSIGNMENT_ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | 07234567890  |
+      | 223456783 | CA-RUN1       | ASSIGNMENT_ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | 07234567890  |
+      | 223456784 | CA-RUN1-ZA    | ASSIGNMENT_ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | 07234567890  |
+      | 223456785 | CA-RUN1-ZA-01 | ASSIGNMENT_ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | 07234567890  |
       | 223456786 | HA-CAR1       | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | 07234567890  |
       | 223456787 | HA-CAR1-ZA    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | 07234567890  |
       | 223456788 | HA-CAR1-ZA-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | 07234567890  |
       | 223456789 | SA-CAR1-ZA    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | 07234567890  |
       | 223456780 | SA-CAR1-ZA-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | 07234567890  |
-      | 323456781 | CA-RLN1       | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | 07234567890  |
-      | 323456782 | CA-RLN1-ZA    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | 07234567890  |
-      | 323456783 | CA-RLN1-ZA-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | 07234567890  |
+      | 323456781 | CA-RUN1       | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | 07234567890  |
+      | 323456782 | CA-RUN1-ZA    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | 07234567890  |
+      | 323456783 | CA-RUN1-ZA-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | 07234567890  |
 
   Scenario: A HQ record is left
     Given A "HQ" ingest CSV "00000000_000001_CFOD_HQ_Extract.csv" exists in SFTP
