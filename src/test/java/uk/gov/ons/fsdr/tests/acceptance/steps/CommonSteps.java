@@ -181,4 +181,10 @@ public class CommonSteps {
 
   }
 
+  @When("we run HQ actions")
+  public void we_run_HQ_actions() throws IOException {
+    fsdrUtils.sendHqActions();
+    assertTrue(gatewayEventMonitor.hasEventTriggered("<N/A>", "HQ_ACTIONS_COMPLETE", 5000L));
+  }
+
 }

@@ -59,7 +59,9 @@ Feature: Leavers
   Scenario: A HQ record is left
     Given A "HQ" ingest CSV "00000000_000001_CFOD_HQ_Extract.csv" exists in SFTP
     When we ingest the HQ CSV
+    And we run HQ actions
     Then the HQ employee "00000001" is correctly created in gsuite with orgUnit "ONS HQ Staff"
     Given A "HQ" ingest CSV "00000000_000002_CFOD_HQ_Extract.csv" exists in SFTP
     When we ingest the HQ CSV
+    And we run HQ actions
     Then the employee "00000001" is correctly suspended in gsuite

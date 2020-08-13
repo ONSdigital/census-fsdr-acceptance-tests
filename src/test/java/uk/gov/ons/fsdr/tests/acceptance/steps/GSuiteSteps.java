@@ -175,8 +175,8 @@ public class GSuiteSteps {
   }
 
   @Then("the user {string} is added to the following groups {string}")
-  public void the_user_is_added_to_the_following_groups(String id, String grps) throws InterruptedException {
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 5000L));
+  public void the_user_is_added_to_the_following_groups(String id, String grps) {
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_GROUPS_COMPLETE", 5000L));
 
     String[] groups = grps.split(",");
     String[] currentMemberGroups = gsuiteMockUtils.getGroups(id);
