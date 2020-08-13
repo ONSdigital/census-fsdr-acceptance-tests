@@ -86,7 +86,9 @@ public final class MockUtils {
       } else {
         System.out.println("Failed to make connection!");
       }
-
+    } catch (SQLException se) {
+      log.error("delete tables failure", se);
+      throw se;
     } finally {
       // finally block used to close resources
       try {
