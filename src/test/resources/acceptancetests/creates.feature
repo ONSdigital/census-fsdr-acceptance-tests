@@ -139,8 +139,7 @@ Feature: Creates
     When we retrieve the roleIds from GSuite for "00000001"
     And we run HQ actions
     Then the user "00000001" is added to the following groups "<groups>"
-
-    Examples:
+  Examples:
     | role_id    | groups            | lws   | xma   |
     | xx-RMTx    | hq-all,rmt-all    | false | false |
     | PT-FPHx-xx | hq-all,pt-fph-all | false | false |
