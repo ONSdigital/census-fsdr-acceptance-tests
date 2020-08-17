@@ -1,5 +1,6 @@
 package uk.gov.ons.fsdr.tests.acceptance.steps;
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import uk.gov.ons.fsdr.tests.acceptance.utils.XmaMockUtils;
 
 import java.time.LocalDate;
 
+import static junit.framework.TestCase.assertFalse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.AREA_MANAGER_ROLE_ID_LENGTH;
@@ -164,7 +166,7 @@ public class XmaSteps {
       throws Exception {
     fsdrUtils.sendDeviceAllocation();
 
-    gatewayEventMonitor.grabEventsTriggered("DEVICE_DETAILS_COMPLETE", 1, 10000l);
+    gatewayEventMonitor.grabEventsTriggered("XMA_DEVICE_SENT", 1, 10000l);
 
     String id = xmaMockUtils.getId(roleId);
     final String[] records = xmaMockUtils.getDeviceAllocationRecords();
@@ -173,5 +175,13 @@ public class XmaSteps {
     assertEquals(expectedRequest, records[records.length - 1]);
 
 
+  }
+
+  @And("the employee {string} device details are not sent to xma")
+  public void theEmployeeDeviceDetailsAreNotSentToXma(String employeeId) {
+    gatewayEventMonitor.grabEventsTriggered("XMA_DEVICE_SENT", 1, 3000L);
+    assertFalse(gatewayEventMonitor.hasEventTriggered(employeeId, "XMA_DEVICE_SENT", 1000L));
+    String[] records = xmaMockUtils.getDeviceAllocationRecords();
+    assertThat(records).isEmpty();
   }
 }

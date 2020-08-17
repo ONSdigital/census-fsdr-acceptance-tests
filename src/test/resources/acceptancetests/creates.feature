@@ -53,26 +53,26 @@ Feature: Creates
 
   Examples:
     | id        | assignment_status    | cr_status | role_id       | start_date | source |
-    | 123456781 | ASSIGNMENT_ENDED     | ACTIVE    | SA-CAR1-ZA    | 2020-01-01 | ADECCO |
-    | 123456782 | ASSIGNMENT_CANCELLED | ACTIVE    | SA-CAR1-ZA-01 | 2020-01-01 | ADECCO |
+    | 123456781 | ASSIGNMENT ENDED     | ACTIVE    | SA-CAR1-ZA    | 2020-01-01 | ADECCO |
+    | 123456782 | ASSIGNMENT CANCELLED | ACTIVE    | SA-CAR1-ZA-01 | 2020-01-01 | ADECCO |
     | 123456783 | ASSIGNED             | INACTIVE  | CA-RLN1       | 2020-01-01 | ADECCO |
-    | 123456784 | READY_TO_START       | INACTIVE  | CA-RLN1       | 2020-01-01 | ADECCO |
-    | 123456785 | ASSIGNMENT_ENDED     | INACTIVE  | CA-RLN1-ZA    | 2020-01-01 | ADECCO |
-    | 123456786 | ASSIGNMENT_CANCELLED | INACTIVE  | CA-RLN1-ZA-01 | 2020-01-01 | ADECCO |
-    | 123456787 | ASSIGNMENT_ENDED     | PENDING   | CA-RLN1-ZA    | 2020-01-01 | ADECCO |
-    | 123456788 | ASSIGNMENT_CANCELLED | PENDING   | CA-RLN1-ZA-01 | 2020-01-01 | ADECCO |
+    | 123456784 | READY TO START       | INACTIVE  | CA-RLN1       | 2020-01-01 | ADECCO |
+    | 123456785 | ASSIGNMENT ENDED     | INACTIVE  | CA-RLN1-ZA    | 2020-01-01 | ADECCO |
+    | 123456786 | ASSIGNMENT CANCELLED | INACTIVE  | CA-RLN1-ZA-01 | 2020-01-01 | ADECCO |
+    | 123456787 | ASSIGNMENT ENDED     | PENDING   | CA-RLN1-ZA    | 2020-01-01 | ADECCO |
+    | 123456788 | ASSIGNMENT CANCELLED | PENDING   | CA-RLN1-ZA-01 | 2020-01-01 | ADECCO |
     | 123456789 | ASSIGNED             | ACTIVE    | HA-CAR1       | 2021-01-01 | ADECCO |
-    | 223456781 | READY_TO_START       | ACTIVE    | HA-CAR1       | 2021-01-01 | ADECCO |
-    | 223456782 | ASSIGNMENT_ENDED     | ACTIVE    | HA-CAR1-ZA    | 2021-01-01 | ADECCO |
-    | 223456783 | ASSIGNMENT_CANCELLED | ACTIVE    | HA-CAR1-ZA-01 | 2021-01-01 | ADECCO |
+    | 223456781 | READY TO START       | ACTIVE    | HA-CAR1       | 2021-01-01 | ADECCO |
+    | 223456782 | ASSIGNMENT ENDED     | ACTIVE    | HA-CAR1-ZA    | 2021-01-01 | ADECCO |
+    | 223456783 | ASSIGNMENT CANCELLED | ACTIVE    | HA-CAR1-ZA-01 | 2021-01-01 | ADECCO |
     | 223456784 | ASSIGNED             | INACTIVE  | CA-RLN1       | 2021-01-01 | ADECCO |
-    | 223456785 | READY_TO_START       | INACTIVE  | CA-RLN1       | 2021-01-01 | ADECCO |
-    | 223456786 | ASSIGNMENT_ENDED     | INACTIVE  | CA-RLN1-ZA    | 2021-01-01 | ADECCO |
-    | 223456787 | ASSIGNMENT_CANCELLED | INACTIVE  | CA-RLN1-ZA-01 | 2021-01-01 | ADECCO |
+    | 223456785 | READY TO START       | INACTIVE  | CA-RLN1       | 2021-01-01 | ADECCO |
+    | 223456786 | ASSIGNMENT ENDED     | INACTIVE  | CA-RLN1-ZA    | 2021-01-01 | ADECCO |
+    | 223456787 | ASSIGNMENT CANCELLED | INACTIVE  | CA-RLN1-ZA-01 | 2021-01-01 | ADECCO |
     | 223456788 | ASSIGNED             | PENDING   | CA-RLN1       | 2021-01-01 | ADECCO |
-    | 223456789 | READY_TO_START       | PENDING   | CA-RLN1       | 2021-01-01 | ADECCO |
-    | 323456781 | ASSIGNMENT_ENDED     | PENDING   | CA-RLN1-ZA    | 2021-01-01 | ADECCO |
-    | 323456782 | ASSIGNMENT_CANCELLED | PENDING   | CA-RLN1-ZA-01 | 2021-01-01 | ADECCO |
+    | 223456789 | READY TO START       | PENDING   | CA-RLN1       | 2021-01-01 | ADECCO |
+    | 323456781 | ASSIGNMENT ENDED     | PENDING   | CA-RLN1-ZA    | 2021-01-01 | ADECCO |
+    | 323456782 | ASSIGNMENT CANCELLED | PENDING   | CA-RLN1-ZA-01 | 2021-01-01 | ADECCO |
 
   Scenario: A record with a start date grater than 6 days in the future is not created in the downstream systems
     Given An employee exists in "ADECCO" with an id of "123456789"
@@ -145,3 +145,24 @@ Feature: Creates
     | PT-FPHx-xx | hq-all,pt-fph-all | false | false |
     | PT-FPTx-xx | hq-all,pt-fpt-all | false | false |
     ### Add in extra service creates once implemented
+
+  Scenario: Device details are not sent to xma and lws when ready to start
+    Given An employee exists in "ADECCO" with an id of "123456781"
+    And an assignment status of "READY TO START"
+    And a closing report status of "ACTIVE"
+    And a role id of "HA-CAR1"
+    And a contract start date of "2020-01-01"
+    And we ingest them
+    When the employee "123456781" is sent to all downstream services
+    Then the employee "123456781" is correctly created in gsuite with roleId "HA-CAR1" and orgUnit "ONS MANAGERS"
+    And the employee "123456781" is now in the current groups "ha-car1-group,ons_users,household-group"
+    And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
+    And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
+    And the employee "123456781" is correctly created in ServiceNow with "HA-CAR1"
+    And Check the employee "123456781" is sent to RCA
+    Then the employee "123456781" is sent to Adecco
+      ### LWS Requires a device to be created ###
+    And we ingest a device from pubsub for "123456781" with phone number "07234567890" and IMEI number "990000888888888"
+    And we ingest them
+    And the employee "123456781" device details are not sent to xma
+    And the employee "123456781" is not sent to LWS

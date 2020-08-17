@@ -44,6 +44,11 @@ public class AdeccoIngestSteps {
     adeccoResponse.setStatus(assignmentStatus);
   }
 
+  @When("the employee assignment status changes to {string}")
+  public void theEmployeeAssignmentStatusChangesTo(String assignmentStatus) {
+    adeccoResponse.setStatus(assignmentStatus);
+  }
+
   @Given("a closing report status of {string}")
   public void a_closing_report_status_of(String crStatus) {
     adeccoResponse.setCrStatus(crStatus);
