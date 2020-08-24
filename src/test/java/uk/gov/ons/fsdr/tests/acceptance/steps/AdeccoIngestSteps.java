@@ -126,11 +126,11 @@ public class AdeccoIngestSteps {
   public void theManagersOfExist(String roleId) {
     Random random = new Random();
     if (roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
-      buildAreaManagerTypeManager(roleId, random.nextInt(1000));
-      buildCoordinatorTypeManager(roleId, random.nextInt(1000));
+      buildAreaManagerTypeManager(roleId, 1);
+      buildCoordinatorTypeManager(roleId, 2);
     }
     if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
-      buildAreaManagerTypeManager(roleId, random.nextInt(1000));
+      buildAreaManagerTypeManager(roleId, 1);
     }
 
   }

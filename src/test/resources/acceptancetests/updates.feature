@@ -18,7 +18,7 @@ Feature: Updates
     And we receive an update from adecco for employee "<id>" with new first name "<new_name>"
     And we ingest them
     When the employee "<id>" is sent to all downstream services
-    Then the employee is correctly updated in gsuite with name "<new_name>"
+    Then the employee "<id>" is correctly updated in gsuite with name "<new_name>"
     Then the employee "<id>" is sent to LWS as an update with name "<new_name>" and phone number "<number>" and "<role_id>" with expected hierarchy items "<hier1>" "<hier2>" "<hier3>" "<hier4>" "<hier5>" "<hier6>" "<hier7>"
     Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number "<number>" and asset id "990000888888888"
     Then the employee from "<source>" with roleId "<role_id>" is correctly updated in XMA with name "<new_name>" and group "<group>"

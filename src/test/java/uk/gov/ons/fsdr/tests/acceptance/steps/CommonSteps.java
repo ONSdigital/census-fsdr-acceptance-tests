@@ -117,20 +117,24 @@ public class CommonSteps {
 
     fsdrUtils.ingestAdecco();
     fsdrUtils.ingestRunFSDRProcess();
+    fsdrUtils.ingestGranby();
+    fsdrUtils.rcaExtract();
   }
 
-  @Given("we ingest managers")
-  public void we_ingest_managers() throws IOException {
+  @Given("we ingest managers of {string}")
+  public void we_ingest_managers(String roleId) throws IOException {
     adeccoMockUtils.addUsersAdecco(adeccoResponseManagers);
 
     fsdrUtils.ingestAdecco();
     fsdrUtils.ingestRunFSDRProcess();
     adeccoResponseManagers.clear();
 
-    gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 5, 3000l);
-    gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 5, 3000l);
-    gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 5, 3000l);
-
+    if(roleId.length() >7) {
+      assertTrue(gatewayEventMonitor.hasEventTriggered("1", "SENDING_XMA_ACTION_RESPONSE", 10000L));
+    }
+    if(roleId.length() >10) {
+      assertTrue(gatewayEventMonitor.hasEventTriggered("2", "SENDING_XMA_ACTION_RESPONSE", 10000L));
+    }
   }
 
   @Given("we run create actions")
@@ -143,10 +147,8 @@ public class CommonSteps {
   public void theEmployeeIsSentToAllDownstreamServices(String id) throws Exception {
 
     //Waits for movers/leavers/updates as they all need to do an initial create that will also trigger the same events
-    gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 6, 10000l);
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_XMA_ACTION_RESPONSE", 2000L));
-    fsdrUtils.ingestGranby();
-    fsdrUtils.rcaExtract();
+    //gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 6, 10000l);
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_XMA_ACTION_RESPONSE", 5000L));
   }
 
   //TODO Remove when event driven is finished

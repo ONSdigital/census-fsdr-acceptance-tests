@@ -17,7 +17,7 @@ Feature: Movers
     And we receive a new active job role from adecco for employee "<id>" with new role_id "<new_role_id>"
     And we ingest them
     When the employee "<id>" is sent to all downstream services
-    Then the employee is correctly moved in gsuite with roleId "<new_role_id>" to "<new_org_unit>"
+    Then the employee "<id>" is correctly moved in gsuite with roleId "<new_role_id>" to "<new_org_unit>"
     And the employee "<id>" is no longer in the following groups "<old_groups>"
     And the employee "<id>" is now in the current groups "<new_groups>"
     Then the employee "<id>" is sent to LWS as a mover with roleId "<new_role_id>" with expected hierarchy items "<hier1>" "<hier2>" "<hier3>" "<hier4>" "<hier5>" "<hier6>" "<hier7>"
