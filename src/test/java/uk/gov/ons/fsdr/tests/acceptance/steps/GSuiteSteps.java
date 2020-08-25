@@ -123,7 +123,7 @@ public class GSuiteSteps {
 
   @Then("the employee {string} is not updated in gsuite")
   public void the_employee_is_not_updated_in_gsuite(String id) {
-    Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 10, 3000l);
+    Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 10, 30000l);
     int expextedCount = 0;
     if (id.length() == FIELD_OFFICER_ROLE_ID_LENGTH) expextedCount = 3;
     else if (id.length() == COORDINATOR_ROLE_ID_LENGTH) expextedCount = 2;

@@ -63,6 +63,16 @@ public final class QueueClient {
       clearQueue("report.events");
       clearQueue("Hq.RoleId");
       clearQueue("Gsuite.Events");
+
+      clearQueue("FSDR.Events.Topic");
+      clearQueue("FSDR.Events.Topics");
+      clearQueue("ServiceNow.Events.Topic");
+      clearQueue("Xma.Events.Topic");
+      clearQueue("report.events");
+      clearQueue("Adecco.Events.Topics");
+      clearQueue("Gsuite.Events.Topic");
+    
+    
     }
 
     private void clearQueue(String queueName) throws URISyntaxException {
