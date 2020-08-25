@@ -163,4 +163,18 @@ public final class FsdrUtils {
     }
   }
 
+
+  public void ingestChromebooks() throws IOException {
+    URL url = new URL(fsdrServiceUrl + "/devices/startChromebook");
+    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+    addBasicAuthentication(httpURLConnection);
+
+    httpURLConnection.setRequestMethod("GET");
+    if (httpURLConnection.getResponseCode() != 200) {
+      log.error("failed to initiate Adecco ingest" + httpURLConnection.getResponseCode()
+          + httpURLConnection.getResponseMessage());
+      throw new RuntimeException(httpURLConnection.getResponseMessage());
+    }
+  }
+
 }

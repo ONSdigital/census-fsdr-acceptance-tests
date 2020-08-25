@@ -166,3 +166,24 @@ Feature: Creates
     And we ingest them
     And the employee "123456781" device details are not sent to xma
     And the employee "123456781" is not sent to LWS
+
+  Scenario: Chromebook details are sent to XMA
+    Given An employee exists in "ADECCO" with an id of "123456781"
+    And an assignment status of "ASSIGNED"
+    And a closing report status of "ACTIVE"
+    And a role id of "HA-CAR1"
+    And a contract start date of "2020-01-01"
+    And we ingest them
+    When the employee "123456781" is sent to all downstream services
+    Then the employee "123456781" is correctly created in gsuite with roleId "HA-CAR1" and orgUnit "ONS MANAGERS"
+    And the employee "123456781" is now in the current groups "ha-car1-group,ons_users,household-group"
+    And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
+    And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
+    And the employee "123456781" is correctly created in ServiceNow with "HA-CAR1"
+    And Check the employee "123456781" is sent to RCA
+    Then the employee "123456781" is sent to Adecco
+      ### LWS Requires a device to be created ###
+    And we ingest a chromebook device for "123456781" with id "XMA123456"
+    And we ingest them
+    And the employee "123456781" with roleId "HA-CAR1" device allocation details are sent to xma with IMEI number "XMA123456"
+    And the employee "123456781" is not sent to LWS
