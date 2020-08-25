@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import static junit.framework.TestCase.assertFalse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.AREA_MANAGER_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.COORDINATOR_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.FIELD_OFFICER_ROLE_ID_LENGTH;
@@ -161,8 +162,8 @@ public class XmaSteps {
 
     }
 
-  @Then("the employee {string} with roleId {string} device allocation details are sent to xma with IMEI number {string}")
-  public void theEmployeeDeviceAllocationDetailsAreSentToXma(String employeeId, String roleId, String imeiNumber)
+  @Then("the employee {string} with roleId {string} {string} device allocation details are sent to xma with ID {string}")
+  public void theEmployeeDeviceAllocationDetailsAreSentToXma(String employeeId, String roleId, String deviceType, String deviceId)
       throws Exception {
     fsdrUtils.sendDeviceAllocation();
 
@@ -170,7 +171,19 @@ public class XmaSteps {
 
     String id = xmaMockUtils.getId(roleId);
     final String[] records = xmaMockUtils.getDeviceAllocationRecords();
-    final String expectedRequest = "{\"className\":\"RequestManagement.Request\",\"formValues\":[{\"name\":\"RaiseUser\",\"value\":\"d2ba61a5-f0c7-4904-b02a-362a3b348899\"},{\"name\":\"_eTrackerAllocUserObj\",\"value\":\"" + id + "\"},{\"name\":\"_eTrackerIMEI\",\"value\":\"" + imeiNumber + "\"},{\"name\":\"_SystemPartition\",\"value\":\"762a653c-35bf-456a-9de3-41444504e6d6\"},{\"name\":\"Title\",\"value\":\"eTracker API Device Allocation\"},{\"name\":\"Description\",\"value\":\"eTracker API Device Allocation\"}],\"lifecycle_name\":\"NewProcess12\"}";
+
+    String expectedRequest = null;
+    if (deviceType.equals("phone")) {
+      expectedRequest =
+          "{\"className\":\"RequestManagement.Request\",\"formValues\":[{\"name\":\"RaiseUser\",\"value\":\"d2ba61a5-f0c7-4904-b02a-362a3b348899\"},{\"name\":\"_eTrackerAllocUserObj\",\"value\":\""
+              + id + "\"},{\"name\":\"_eTrackerDevicePhoneNumber\",\"value\":\"" + deviceId
+              + "\"},{\"name\":\"_SystemPartition\",\"value\":\"762a653c-35bf-456a-9de3-41444504e6d6\"},{\"name\":\"Title\",\"value\":\"eTracker API Device Allocation\"},{\"name\":\"Description\",\"value\":\"eTracker API Device Allocation\"}],\"lifecycle_name\":\"NewProcess12\"}";
+    } else if (deviceType.equals("chromebook")) {
+      expectedRequest =
+          "{\"className\":\"RequestManagement.Request\",\"formValues\":[{\"name\":\"RaiseUser\",\"value\":\"d2ba61a5-f0c7-4904-b02a-362a3b348899\"},{\"name\":\"_eTrackerAllocUserObj\",\"value\":\""
+              + id + "\"},{\"name\":\"_eTrackerIMEI\",\"value\":\"" + deviceId
+              + "\"},{\"name\":\"_SystemPartition\",\"value\":\"762a653c-35bf-456a-9de3-41444504e6d6\"},{\"name\":\"Title\",\"value\":\"eTracker API Device Allocation\"},{\"name\":\"Description\",\"value\":\"eTracker API Device Allocation\"}],\"lifecycle_name\":\"NewProcess12\"}";
+    } else fail();
 
     assertEquals(expectedRequest, records[records.length - 1]);
 
