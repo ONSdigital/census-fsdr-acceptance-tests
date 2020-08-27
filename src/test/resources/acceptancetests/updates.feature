@@ -20,11 +20,11 @@ Feature: Updates
     When the employee "<id>" is sent to all downstream services
     Then the employee is correctly updated in gsuite with name "<new_name>"
     Then the employee "<id>" is sent to LWS as an update with name "<new_name>" and phone number "<number>" and "<role_id>" with expected hierarchy items "<hier1>" "<hier2>" "<hier3>" "<hier4>" "<hier5>" "<hier6>" "<hier7>"
-    Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number "<number>" and asset id "990000888888888"
+#    Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number "<number>" and asset id "990000888888888"
     Then the employee from "<source>" with roleId "<role_id>" is correctly updated in XMA with name "<new_name>" and group "<group>"
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<number>" as an update with name "<new_name>"
     And Check the employee "<id>" is sent to RCA
-    And the employee "<id>" with roleId "<role_id>" device allocation details are sent to xma with IMEI number "990000888888888"
+    And the employee "<id>" with roleId "<role_id>" "phone" device allocation details are sent to xma with ID "<number>"
 
   Examples:
     | id         | role_id          | inLogisitcs | source | new_name | group                                | number      | hier1           | hier2                   | hier3 | hier4     | hier5          | hier6         | hier7        |
@@ -51,13 +51,13 @@ Feature: Updates
     And we run create actions
     When the employee "<id>" is sent to all downstream services
     Then the employee "<role_id>" is not updated in gsuite
-    Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<name>" and number "<phone_number>" and asset id "990000888888888"
+#    Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<name>" and number "<phone_number>" and asset id "990000888888888"
     Then the employee "<id>" is sent to LWS as an update with name "<name>" and phone number "<phone_number>" and "<role_id>" with expected hierarchy items "<hier1>" "<hier2>" "<hier3>" "<hier4>" "<hier5>" "<hier6>" "<hier7>"
     Then the employee "<role_id>" is not updated in XMA
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<phone_number>" as an update with name "<name>"
     And Check the employee "<id>" is sent to RCA
     Then the employee "<id>" is sent to Adecco with phone number "<phone_number>"
-    And the employee "<id>" with roleId "<role_id>" device allocation details are sent to xma with IMEI number "990000888888888"
+    And the employee "<id>" with roleId "<role_id>" "phone" device allocation details are sent to xma with ID "<phone_number>"
 
   Examples:
     | id        | role_id       | inLogisitcs | source | name     | phone_number | hier1           | hier2                   | hier3 | hier4     | hier5          | hier6         | hier7        |
@@ -70,7 +70,7 @@ Feature: Updates
     | 123456787 | CA-RUN1-ZA    | is          | ADECCO | Fransico | 07234567870  | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 | Team Leader A |              |
     | 123456788 | CA-RUN1-ZA-01 | is not      | ADECCO | Fransico | 07234567880  | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 | Team Leader A | 01 Tranche 1 |
 
-  Scenario: A record in FSDR receives a replacement device
+  Scenario: A record in FSDR receives a replacement phone device
     Given the managers of "HA-CAR1-ZA-01" exist
     And we ingest managers
     And An employee exists in "ADECCO" with an id of "123456781"
@@ -84,24 +84,57 @@ Feature: Updates
     And we run create actions
     When the employee "123456781" is sent to all downstream services
     Then the employee "HA-CAR1-ZA-01" is not updated in gsuite
-    Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567810" and asset id "990000888888888"
+#    Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567810" and asset id "990000888888888"
     Then the employee "123456781" is sent to LWS as an update with name "Fransico" and phone number "07234567810" and "HA-CAR1-ZA-01" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "Team Leader A" "01 Tranche 1"
     Then the employee "HA-CAR1-ZA-01" is not updated in XMA
     Then the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" and phone number "07234567810" as an update with name "Fransico"
     And Check the employee "123456781" is sent to RCA
     Then the employee "123456781" is sent to Adecco with phone number "07234567810"
-    And the employee "123456781" with roleId "HA-CAR1-ZA-01" device allocation details are sent to xma with IMEI number "990000888888888"
+    And the employee "123456781" with roleId "HA-CAR1-ZA-01" "phone" device allocation details are sent to xma with ID "07234567810"
     When we ingest a device from pubsub for "123456781" with phone number "07234567811" and IMEI number "990000777777777"
     And we run create actions
     And the employee "123456781" will only have one phone
     When the employee "123456781" is sent to all downstream services
     Then the employee "HA-CAR1-ZA-01" is not updated in gsuite
-    Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567811" and asset id "990000777777777"
+#    Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567811" and asset id "990000777777777"
     Then the employee "123456781" is sent to LWS as an update with name "Fransico" and phone number "07234567811" and "HA-CAR1-ZA-01" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "Team Leader A" "01 Tranche 1"
     Then the employee "HA-CAR1-ZA-01" is not updated in XMA
     Then the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" and phone number "07234567811" as an update with name "Fransico"
     And Check the employee "123456781" is sent to RCA
-    And the employee "123456781" with roleId "HA-CAR1-ZA-01" device allocation details are sent to xma with IMEI number "990000777777777"
+    And the employee "123456781" with roleId "HA-CAR1-ZA-01" "phone" device allocation details are sent to xma with ID "07234567811"
+
+  Scenario: A record in FSDR receives a replacement chromebook device
+    Given the managers of "HA-CAR1-ZA-01" exist
+    And we ingest managers
+    And An employee exists in "ADECCO" with an id of "123456781"
+    And an assignment status of "ASSIGNED"
+    And a closing report status of "ACTIVE"
+    And a role id of "HA-CAR1-ZA-01"
+    And we ingest them
+    And the employee "123456781" is sent to all downstream services
+    Then the employee "123456781" is sent to Adecco
+    And we ingest a chromebook device for "123456781" with id "XMA123456"
+    And we run create actions
+    When the employee "123456781" is sent to all downstream services
+    Then the employee "HA-CAR1-ZA-01" is not updated in gsuite
+#    Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567810" and asset id "990000888888888"
+    Then the employee "123456781" is not sent to LWS
+    Then the employee "HA-CAR1-ZA-01" is not updated in XMA
+    And the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" as a create
+    And Check the employee "123456781" is sent to RCA
+    And the employee "123456781" with roleId "HA-CAR1-ZA-01" "chromebook" device allocation details are sent to xma with ID "XMA123456"
+    And we ingest a chromebook device for "123456781" with id "XMA123457"
+    And we run create actions
+    And the employee "123456781" will only have one phone
+    When the employee "123456781" is sent to all downstream services
+    Then the employee "HA-CAR1-ZA-01" is not updated in gsuite
+#    Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567811" and asset id "990000777777777"
+    Then the employee "123456781" is not sent to LWS
+    Then the employee "HA-CAR1-ZA-01" is not updated in XMA
+    Then the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" and phone number "07234567811" as an update with name "Fransico"
+    And Check the employee "123456781" is sent to RCA
+    And the employee "123456781" with roleId "HA-CAR1-ZA-01" "chromebook" device allocation details are sent to xma with ID "XMA123457"
+
 
   Scenario: An existing HQ record is ingested and updated
     Given A "HQ" ingest CSV "00000000_000001_CFOD_HQ_Extract.csv" exists in SFTP
@@ -146,4 +179,4 @@ Feature: Updates
     And the employee assignment status changes to "ASSIGNED"
     And we ingest them
     And the employee "123456781" is sent to LWS as an create with name "Fransico" and phone number "07234567890" and "HA-CAR1" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "" ""
-    And the employee "123456781" with roleId "HA-CAR1" device allocation details are sent to xma with IMEI number "990000888888888"
+    And the employee "123456781" with roleId "HA-CAR1" "phone" device allocation details are sent to xma with ID "07234567890"

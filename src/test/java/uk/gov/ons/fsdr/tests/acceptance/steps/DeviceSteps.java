@@ -2,6 +2,7 @@ package uk.gov.ons.fsdr.tests.acceptance.steps;
 
 import cucumber.api.java.en.Then;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
+import uk.gov.ons.fsdr.common.dto.devicelist.DeviceDto;
+import uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils;
+import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -38,6 +42,12 @@ public class DeviceSteps {
 
     @Value("${device.baseUrl}")
     private String mockDeviceUrl;
+
+    @Autowired
+    private GsuiteMockUtils gsuiteMockUtils;
+
+    @Autowired
+    private FsdrUtils fsdrUtils;
 
     @Then("we ingest a device from pubsub for {string} with phone number {string} and IMEI number {string}")
     public void weIngestADeviceFromPubsubForWithPhoneNumber(String employeeId, String phoneNumber, String imeiNumber) throws Exception {
@@ -111,4 +121,17 @@ public class DeviceSteps {
         }
         return result;
     }
+
+  @Then("we ingest a chromebook device for {string} with id {string}")
+  public void weIngestAChromebookDeviceForThem(String employeeId, String deviceId) throws Exception {
+      String onsId = getOnsId(employeeId);
+      if (onsId == null) fail("failed to find ons id for employee " + employeeId);
+      DeviceDto deviceDto = new DeviceDto();
+      deviceDto.setOnsId(onsId);
+      deviceDto.setDeviceId(deviceId);
+
+      gsuiteMockUtils.addChromebook(deviceDto);
+
+      fsdrUtils.ingestChromebooks();
+  }
 }
