@@ -5,6 +5,9 @@ import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoRes
 import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponseLeaver;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponseList;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponseManagers;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.sentManagerIds;
+import static uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoPeopleFactory.buildAreaManagerTypeManager;
+import static uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoPeopleFactory.buildCoordinatorTypeManager;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,7 +25,9 @@ import cucumber.api.java.en.When;
 import lombok.extern.slf4j.Slf4j;
 import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
+import uk.gov.ons.fsdr.common.dto.AdeccoResponseJobRoleCode;
 import uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoMockUtils;
+import uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoPeopleFactory;
 import uk.gov.ons.fsdr.tests.acceptance.utils.MockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
@@ -97,6 +102,7 @@ public class CommonSteps {
     lwsMockUtils.clearMock();
     adeccoResponseList.clear();
     adeccoResponseManagers.clear();
+    sentManagerIds.clear();
     mockUtils.enableRequestRecorder();
 
     gatewayEventMonitor.enableEventMonitor(rabbitLocation, rabbitUsername, rabbitPassword);
@@ -133,6 +139,28 @@ public class CommonSteps {
       assertTrue(gatewayEventMonitor.hasEventTriggered("1", "SENDING_XMA_ACTION_RESPONSE", 10000L));
     }
     if(roleId.length() >10) {
+      assertTrue(gatewayEventMonitor.hasEventTriggered("2", "SENDING_XMA_ACTION_RESPONSE", 10000L));
+    }
+  }
+
+  @Given("the managers of {string} exist and have been sent downstream")
+  public void theManagersOfExist(String roleId) throws IOException, InterruptedException {
+    System.out.println(roleId.length());
+    if(roleId.length() > AREA_MANAGER_ROLE_ID_LENGTH) {
+      buildAreaManagerTypeManager(roleId, 1);
+      adeccoMockUtils.addUsersAdecco(adeccoResponseManagers);
+      fsdrUtils.ingestAdecco();
+      fsdrUtils.ingestRunFSDRProcess();
+      assertTrue(gatewayEventMonitor.hasEventTriggered("1", "SENDING_XMA_ACTION_RESPONSE", 10000L));
+      adeccoResponseManagers.clear();
+    }
+
+    if (roleId.length() > COORDINATOR_ROLE_ID_LENGTH) {
+      buildCoordinatorTypeManager(roleId, 2);
+      adeccoMockUtils.addUsersAdecco(adeccoResponseManagers);
+      fsdrUtils.ingestAdecco();
+      fsdrUtils.ingestRunFSDRProcess();
+      adeccoResponseManagers.clear();
       assertTrue(gatewayEventMonitor.hasEventTriggered("2", "SENDING_XMA_ACTION_RESPONSE", 10000L));
     }
   }

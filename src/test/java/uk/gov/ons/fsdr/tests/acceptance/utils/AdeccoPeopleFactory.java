@@ -7,9 +7,15 @@ import java.util.UUID;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponseContact;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponseJob;
+import uk.gov.ons.fsdr.common.dto.AdeccoResponseJobRoleCode;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponseWorker;
 import uk.gov.ons.fsdr.common.dto.LocalAuthority;
 import uk.gov.ons.fsdr.common.dto.LocalAuthorityArea;
+
+import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponseManagers;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.sentManagerIds;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.AREA_MANAGER_ROLE_ID_LENGTH;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.COORDINATOR_ROLE_ID_LENGTH;
 
 public class AdeccoPeopleFactory {
   
@@ -53,6 +59,44 @@ public class AdeccoPeopleFactory {
         .build();
    
     return adeccoResponse;
+  }
+
+
+  public static void buildCoordinatorTypeManager(String roleId, int id) {
+    String managerRoleId = roleId.substring(0, COORDINATOR_ROLE_ID_LENGTH);
+    if (!sentManagerIds.contains(managerRoleId)) {
+      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id));
+      managerAdeccoResponse.setContractStartDate("2020-01-01");
+      managerAdeccoResponse.setStatus("ASSIGNED");
+      managerAdeccoResponse.setCrStatus("ACTIVE");
+      managerAdeccoResponse.getResponseContact().setFirstName("Dave");
+      managerAdeccoResponse.getResponseContact().setLastName("Davis");
+      managerAdeccoResponse.getResponseContact().setTelephoneNo1("0112233445");
+      AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
+      adeccoResponseJobRoleCode.setRoleId(managerRoleId);
+      managerAdeccoResponse.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
+      sentManagerIds.add(managerRoleId);
+
+      adeccoResponseManagers.add(managerAdeccoResponse);
+    }
+  }
+
+  public static void buildAreaManagerTypeManager(String roleId, int id) {
+    String managerRoleId = roleId.substring(0, AREA_MANAGER_ROLE_ID_LENGTH);
+    if (!sentManagerIds.contains(managerRoleId)) {
+      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id));
+      managerAdeccoResponse.setContractStartDate("2020-01-01");
+      managerAdeccoResponse.setStatus("ASSIGNED");
+      managerAdeccoResponse.setCrStatus("ACTIVE");
+      managerAdeccoResponse.getResponseContact().setFirstName("Bob");
+      managerAdeccoResponse.getResponseContact().setLastName("Jones");
+      managerAdeccoResponse.getResponseContact().setTelephoneNo1("0112233445");
+      AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
+      adeccoResponseJobRoleCode.setRoleId(managerRoleId);
+      managerAdeccoResponse.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
+      sentManagerIds.add(managerRoleId);
+      adeccoResponseManagers.add(managerAdeccoResponse);
+    }
   }
 
 }

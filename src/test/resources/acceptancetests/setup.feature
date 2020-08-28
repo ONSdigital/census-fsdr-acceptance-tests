@@ -7,8 +7,7 @@ Feature: Setup
     And a closing report status of "ACTIVE"
     And a role id of "<role_id>"
     And a contract start date of "2020-01-01"
-    And the managers of "<role_id>" exist
-    And we ingest managers
+    And the managers of "<role_id>" exist and have been sent downstream
     And we ingest them
     Then the employee "<id>" is correctly created in gsuite with roleId "<role_id>" and orgUnit "Zero Access"
     And the employee assignment status changes to "TRAINING IN PROGRESS"

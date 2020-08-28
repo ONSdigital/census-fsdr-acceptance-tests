@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
 
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.AREA_MANAGER_ROLE_ID_LENGTH;
@@ -30,7 +29,7 @@ public class AdeccoIngestSteps {
   public static List<AdeccoResponse> adeccoResponseList = new ArrayList<>();
   public static List<AdeccoResponse> adeccoResponseManagers = new ArrayList<>();
   public static Optional<AdeccoResponse> adeccoResponseLeaver = Optional.empty();
-  public Set<String> sentManagerIds = new HashSet<>();
+  public static Set<String> sentManagerIds = new HashSet<>();
 
   @Given("An employee exists in {string} with an id of {string}")
   public void we_recieve_an_employee_with_an_id_of(String source, String id) {
@@ -122,9 +121,8 @@ public class AdeccoIngestSteps {
     adeccoResponse.setContractStartDate(LocalDate.now().plusDays(days).toString());
   }
 
-  @Given("the managers of {string} exist")
+//  @Given("the managers of {string} exist")
   public void theManagersOfExist(String roleId) {
-    Random random = new Random();
     if (roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
       buildAreaManagerTypeManager(roleId, 1);
       buildCoordinatorTypeManager(roleId, 2);
