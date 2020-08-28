@@ -21,7 +21,7 @@ Feature: Creates
     And we ingest a device from pubsub for "<id>" with phone number "07234567890" and IMEI number "990000888888888"
     And we ingest them
     And the employee "<id>" is sent to LWS as an create with name "Fransico" and phone number "07234567890" and "<role_id>" with expected hierarchy items "<hier1>" "<hier2>" "<hier3>" "<hier4>" "<hier5>" "<hier6>" "<hier7>"
-    And the employee "<id>" with roleId "<role_id>" device allocation details are sent to xma with IMEI number "990000888888888"
+    And the employee "<id>" with roleId "<role_id>" "phone" device allocation details are sent to xma with ID "07234567890"
 
   Examples:
     | id        | role_id       | inLogisitcs | source | group                                | org_unit    | new_groups | hier1           | hier2                   | hier3 | hier4     | hier5          | hier6         | hier7        |
@@ -107,7 +107,7 @@ Feature: Creates
     And we ingest a device from pubsub for "223456789" with phone number "07234567890" and IMEI number "990000888888888"
     And we ingest them
     And the employee "223456789" is sent to LWS as an create with name "Fransico" and phone number "07234567890" and "HA-CAR1" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "" ""
-    And the employee "223456789" with roleId "HA-CAR1" device allocation details are sent to xma with IMEI number "990000888888888"
+    And the employee "223456789" with roleId "HA-CAR1" "phone" device allocation details are sent to xma with ID "07234567890"
 
   Scenario: A record with a start date less than 6 days in the future is created in the downstream systems
     Given An employee exists in "ADECCO" with an id of "323456789"
@@ -127,7 +127,7 @@ Feature: Creates
     And we ingest a device from pubsub for "323456789" with phone number "07234567890" and IMEI number "990000888888888"
     And we ingest them
     And the employee "323456789" is sent to LWS as an create with name "Fransico" and phone number "07234567890" and "HA-CAR1" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "" ""
-    And the employee "323456789" with roleId "HA-CAR1" device allocation details are sent to xma with IMEI number "990000888888888"
+    And the employee "323456789" with roleId "HA-CAR1" "phone" device allocation details are sent to xma with ID "07234567890"
 
   Scenario Outline: A HQ record is ingested and created
     Given A "HQ" ingest CSV "00000000_000001_CFOD_HQ_Extract.csv" exists in SFTP
@@ -164,4 +164,25 @@ Feature: Creates
     And we ingest a device from pubsub for "123456781" with phone number "07234567890" and IMEI number "990000888888888"
     And we ingest them
     And the employee "123456781" device details are not sent to xma
+    And the employee "123456781" is not sent to LWS
+
+  Scenario: Chromebook details are sent to XMA
+    Given An employee exists in "ADECCO" with an id of "123456781"
+    And an assignment status of "ASSIGNED"
+    And a closing report status of "ACTIVE"
+    And a role id of "HA-CAR1"
+    And a contract start date of "2020-01-01"
+    And we ingest them
+    When the employee "123456781" is sent to all downstream services
+    Then the employee "123456781" is correctly created in gsuite with roleId "HA-CAR1" and orgUnit "ONS MANAGERS"
+    And the employee "123456781" is now in the current groups "ha-car1-group,ons_users,household-group"
+    And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
+    And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
+    And the employee "123456781" is correctly created in ServiceNow with "HA-CAR1"
+    And Check the employee "123456781" is sent to RCA
+    Then the employee "123456781" is sent to Adecco
+      ### LWS Requires a device to be created ###
+    And we ingest a chromebook device for "123456781" with id "XMA123456"
+    And we ingest them
+    And the employee "123456781" with roleId "HA-CAR1" "chromebook" device allocation details are sent to xma with ID "XMA123456"
     And the employee "123456781" is not sent to LWS
