@@ -193,10 +193,9 @@ public class GSuiteSteps {
     String[] records = gsuiteMockUtils.getRecords();
     int i = 0;
     for (String record : records) {
-      System.out.println(record);
-      boolean contains = !record.contains("Zero Access");
+      boolean notZeroAccess = !record.contains("Zero Access");
 
-      if (contains) break;
+      if (notZeroAccess) break;
       i++;
     }
     assertThat(records[i]).contains(
