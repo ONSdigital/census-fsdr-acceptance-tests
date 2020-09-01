@@ -62,10 +62,10 @@ public class AdeccoPeopleFactory {
   }
 
 
-  public static void buildCoordinatorTypeManager(String roleId, int id) {
+  public static void buildCoordinatorTypeManager(String roleId, String id) {
     String managerRoleId = roleId.substring(0, COORDINATOR_ROLE_ID_LENGTH);
     if (!sentManagerIds.contains(managerRoleId)) {
-      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id));
+      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(id);
       managerAdeccoResponse.setContractStartDate("2020-01-01");
       managerAdeccoResponse.setStatus("ASSIGNED");
       managerAdeccoResponse.setCrStatus("ACTIVE");
@@ -81,10 +81,10 @@ public class AdeccoPeopleFactory {
     }
   }
 
-  public static void buildAreaManagerTypeManager(String roleId, int id) {
+  public static void buildAreaManagerTypeManager(String roleId, String id) {
     String managerRoleId = roleId.substring(0, AREA_MANAGER_ROLE_ID_LENGTH);
     if (!sentManagerIds.contains(managerRoleId)) {
-      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id));
+      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(id);
       managerAdeccoResponse.setContractStartDate("2020-01-01");
       managerAdeccoResponse.setStatus("ASSIGNED");
       managerAdeccoResponse.setCrStatus("ACTIVE");

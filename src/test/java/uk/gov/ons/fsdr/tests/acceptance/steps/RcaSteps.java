@@ -67,7 +67,7 @@ public class RcaSteps {
   @Then("Check the employee {string} is not sent to RCA")
   public void checkTheEmployeeNotSendToRCA(String employeeId) throws IOException, URISyntaxException {
     String csvFilename = null;
-    gatewayEventMonitor.hasEventTriggered("<N/A>", "RCA_EXTRACT_COMPLETE", 2000l);
+    gatewayEventMonitor.hasEventTriggered("<N/A>", "RCA_EXTRACT_COMPLETE", 2000L);
     Collection<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor.grabEventsTriggered("RCA_EXTRACT_COMPLETE", 1, 100l);
     for (GatewayEventDTO gatewayEventDTO : logistics_extract_sent) {
       csvFilename = gatewayEventDTO.getMetadata().get("CSV Filename");

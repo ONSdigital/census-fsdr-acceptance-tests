@@ -38,6 +38,7 @@ public class ServiceNowSteps {
 
   @Then("the employee {string} is correctly created in ServiceNow with {string}")
   public void the_employee_is_correctly_create_in_ServiceNow_with(String employeeId, String roleId) {
+    assertTrue(gatewayEventMonitor.hasEventTriggered(employeeId, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 10000L));
     String[] records = serviceNowMockUtils.getRecords();
     String create = records[records.length-1];
 
@@ -59,7 +60,8 @@ public class ServiceNowSteps {
 
   @Then("the employee {string} is correctly moved in ServiceNow with {string} and asset id {string}")
   public void the_employee_is_correctly_moved_in_ServiceNow_with(String employeeId, String roleId, String assetId) {
-    Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 10, 5000l);
+    assertTrue(gatewayEventMonitor.hasEventTriggered(employeeId, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 10000L));
+
     String[] records = serviceNowMockUtils.getRecords();
     String update = getLastRecord(records, roleId);
     String expectedMessageRootNode = "";
@@ -80,7 +82,8 @@ public class ServiceNowSteps {
 
   @Then("the employee {string} is correctly updated in ServiceNow with {string} and name {string} and number {string} and asset id {string}")
   public void the_employee_is_correctly_updated_in_ServiceNow_with(String id, String roleId, String name, String phoneNumber, String assetId) {
-    Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 10, 3000l);
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 10000L));
+
     String[] records = serviceNowMockUtils.getRecords();
     String update = getLastRecord(records,roleId);
     String expectedMessageRootNode = "";
@@ -103,14 +106,12 @@ public class ServiceNowSteps {
         + roleId
         + "\",\"u_job_role_2\":null,\"u_contract_start_date\":\"2020-01-01\",\"u_contract_end_date\":\""+ LocalDate.now().plusDays(5)+"\",\"u_employment_status\":\"ACTIVE\",\"zip\":\"FA43 1AB\",\"u_ons_id\":\"Fransico.Buyo[0-9]{2}@domain\",\"u_asset_number\":"+assetId+",\"u_ons_device_number\":"
         + phoneNumber + ",\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true,\"user_name\":\""+id+"\"";
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 10000L));
     assertThat(update).containsPattern(expectedMessageRootNode);
   }
 
   @Then("the employee {string} is correctly suspended in ServiceNow with {string}")
   public void theEmployeeIsCorrectlySuspendedInServiceNow(String id, String roleId) {
-    gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 5, 3000L);
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 3000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 10000L));
 
     String[] records = serviceNowMockUtils.getRecords();
     String suspended = getLastRecord(records, roleId);

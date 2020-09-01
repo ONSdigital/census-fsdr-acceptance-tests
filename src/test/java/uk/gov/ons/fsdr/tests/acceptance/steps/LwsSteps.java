@@ -46,8 +46,7 @@ public class LwsSteps {
   public void the_employee_in_the_LWS_CSV_as_an_createe(String id, String name, String number, String roleId,
       String hierarchyItem1, String hierarchyItem2, String hierarchyItem3, String hierarchyItem4, String hierarchyItem5,
       String hierarchyItem6, String hierarchyItem7) {
-    gatewayEventMonitor.grabEventsTriggered("SENDING_LWS_ACTION_RESPONSE", 10, 5000L);
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 1000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 10000L));
     String record = lwsMockUtils.getRecords();
 
     String lwsNumber = "44" + number.substring(1);
@@ -96,8 +95,7 @@ public class LwsSteps {
       String hierarchyItem6, String hierarchyItem7) {
     String record = lwsMockUtils.getRecords();
 
-    gatewayEventMonitor.grabEventsTriggered("SENDING_LWS_ACTION_RESPONSE", 10, 5000L);
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 1000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 10000L));
 
     String lwsNumber = "44" + number.substring(1);
 
@@ -144,8 +142,7 @@ public class LwsSteps {
       String hierarchyItem7) {
     String record = lwsMockUtils.getRecords();
 
-    gatewayEventMonitor.grabEventsTriggered("SENDING_LWS_ACTION_RESPONSE", 10, 5000L);
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 1000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 10000L));
 
     assertThat(record).containsPattern("\"externalSystemPersonCode\":\"Fransico.Buyo[0-9]{2}@domain\"");
     assertThat(record).contains("\"isActivated\":1");
@@ -187,8 +184,7 @@ public class LwsSteps {
   public void the_employee_in_the_LWS_CSV_as_an_Leaver(String id, String number) {
     String record = lwsMockUtils.getRecords();
 
-    gatewayEventMonitor.grabEventsTriggered("SENDING_LWS_ACTION_RESPONSE", 10, 3000L);
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 1000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 10000L));
 
     String lwsNumber = "44" + number.substring(1);
 

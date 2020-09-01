@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.AREA_MANAGER_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.COORDINATOR_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.FIELD_OFFICER_ROLE_ID_LENGTH;
 
@@ -119,70 +118,6 @@ public class AdeccoIngestSteps {
   @Given("a contract start date {int} days in the future")
   public void a_contract_start_date_more_than_days_away(int days) {
     adeccoResponse.setContractStartDate(LocalDate.now().plusDays(days).toString());
-  }
-
-//  @Given("the managers of {string} exist")
-  public void theManagersOfExist(String roleId) {
-    if (roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
-      buildAreaManagerTypeManager(roleId, 1);
-      buildCoordinatorTypeManager(roleId, 2);
-    }
-    if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
-      buildAreaManagerTypeManager(roleId, 1);
-    }
-
-  }
-
-  private void buildCoordinatorTypeManager(String roleId, int id) {
-    String managerRoleId = roleId.substring(0, COORDINATOR_ROLE_ID_LENGTH);
-    if (!sentManagerIds.contains(managerRoleId)) {
-      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id));
-      managerAdeccoResponse.setContractStartDate("2020-01-01");
-      managerAdeccoResponse.setStatus("ASSIGNED");
-      managerAdeccoResponse.setCrStatus("ACTIVE");
-      managerAdeccoResponse.getResponseContact().setFirstName("Dave");
-      managerAdeccoResponse.getResponseContact().setLastName("Davis");
-      managerAdeccoResponse.getResponseContact().setTelephoneNo1("0112233445");
-      AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
-      adeccoResponseJobRoleCode.setRoleId(managerRoleId);
-      managerAdeccoResponse.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
-      sentManagerIds.add(managerRoleId);
-
-      adeccoResponseManagers.add(managerAdeccoResponse);
-    }
-  }
-
-  private void buildAreaManagerTypeManager(String roleId, int id) {
-    String managerRoleId = roleId.substring(0, AREA_MANAGER_ROLE_ID_LENGTH);
-    if (!sentManagerIds.contains(managerRoleId)) {
-      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id));
-      managerAdeccoResponse.setContractStartDate("2020-01-01");
-      managerAdeccoResponse.setStatus("ASSIGNED");
-      managerAdeccoResponse.setCrStatus("ACTIVE");
-      managerAdeccoResponse.getResponseContact().setFirstName("Bob");
-      managerAdeccoResponse.getResponseContact().setLastName("Jones");
-      managerAdeccoResponse.getResponseContact().setTelephoneNo1("0112233445");
-      AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
-      adeccoResponseJobRoleCode.setRoleId(managerRoleId);
-      managerAdeccoResponse.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
-      sentManagerIds.add(managerRoleId);
-      adeccoResponseManagers.add(managerAdeccoResponse);
-    }
-  }
-
-  @Given("the managers of {string} exist before moving to {string}")
-  public void theManagersOfExistBeforeMovingTo(String roleId, String newRoleId) {
-    theManagersOfExist(roleId);
-    adeccoResponseLeaver = adeccoResponseManagers.stream().filter(adecco -> adecco.getAdeccoResponseJobRoleCode().getRoleId().equals(newRoleId))
-        .findFirst();
-  }
-
-  @Given("the managers of {string} exist before moving from {string}")
-  public void theManagersOfExistBeforeMovingFrom(String roleId, String newRoleId) {
-    if (roleId.startsWith(newRoleId)) {
-      return;
-    }
-    theManagersOfExist(newRoleId);
   }
 
   @Given("the previous {string} gets cancelled")

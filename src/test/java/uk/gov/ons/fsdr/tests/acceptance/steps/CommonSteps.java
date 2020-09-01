@@ -2,7 +2,6 @@ package uk.gov.ons.fsdr.tests.acceptance.steps;
 
 import static junit.framework.TestCase.assertTrue;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponse;
-import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponseLeaver;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponseList;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponseManagers;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.sentManagerIds;
@@ -10,24 +9,19 @@ import static uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoPeopleFactory.buildAr
 import static uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoPeopleFactory.buildCoordinatorTypeManager;
 
 import java.io.IOException;
-import java.util.List;
 
-import cucumber.api.java.en.Then;
+import cucumber.api.java.en.And;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import lombok.extern.slf4j.Slf4j;
 import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
-import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
-import uk.gov.ons.fsdr.common.dto.AdeccoResponseJobRoleCode;
 import uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoMockUtils;
-import uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoPeopleFactory;
 import uk.gov.ons.fsdr.tests.acceptance.utils.MockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
@@ -127,94 +121,49 @@ public class CommonSteps {
     fsdrUtils.rcaExtract();
   }
 
-  @Given("we ingest managers of {string}")
-  public void we_ingest_managers(String roleId) throws IOException {
-    adeccoMockUtils.addUsersAdecco(adeccoResponseManagers);
-
-    fsdrUtils.ingestAdecco();
-    fsdrUtils.ingestRunFSDRProcess();
-    adeccoResponseManagers.clear();
-
-    if(roleId.length() >7) {
-      assertTrue(gatewayEventMonitor.hasEventTriggered("1", "SENDING_XMA_ACTION_RESPONSE", 10000L));
-    }
-    if(roleId.length() >10) {
-      assertTrue(gatewayEventMonitor.hasEventTriggered("2", "SENDING_XMA_ACTION_RESPONSE", 10000L));
-    }
-  }
-
   @Given("the managers of {string} exist and have been sent downstream")
-  public void theManagersOfExist(String roleId) throws IOException, InterruptedException {
-    System.out.println(roleId.length());
-    if(roleId.length() > AREA_MANAGER_ROLE_ID_LENGTH) {
-      buildAreaManagerTypeManager(roleId, 1);
+  public void theManagersOfExist(String roleId) throws IOException {
+    String am, co;
+    if(sentManagerIds.isEmpty()) {
+      am = "AM1";
+      co = "CO1";
+    } else {
+      am = "AM2";
+      co = "CO2";
+    }
+      buildAreaManagerTypeManager(roleId, am);
       adeccoMockUtils.addUsersAdecco(adeccoResponseManagers);
       fsdrUtils.ingestAdecco();
       fsdrUtils.ingestRunFSDRProcess();
-      assertTrue(gatewayEventMonitor.hasEventTriggered("1", "SENDING_XMA_ACTION_RESPONSE", 10000L));
       adeccoResponseManagers.clear();
+    if(roleId.length() > AREA_MANAGER_ROLE_ID_LENGTH) {
+      assertTrue(gatewayEventMonitor.hasEventTriggered(am, "SENDING_XMA_ACTION_RESPONSE", 10000L));
     }
 
     if (roleId.length() > COORDINATOR_ROLE_ID_LENGTH) {
-      buildCoordinatorTypeManager(roleId, 2);
-      adeccoMockUtils.addUsersAdecco(adeccoResponseManagers);
-      fsdrUtils.ingestAdecco();
-      fsdrUtils.ingestRunFSDRProcess();
-      adeccoResponseManagers.clear();
-      assertTrue(gatewayEventMonitor.hasEventTriggered("2", "SENDING_XMA_ACTION_RESPONSE", 10000L));
+      buildCoordinatorTypeManager(roleId, co);
+      assertTrue(gatewayEventMonitor.hasEventTriggered(co, "SENDING_XMA_ACTION_RESPONSE", 10000L));
     }
   }
 
   @Given("we run create actions")
   public void we_run_create_actions() throws IOException {
     fsdrUtils.ingestRunFSDRProcess();
-  }
-
-  //TODO Replace these steps with event checks in individual service steps when event driven is complete
-  @When("the employee {string} is sent to all downstream services")
-  public void theEmployeeIsSentToAllDownstreamServices(String id) throws Exception {
-
-    //Waits for movers/leavers/updates as they all need to do an initial create that will also trigger the same events
-    //gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 6, 10000l);
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_XMA_ACTION_RESPONSE", 5000L));
-  }
-
-  //TODO Remove when event driven is finished
-  @When("the employee {string} is not sent to all downstream services")
-  public void theEmployeeIsNotSentToAllDownstreamServices(String id) throws Exception {
-  //Calling non-event based integrations to ensure that employee is not sent to them
     fsdrUtils.ingestGranby();
     fsdrUtils.rcaExtract();
-  }
-
-  @And("we ingest the cancel")
-  public void weIngestTheCancel() throws IOException {
-    if (adeccoResponseLeaver.isPresent()) {
-      AdeccoResponse adeccoResponse = adeccoResponseLeaver.get();
-
-      adeccoMockUtils.addUsersAdecco(List.of(adeccoResponse));
-
-    fsdrUtils.ingestAdecco();
-    fsdrUtils.ingestRunFSDRProcess();
-    adeccoResponseManagers.clear();
-
-    gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 4, 3000l);
-    gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 4, 3000l);
-    gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 4, 10000l);
-    }
   }
 
   @Given("we retrieve the roleIds from GSuite for {string}")
   public void we_retrieve_the_roleIds_from_GSuite(String id) throws IOException {
     fsdrUtils.retrieveHqRoleIds();
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "HQ_ROLE_ID_RECEIVED", 5000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "HQ_ROLE_ID_RECEIVED", 10000L));
 
   }
 
   @When("we run HQ actions")
   public void we_run_HQ_actions() throws IOException {
     fsdrUtils.sendHqActions();
-    assertTrue(gatewayEventMonitor.hasEventTriggered("<N/A>", "HQ_ACTIONS_COMPLETE", 5000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered("<N/A>", "HQ_ACTIONS_COMPLETE", 10000L));
   }
 
 }

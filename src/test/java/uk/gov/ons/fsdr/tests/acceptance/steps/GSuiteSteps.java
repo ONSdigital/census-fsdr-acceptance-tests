@@ -43,7 +43,7 @@ public class GSuiteSteps {
 
   @Then("the employee {string} is correctly created in gsuite with roleId {string} and orgUnit {string}")
   public void the_employee_is_correctly_created_in_gsuite(String id, String roleId, String orgUnit) {
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 5000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 10000L));
     String[] records = gsuiteMockUtils.getRecords();
       int i = 0;
       for (String record : records) {
@@ -60,8 +60,8 @@ public class GSuiteSteps {
         ",\"password\":\"[0-9a-zA-Z]{40}\",\"primaryEmail\":\"Fransico.Buyo[0-9]{2}@domain\",\"suspended\":false");
   }
 
-  @Then("the employee {string} is correctly setup in gsuite with orgUnit {string}")
-  public void the_employee_is_correctly_setup_in_gsuite(String id, String orgUnit) {
+  @Then("the employee {string} is correctly setup in gsuite with orgUnit {string} with name {string}")
+  public void the_employee_is_correctly_setup_in_gsuite(String id, String orgUnit, String name) {
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_USER_SETUP_COMPLETE", 10000L));
     String[] records = gsuiteMockUtils.getRecords();
     int i = 0;
@@ -74,32 +74,14 @@ public class GSuiteSteps {
     }
     assertThat(records[i]).contains(
         "{\"changePasswordAtNextLogin\":true,"
-            + "\"name\":{\"familyName\":\"Buyo\",\"givenName\":\"Fransico\"},"
+            + "\"name\":{\"familyName\":\"Buyo\",\"givenName\":\""+name+"\"},"
             + "\"orgUnitPath\":\"/CFODS/"+orgUnit+"\","
             + "\"organizations\":[{\"department\":\""+orgUnit+"\",\"primary\":true}]}");
   }
 
-  @Then("the HQ employee {string} is correctly created in gsuite with orgUnit {string}")
-  public void the_hq_employee_is_correctly_created_in_gsuite(String id, String orgUnit) {
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 5000L));
-    String[] records = gsuiteMockUtils.getRecords();
-
-    assertThat(records[0]).contains("\"changePasswordAtNextLogin\":false,"
-        + "\"hashFunction\":\"SHA-1\","
-        + "\"includeInGlobalAddressList\":true,"
-        + "\"ipWhitelisted\":false,"
-        + "\"name\":{\"familyName\":\"Wardle\",\"givenName\":\"Kieran\"},"
-        + "\"orgUnitPath\":\"/CFODS/" + orgUnit + "\","
-        + "\"organizations\":[{\"department\":\"" + orgUnit + "\",\"primary\":true}]");
-    assertThat(records[0]).containsPattern(",\"password\":\"[0-9a-zA-Z]{40}\","
-        + "\"primaryEmail\":\"Kieran.Wardle[0-9]{2}@domain\","
-        + "\"recoveryEmail\":\""+id+"@test\","
-        + "\"suspended\":false");
-  }
-
   @Then("the employee {string} is correctly updated in gsuite with name {string}")
   public void the_employee_is_correctly_updated_in_gsuite(String id, String name) throws IOException {
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 5000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 10000L));
     String[] records = gsuiteMockUtils.getRecords();
     String update = records[records.length - 1];
 
@@ -112,7 +94,7 @@ public class GSuiteSteps {
 
   @Then("the employee {string} is correctly moved in gsuite with roleId {string} to {string}")
   public void the_employee_is_correctly_moved_in_gsuite_with_roleId(String id, String roleId, String orgUnit) throws IOException {
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 5000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 10000L));
 
     String[] records = gsuiteMockUtils.getRecords();
     String update = getLastRecord(records, roleId);
@@ -126,7 +108,7 @@ public class GSuiteSteps {
 
   @Then("the employee {string} is correctly suspended in gsuite")
   public void theEmployeeIsCorrectlySuspendedInGsuite(String id) {
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_USER_SUSPEND_COMPLETE", 5000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_USER_SUSPEND_COMPLETE", 10000L));
     String[] records = gsuiteMockUtils.getRecords();
     String suspended1 = records[records.length - 2];
     String suspended2 = records[records.length - 1];
@@ -144,7 +126,7 @@ public class GSuiteSteps {
 
   @Then("the employee {string} is not updated in gsuite")
   public void the_employee_is_not_updated_in_gsuite(String id) {
-    Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 10, 3000l);
+    Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 10, 3000L);
     int expextedCount = 0;
     if (id.length() == FIELD_OFFICER_ROLE_ID_LENGTH) expextedCount = 3;
     else if (id.length() == COORDINATOR_ROLE_ID_LENGTH) expextedCount = 2;
@@ -183,7 +165,7 @@ public class GSuiteSteps {
 
   @Then("the hq employee {string} is correctly updated in gsuite")
   public void the_hq_employee_is_correctly_updated_in_gsuite(String id) throws IOException {
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_USER_UPDATE_COMPLETE", 5000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_USER_UPDATE_COMPLETE", 10000L));
 
     String[] records = gsuiteMockUtils.getRecords();
     String update = records[records.length - 1];
@@ -197,7 +179,7 @@ public class GSuiteSteps {
 
   @Then("the user {string} is added to the following groups {string}")
   public void the_user_is_added_to_the_following_groups(String id, String grps) {
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_GROUPS_COMPLETE", 5000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_GROUPS_COMPLETE", 10000L));
 
     String[] groups = grps.split(",");
     String[] currentMemberGroups = gsuiteMockUtils.getGroups(id);
@@ -205,5 +187,23 @@ public class GSuiteSteps {
     for(String group : groups) {
       assertThat(currentMemberGroups).contains(group+"@domain");
     }
+  }
+
+  @Then("the HQ employee {string} is correctly created in gsuite with orgUnit {string}")
+  public void the_hq_employee_is_correctly_created_in_gsuite(String id, String orgUnit) {
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 10000L));
+    String[] records = gsuiteMockUtils.getRecords();
+
+    assertThat(records[0]).contains("\"changePasswordAtNextLogin\":false,"
+        + "\"hashFunction\":\"SHA-1\","
+        + "\"includeInGlobalAddressList\":true,"
+        + "\"ipWhitelisted\":false,"
+        + "\"name\":{\"familyName\":\"Wardle\",\"givenName\":\"Kieran\"},"
+        + "\"orgUnitPath\":\"/CFODS/" + orgUnit + "\","
+        + "\"organizations\":[{\"department\":\"" + orgUnit + "\",\"primary\":true}]");
+    assertThat(records[0]).containsPattern(",\"password\":\"[0-9a-zA-Z]{40}\","
+        + "\"primaryEmail\":\"Kieran.Wardle[0-9]{2}@domain\","
+        + "\"recoveryEmail\":\""+id+"@test\","
+        + "\"suspended\":false");
   }
 }

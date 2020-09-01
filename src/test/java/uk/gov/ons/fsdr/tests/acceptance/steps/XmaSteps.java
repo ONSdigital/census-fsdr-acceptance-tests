@@ -82,6 +82,11 @@ public class XmaSteps {
     }
   }
 
+  @Then("the employee {string} is created in XMA")
+  public void the_employee_with_roleId_is_correctly_created_in_XMA(String id) {
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_XMA_ACTION_RESPONSE", 10000L));
+  }
+
   @Then("the employee  is not created in XMA")
   public void the_employee_is_not_created_in_XMA() {
     String[] records = xmaMockUtils.getEmployeeRecords();
@@ -101,10 +106,11 @@ public class XmaSteps {
     assertEquals(expextedCount, records.length);
   }
 
-  @Then("the employee from {string} with old roleId {string} and new roleId {string} is correctly moved in XMA with group {string}")
-  public void the_employee_from_with_roleId_is_correctly_moved_in_XMA_with_group(String source, String oldRoleId,
+  @Then("the employee {string} from {string} with old roleId {string} and new roleId {string} is correctly moved in XMA with group {string}")
+  public void the_employee_from_with_roleId_is_correctly_moved_in_XMA_with_group(String id, String source,
+      String oldRoleId,
       String roleId, String group) {
-    gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 6, 20000l);
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_XMA_ACTION_RESPONSE", 10000L));
 
     boolean hasManager = roleId.length() > AREA_MANAGER_ROLE_ID_LENGTH;
     String[] records = xmaMockUtils.getEmployeeRecords();
@@ -133,9 +139,10 @@ public class XmaSteps {
     }
   }
 
-  @Then("the employee from {string} with roleId {string} is correctly updated in XMA with name {string} and group {string}")
-  public void the_employee_with_roleId_is_correctly_updated_in_XMA(String source, String roleId, String name,
-      String group) {
+  @Then("the employee {string} from {string} with roleId {string} is correctly updated in XMA with name {string} and group {string}")
+  public void the_employee_with_roleId_is_correctly_updated_in_XMA(String eid, String source, String roleId, String name, String group) {
+    assertTrue(gatewayEventMonitor.hasEventTriggered(eid, "XMA_UPDATE_SENT", 10000L));
+
     String id = xmaMockUtils.getId(roleId);
     boolean hasManager = roleId.length() > AREA_MANAGER_ROLE_ID_LENGTH;
 
@@ -168,8 +175,9 @@ public class XmaSteps {
     }
   }
 
-  @Then("the employee with roleId {string} is correctly suspended in XMA")
-  public void theEmployeeIsCorrectlySuspendedInXMA(String roleId) {
+  @Then("the employee {string} with roleId {string} is correctly suspended in XMA")
+  public void theEmployeeIsCorrectlySuspendedInXMA(String eid, String roleId) {
+    assertTrue(gatewayEventMonitor.hasEventTriggered(eid, "SENDING_XMA_ACTION_RESPONSE", 10000L));
 
     String id = xmaMockUtils.getId(roleId);
 
@@ -182,11 +190,11 @@ public class XmaSteps {
   }
 
   @Then("the employee {string} with roleId {string} {string} device allocation details are sent to xma with ID {string}")
-  public void theEmployeeDeviceAllocationDetailsAreSentToXma(String employeeId, String roleId, String deviceType, String deviceId)
+  public void theEmployeeDeviceAllocationDetailsAreSentToXma(String employeeId, String roleId, String deviceType,
+      String deviceId)
       throws Exception {
     fsdrUtils.sendDeviceAllocation();
-
-    gatewayEventMonitor.grabEventsTriggered("XMA_DEVICE_SENT", 1, 10000l);
+    assertTrue(gatewayEventMonitor.hasEventTriggered(employeeId, "XMA_DEVICE_SENT", 10000L));
 
     String id = xmaMockUtils.getId(roleId);
     final String[] records = xmaMockUtils.getDeviceAllocationRecords();
@@ -201,7 +209,8 @@ public class XmaSteps {
           "{\"className\":\"RequestManagement.Request\",\"formValues\":[{\"name\":\"RaiseUser\",\"value\":\"d2ba61a5-f0c7-4904-b02a-362a3b348899\"},{\"name\":\"_eTrackerAllocUserObj\",\"value\":\""
               + id + "\"},{\"name\":\"_eTrackerIMEI\",\"value\":\"" + deviceId
               + "\"},{\"name\":\"_SystemPartition\",\"value\":\"762a653c-35bf-456a-9de3-41444504e6d6\"},{\"name\":\"Title\",\"value\":\"eTracker API Device Allocation\"},{\"name\":\"Description\",\"value\":\"eTracker API Device Allocation\"}],\"lifecycle_name\":\"NewProcess12\"}";
-    } else fail();
+    } else
+      fail();
 
     assertEquals(expectedRequest, records[records.length - 1]);
 

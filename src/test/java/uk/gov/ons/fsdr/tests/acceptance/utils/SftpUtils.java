@@ -168,8 +168,8 @@ public class SftpUtils {
 
     public String getLogisticsFileName() {
         String csvFilename = null;
-        gatewayEventMonitor.hasEventTriggered("<N/A>", "LOGISTICS_EXTRACT_COMPLETE", 2000l);
-       Collection<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor.grabEventsTriggered("LOGISTICS_EXTRACT_SENT", 1, 100l);
+        gatewayEventMonitor.hasEventTriggered("<N/A>", "LOGISTICS_EXTRACT_COMPLETE", 2000L);
+       Collection<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor.grabEventsTriggered("LOGISTICS_EXTRACT_SENT", 1, 100L);
         for (GatewayEventDTO gatewayEventDTO : logistics_extract_sent) {
             csvFilename = gatewayEventDTO.getMetadata().get("logisticsFilename");
         }
@@ -178,8 +178,8 @@ public class SftpUtils {
 
     public String getLWSFileName() {
         String csvFilename = null;
-        gatewayEventMonitor.hasEventTriggered("<N/A>", "LWS_EXTRACT_COMPLETE", 2000l);
-        Collection<GatewayEventDTO> lws_extract_sent = gatewayEventMonitor.grabEventsTriggered("LWS_EXTRACT_SENT", 1, 100l);
+        gatewayEventMonitor.hasEventTriggered("<N/A>", "LWS_EXTRACT_COMPLETE", 2000L);
+        Collection<GatewayEventDTO> lws_extract_sent = gatewayEventMonitor.grabEventsTriggered("LWS_EXTRACT_SENT", 1, 100L);
         for (GatewayEventDTO gatewayEventDTO : lws_extract_sent) {
             csvFilename = gatewayEventDTO.getMetadata().get("lwsFilename");
         }
@@ -188,8 +188,8 @@ public class SftpUtils {
 
     public String getRcaFileName() {
         String csvFilename = null;
-        gatewayEventMonitor.hasEventTriggered("<N/A>", "RCA_EXTRACT_COMPLETE", 2000l);
-        Collection<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor.grabEventsTriggered("RCA_EXTRACT_COMPLETE", 1, 100l);
+        gatewayEventMonitor.hasEventTriggered("<N/A>", "RCA_EXTRACT_COMPLETE", 2000L);
+        Collection<GatewayEventDTO> logistics_extract_sent = gatewayEventMonitor.grabEventsTriggered("RCA_EXTRACT_COMPLETE", 1, 100L);
         for (GatewayEventDTO gatewayEventDTO : logistics_extract_sent) {
             csvFilename = gatewayEventDTO.getMetadata().get("CSV Filename");
         }
