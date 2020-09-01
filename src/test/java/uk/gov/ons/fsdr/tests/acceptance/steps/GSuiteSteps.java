@@ -43,7 +43,8 @@ public class GSuiteSteps {
 
   @Then("the employee {string} is correctly created in gsuite with roleId {string} and orgUnit {string}")
   public void the_employee_is_correctly_updated_in_gsuite(String id, String roleId, String orgUnit) {
-      String[] records = gsuiteMockUtils.getRecords();
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 10000L));
+    String[] records = gsuiteMockUtils.getRecords();
       int i = 0;
       for (String record : records) {
         boolean contains = record.contains("{\"RoleID\":\"" + roleId + "\"}");
@@ -184,5 +185,24 @@ public class GSuiteSteps {
     for(String group : groups) {
       assertThat(currentMemberGroups).contains(group+"@domain");
     }
+  }
+
+  @Then("the employee {string} is correctly setup in gsuite with orgUnit {string} with name {string}")
+  public void the_employee_is_correctly_setup_in_gsuite(String id, String orgUnit, String name) {
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_USER_SETUP_COMPLETE", 10000L));
+    String[] records = gsuiteMockUtils.getRecords();
+    int i = 0;
+    for (String record : records) {
+      System.out.println(record);
+      boolean contains = !record.contains("Zero Access");
+
+      if (contains) break;
+      i++;
+    }
+    assertThat(records[i]).contains(
+        "{\"changePasswordAtNextLogin\":true,"
+            + "\"name\":{\"familyName\":\"Buyo\",\"givenName\":\""+name+"\"},"
+            + "\"orgUnitPath\":\"/CFODS/"+orgUnit+"\","
+            + "\"organizations\":[{\"department\":\""+orgUnit+"\",\"primary\":true}]}");
   }
 }
