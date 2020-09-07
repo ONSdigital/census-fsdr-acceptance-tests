@@ -11,8 +11,7 @@ Feature: Creates
     And we ingest managers
     And we ingest them
     When the employee "<id>" is sent to all downstream services
-    Then the employee "<id>" is correctly created in gsuite with roleId "<role_id>" and orgUnit "<org_unit>"
-    And the employee "<id>" is now in the current groups "<new_groups>"
+    Then the employee "<id>" is correctly created in gsuite with roleId "<role_id>"
     And the employee from "<source>" with roleId "<role_id>" is correctly created in XMA with group "<group>"
     And the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" as a create
     And the employee "<id>" is correctly created in ServiceNow with "<role_id>"
@@ -25,15 +24,15 @@ Feature: Creates
     And the employee "<id>" with roleId "<role_id>" "phone" device allocation details are sent to xma with ID "07234567890"
 
   Examples:
-    | id        | role_id       | inLogisitcs | source | group                                | org_unit     | new_groups                                                         | hier1           | hier2                   | hier3 | hier4     | hier5          | hier6         | hier7        |
-    | 123456781 | HA-CAR1       | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ons_users | England & Wales | Household               | A     | Carlisle  | Area Manager 1 |               |              |
-    | 123456782 | HA-CAR1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ons_users | England & Wales | Household               | A     | Carlisle  | Area Manager 1 | Team Leader A |              |
-    | 123456783 | HA-CAR1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | ONS Officers | ons_users | England & Wales | Household               | A     | Carlisle  | Area Manager 1 | Team Leader A | 01 Tranche 1 |
-    | 123456784 | SA-CAR1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ons_users | England & Wales | Communal Establishments | A     | Carlisle  | Area Manager 1 | Team Leader A |              |
-    | 123456785 | SA-CAR1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | ONS Officers | ons_users | England & Wales | Communal Establishments | A     | Carlisle  | Area Manager 1 | Team Leader A | 01 Tranche 1 |
-    | 123456786 | CA-RUN1       | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ons_users | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 |               |              |
-    | 123456787 | CA-RUN1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ons_users | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 | Team Leader A |              |
-    | 123456788 | CA-RUN1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | ONS Officers | ons_users | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 | Team Leader A | 01 Tranche 1 |
+    | id        | role_id       | inLogisitcs | source | group                                | hier1           | hier2                   | hier3 | hier4     | hier5          | hier6         | hier7        |
+    | 123456781 | HA-CAR1       | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | England & Wales | Household               | A     | Carlisle  | Area Manager 1 |               |              |
+    | 123456782 | HA-CAR1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | England & Wales | Household               | A     | Carlisle  | Area Manager 1 | Team Leader A |              |
+    | 123456783 | HA-CAR1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | England & Wales | Household               | A     | Carlisle  | Area Manager 1 | Team Leader A | 01 Tranche 1 |
+    | 123456784 | SA-CAR1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | England & Wales | Communal Establishments | A     | Carlisle  | Area Manager 1 | Team Leader A |              |
+    | 123456785 | SA-CAR1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | England & Wales | Communal Establishments | A     | Carlisle  | Area Manager 1 | Team Leader A | 01 Tranche 1 |
+    | 123456786 | CA-RUN1       | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 |               |              |
+    | 123456787 | CA-RUN1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 | Team Leader A |              |
+    | 123456788 | CA-RUN1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 | Team Leader A | 01 Tranche 1 |
 
   Scenario Outline: A record is not created in the downstream systems
     Given An employee exists in "<source>" with an id of "<id>"
@@ -98,7 +97,7 @@ Feature: Creates
     And a contract start date 6 days in the future
     And we ingest them
     When the employee "223456789" is sent to all downstream services
-    Then the employee "223456789" is correctly created in gsuite with roleId "HA-CAR1" and orgUnit "ONS Managers"
+    Then the employee "223456789" is correctly created in gsuite with roleId "HA-CAR1"
     And the employee "223456789" is correctly created in ServiceNow with "HA-CAR1"
     And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
@@ -118,7 +117,7 @@ Feature: Creates
     And a contract start date 5 days in the future
     And we ingest them
     When the employee "323456789" is sent to all downstream services
-    And the employee "323456789" is correctly created in gsuite with roleId "HA-CAR1" and orgUnit "ONS Managers"
+    And the employee "323456789" is correctly created in gsuite with roleId "HA-CAR1"
     Then the employee "323456789" is sent to Adecco
     And the employee "323456789" is correctly created in ServiceNow with "HA-CAR1"
     And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
@@ -154,8 +153,7 @@ Feature: Creates
     And a contract start date of "2020-01-01"
     And we ingest them
     When the employee "123456781" is sent to all downstream services
-    Then the employee "123456781" is correctly created in gsuite with roleId "HA-CAR1" and orgUnit "ONS MANAGERS"
-    And the employee "123456781" is now in the current groups "ons_users"
+    Then the employee "123456781" is correctly created in gsuite with roleId "HA-CAR1"
     And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
     And the employee "123456781" is correctly created in ServiceNow with "HA-CAR1"
@@ -175,8 +173,7 @@ Feature: Creates
     And a contract start date of "2020-01-01"
     And we ingest them
     When the employee "123456781" is sent to all downstream services
-    Then the employee "123456781" is correctly created in gsuite with roleId "HA-CAR1" and orgUnit "ONS MANAGERS"
-    And the employee "123456781" is now in the current groups "ons_users"
+    Then the employee "123456781" is correctly created in gsuite with roleId "HA-CAR1"
     And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
     And the employee "123456781" is correctly created in ServiceNow with "HA-CAR1"
