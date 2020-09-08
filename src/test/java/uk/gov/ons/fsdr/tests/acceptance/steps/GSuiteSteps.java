@@ -151,11 +151,7 @@ public class GSuiteSteps {
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_USER_SETUP_COMPLETE", 5000L));
     String[] newGroupList = groups.split(",");
     String[] currentMemberGroups = gsuiteMockUtils.getGroups(id);
-    for (String currentMemberGroup : currentMemberGroups) {
-      System.out.println(currentMemberGroup);
-    }
     for(String group : newGroupList) {
-      System.out.println(group);
       assertThat(currentMemberGroups).contains(group+"@domain");
     }
     assertEquals(newGroupList.length, currentMemberGroups.length);
@@ -186,7 +182,6 @@ public class GSuiteSteps {
 
     String[] groups = grps.split(",");
     String[] currentMemberGroups = gsuiteMockUtils.getGroups(id);
-    System.out.println(currentMemberGroups.length);
     for(String group : groups) {
       assertThat(currentMemberGroups).contains(group+"@domain");
     }
