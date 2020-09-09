@@ -41,8 +41,8 @@ public class GSuiteSteps {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
 
-  @Then("the employee {string} is correctly created in gsuite with roleId {string} and orgUnit {string}")
-  public void the_employee_is_correctly_updated_in_gsuite(String id, String roleId, String orgUnit) {
+  @Then("the employee {string} is correctly created in gsuite with roleId {string}")
+  public void the_employee_is_correctly_updated_in_gsuite(String id, String roleId) {
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 10000L));
     String[] records = gsuiteMockUtils.getRecords();
       int i = 0;
@@ -90,9 +90,9 @@ public class GSuiteSteps {
     assertEquals(expectedMessageRootNode, actualMessageRootNode);
   }
 
-  @Then("the employee is correctly moved in gsuite with roleId {string} to {string}")
-  public void the_employee_is_correctly_moved_in_gsuite_with_roleId(String roleId, String orgUnit) throws IOException {
-    Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 10, 5000L);
+  @Then("the employee {string} is correctly moved in gsuite with roleId {string} to {string}")
+  public void the_employee_is_correctly_moved_in_gsuite_with_roleId(String id, String roleId, String orgUnit) throws IOException {
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_USER_MOVE_COMPLETE", 15000L));
 
     String[] records = gsuiteMockUtils.getRecords();
     String update = getLastRecord(records, roleId);
@@ -148,6 +148,7 @@ public class GSuiteSteps {
 
   @Then("the employee {string} is now in the current groups {string}")
   public void the_employee_is_now_in_the_current_groups(String id, String groups) {
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_USER_SETUP_COMPLETE", 5000L));
     String[] newGroupList = groups.split(",");
     String[] currentMemberGroups = gsuiteMockUtils.getGroups(id);
     for(String group : newGroupList) {
@@ -181,14 +182,13 @@ public class GSuiteSteps {
 
     String[] groups = grps.split(",");
     String[] currentMemberGroups = gsuiteMockUtils.getGroups(id);
-    System.out.println(currentMemberGroups.length);
     for(String group : groups) {
       assertThat(currentMemberGroups).contains(group+"@domain");
     }
   }
 
-  @Then("the employee {string} is correctly setup in gsuite with orgUnit {string} with name {string}")
-  public void the_employee_is_correctly_setup_in_gsuite(String id, String orgUnit, String name) {
+  @Then("the employee {string} is correctly setup in gsuite with orgUnit {string} with name {string} and roleId {string}")
+  public void the_employee_is_correctly_setup_in_gsuite(String id, String orgUnit, String name, String roleId) {
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_USER_SETUP_COMPLETE", 10000L));
     String[] records = gsuiteMockUtils.getRecords();
     int i = 0;
@@ -200,6 +200,7 @@ public class GSuiteSteps {
     }
     assertThat(records[i]).contains(
         "{\"changePasswordAtNextLogin\":true,"
+            + "\"customSchemas\":{\"Employee_Information\":{\"RoleID\":\""+ roleId + "\"}},"
             + "\"name\":{\"familyName\":\"Buyo\",\"givenName\":\""+name+"\"},"
             + "\"orgUnitPath\":\"/CFODS/"+orgUnit+"\","
             + "\"organizations\":[{\"department\":\""+orgUnit+"\",\"primary\":true}]}");
