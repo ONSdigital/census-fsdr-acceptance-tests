@@ -18,7 +18,7 @@ Feature: Setup
     When the employee "<id>" is sent to all downstream services
     Then the employee "<id>" is correctly setup in gsuite with orgUnit "<org_unit>" with name "<new_name>" and roleId "<role_id>"
     And the employee "<id>" is now in the current groups "<new_groups>"
-    # Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number "<number>" and asset id "990000888888888"
+     Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number "<number>"
     And Check the employee "<id>" is sent to RCA
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "" as an update with name "<new_name>"
     Then the employee from "<source>" with roleId "<role_id>" is correctly updated in XMA with name "<new_name>" and group "<group>"
