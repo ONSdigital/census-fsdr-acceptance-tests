@@ -66,7 +66,7 @@ public class LwsSteps {
     if (!hierarchyItem7.isBlank()) {
       assertThat(record).contains("\"hierarchyItem7\":\"" + hierarchyItem7 + "\"");
     }
-    assertThat(record).contains("\"takeOnCode\":\"ONSAPP\"");
+    assertThat(record).contains("\"takeOnCode\":\"code\"");
     assertThat(record).contains("\"phoneNumber\":\"" + lwsNumber + "\"");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
@@ -79,7 +79,7 @@ public class LwsSteps {
     assertThat(record).contains("\"operatorInstructions2\":\"a. Call on Personal mobile number " + "0987654321"
         + " (leave voice mail)\\nb. Wait 10 minutes and repeat Operator Instructions No.1\"");
     assertThat(record).contains("\"operatorInstructions3\":\"Escalate to Field Staff Support - CFS\"");
-    assertThat(record).doesNotContain("\"takeOnPassword\":null");
+    assertThat(record).contains("\"takeOnPassword\":\"pass\"");
     assertThat(record).containsPattern("emailAddress\":\"Fransico.Buyo[0-9]{2}@domain");
     if (roleId.length() < FIELD_OFFICER_ROLE_ID_LENGTH) {
       assertThat(record).contains("\"loginEnabled\":1");
@@ -115,7 +115,7 @@ public class LwsSteps {
     if (!hierarchyItem7.isBlank()) {
       assertThat(record).contains("\"hierarchyItem7\":\"" + hierarchyItem7 + "\"");
     }
-    assertThat(record).contains("\"takeOnCode\":\"ONSAPP\"");
+    assertThat(record).contains("\"takeOnCode\":\"code\"");
     assertThat(record).contains("\"phoneNumber\":\"" + lwsNumber + "\"");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
@@ -128,7 +128,7 @@ public class LwsSteps {
     assertThat(record).contains("\"operatorInstructions2\":\"a. Call on Personal mobile number " + "0987654321"
         + " (leave voice mail)\\nb. Wait 10 minutes and repeat Operator Instructions No.1\"");
     assertThat(record).contains("\"operatorInstructions3\":\"Escalate to Field Staff Support - CFS\"");
-    assertThat(record).doesNotContain("\"takeOnPassword\":null");
+    assertThat(record).contains("\"takeOnPassword\":\"pass\"");
 
     if (roleId.length() < FIELD_OFFICER_ROLE_ID_LENGTH) {
       assertThat(record).contains("\"loginEnabled\":1");
@@ -161,7 +161,7 @@ public class LwsSteps {
     if (!hierarchyItem7.isBlank()) {
       assertThat(record).contains("\"hierarchyItem7\":\"" + hierarchyItem7 + "\"");
     }
-    assertThat(record).contains("\"takeOnCode\":\"ONSAPP\"");
+    assertThat(record).contains("\"takeOnCode\":\"code\"");
     assertThat(record).contains("\"phoneNumber\":\"447234567890\"");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
@@ -173,7 +173,7 @@ public class LwsSteps {
     assertThat(record).contains("\"operatorInstructions2\":\"a. Call on Personal mobile number " + "0987654321"
         + " (leave voice mail)\\nb. Wait 10 minutes and repeat Operator Instructions No.1\"");
     assertThat(record).contains("\"operatorInstructions3\":\"Escalate to Field Staff Support - CFS\"");
-    assertThat(record).doesNotContain("\"takeOnPassword\":null");
+    assertThat(record).contains("\"takeOnPassword\":\"pass\"");
 
     if (roleId.length() < FIELD_OFFICER_ROLE_ID_LENGTH) {
       assertThat(record).contains("\"loginEnabled\":1");
@@ -198,7 +198,7 @@ public class LwsSteps {
     assertThat(record).contains("\"hierarchyItem1\":null");
     assertThat(record).contains("\"hierarchyItem2\":null");
     assertThat(record).contains("\"hierarchyItem3\":null");
-    assertThat(record).contains("\"takeOnCode\":\"ONSAPP\"");
+    assertThat(record).contains("\"takeOnCode\":\"code\"");
     assertThat(record).contains("\"phoneNumber\":\"" + lwsNumber + "\"");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
@@ -208,7 +208,7 @@ public class LwsSteps {
     assertThat(record).contains("\"operatorInstructions1\":null");
     assertThat(record).contains("\"operatorInstructions2\":null");
     assertThat(record).contains("\"operatorInstructions3\":null");
-    assertThat(record).doesNotContain("\"takeOnPassword\":null");
+    assertThat(record).contains("\"takeOnPassword\":\"pass\"");
 
   }
 
