@@ -23,7 +23,7 @@ Feature: Movers
     And the employee "<id>" is no longer in the following groups "<old_groups>"
     And the employee "<id>" is now in the current groups "<new_groups>"
     Then the employee "<id>" is sent to LWS as a mover with roleId "<new_role_id>" with expected hierarchy items "<hier1>" "<hier2>" "<hier3>" "<hier4>" "<hier5>" "<hier6>" "<hier7>"
-#    Then the employee "<id>" is correctly moved in ServiceNow with "<new_role_id>" and asset id "990000888888888"
+    Then the employee "<id>" is correctly moved in ServiceNow with "<new_role_id>"
     Then the employee from "<source>" with old roleId "<role_id>" and new roleId "<new_role_id>" is correctly moved in XMA with group "<new_group>"
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<new_role_id>"
     And Check the employee "<id>" is sent to RCA

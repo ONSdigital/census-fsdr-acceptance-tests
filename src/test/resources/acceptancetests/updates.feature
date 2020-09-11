@@ -20,7 +20,7 @@ Feature: Updates
     When the employee "<id>" is sent to all downstream services
     Then the employee is correctly updated in gsuite with name "<new_name>"
     Then the employee "<id>" is sent to LWS as an update with name "<new_name>" and phone number "<number>" and "<role_id>" with expected hierarchy items "<hier1>" "<hier2>" "<hier3>" "<hier4>" "<hier5>" "<hier6>" "<hier7>"
-#    Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number "<number>" and asset id "990000888888888"
+    Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number "<number>"
     Then the employee from "<source>" with roleId "<role_id>" is correctly updated in XMA with name "<new_name>" and group "<group>"
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<number>" as an update with name "<new_name>"
     And Check the employee "<id>" is sent to RCA
@@ -51,7 +51,7 @@ Feature: Updates
     And we run create actions
     When the employee "<id>" is sent to all downstream services
     Then the employee "<role_id>" is not updated in gsuite
-#    Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<name>" and number "<phone_number>" and asset id "990000888888888"
+    Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<name>" and number "<phone_number>"
     Then the employee "<id>" is sent to LWS as an update with name "<name>" and phone number "<phone_number>" and "<role_id>" with expected hierarchy items "<hier1>" "<hier2>" "<hier3>" "<hier4>" "<hier5>" "<hier6>" "<hier7>"
     Then the employee "<role_id>" is not updated in XMA
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<phone_number>" as an update with name "<name>"
@@ -84,7 +84,7 @@ Feature: Updates
     And we run create actions
     When the employee "123456781" is sent to all downstream services
     Then the employee "HA-CAR1-ZA-01" is not updated in gsuite
-#    Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567810" and asset id "990000888888888"
+    Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567810"
     Then the employee "123456781" is sent to LWS as an update with name "Fransico" and phone number "07234567810" and "HA-CAR1-ZA-01" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "Team Leader A" "01 Tranche 1"
     Then the employee "HA-CAR1-ZA-01" is not updated in XMA
     Then the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" and phone number "07234567810" as an update with name "Fransico"
@@ -96,7 +96,7 @@ Feature: Updates
     And the employee "123456781" will only have one phone
     When the employee "123456781" is sent to all downstream services
     Then the employee "HA-CAR1-ZA-01" is not updated in gsuite
-#    Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567811" and asset id "990000777777777"
+    Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567811"
     Then the employee "123456781" is sent to LWS as an update with name "Fransico" and phone number "07234567811" and "HA-CAR1-ZA-01" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "Team Leader A" "01 Tranche 1"
     Then the employee "HA-CAR1-ZA-01" is not updated in XMA
     Then the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" and phone number "07234567811" as an update with name "Fransico"
@@ -117,7 +117,7 @@ Feature: Updates
     And we run create actions
     When the employee "123456781" is sent to all downstream services
     Then the employee "HA-CAR1-ZA-01" is not updated in gsuite
-#    Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567810" and asset id "990000888888888"
+    Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567810"
     Then the employee "123456781" is not sent to LWS
     Then the employee "HA-CAR1-ZA-01" is not updated in XMA
     And the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" as a create
@@ -128,7 +128,7 @@ Feature: Updates
     And the employee "123456781" will only have one phone
     When the employee "123456781" is sent to all downstream services
     Then the employee "HA-CAR1-ZA-01" is not updated in gsuite
-#    Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567811" and asset id "990000777777777"
+    Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567811"
     Then the employee "123456781" is not sent to LWS
     Then the employee "HA-CAR1-ZA-01" is not updated in XMA
     Then the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" and phone number "07234567811" as an update with name "Fransico"
