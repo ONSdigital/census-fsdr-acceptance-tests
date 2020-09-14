@@ -33,6 +33,7 @@ Feature: Creates
     | 123456786 | CA-RUN1       | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 |               |              |
     | 123456787 | CA-RUN1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 | Team Leader A |              |
     | 123456788 | CA-RUN1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 | Team Leader A | 01 Tranche 1 |
+    | 123456788 | XF-CEA1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | England & Wales | Community Engagement    | F     | Leicester | Area Manager 1 | Team Leader A | 01 Tranche 1 |
 
   Scenario Outline: A record is not created in the downstream systems
     Given An employee exists in "<source>" with an id of "<id>"
