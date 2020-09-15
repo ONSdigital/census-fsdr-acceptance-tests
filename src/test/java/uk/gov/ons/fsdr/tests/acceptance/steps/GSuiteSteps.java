@@ -73,7 +73,7 @@ public class GSuiteSteps {
         + "\"orgUnitPath\":\"/CFODS/" + orgUnit + "\","
         + "\"organizations\":[{\"department\":\"" + orgUnit + "\",\"primary\":true}]");
     assertThat(records[0]).containsPattern(",\"password\":\"[0-9a-zA-Z]{40}\","
-        + "\"primaryEmail\":\"Kieran.Wardle[0-9]{2}@domain\","
+        + "\"primaryEmail\":\"kieran.wardle[0-9]{2}@domain\","
         + "\"recoveryEmail\":\""+id+"@test\","
         + "\"suspended\":false");
   }
