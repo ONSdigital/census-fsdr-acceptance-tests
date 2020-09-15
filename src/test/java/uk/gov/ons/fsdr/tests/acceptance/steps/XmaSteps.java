@@ -63,11 +63,11 @@ public class XmaSteps {
                 + "\"},{\"name\":\"_JobRole\",\"value\":null},{\"name\":\"_LocationString\",\"value\":\"London\"},{\"name\":\"_RoleID\",\"value\":\""
                 + roleId + "\"}");
         assertThat(records[i]).contains("{\"name\":\"CurrentGroup\",\"value\":\"" + group + "\"},{\"name\":\"PrimaryGroup\",\"value\":\"" + group + "\"},{");
-        assertThat(records[i]).containsPattern("\"name\":\"Name\",\"value\":\"Fransico.Buyo[0-9]{2}@domain\"");
+        assertThat(records[i]).containsPattern("\"name\":\"Name\",\"value\":\"fransico.buyo[0-9]{2}@domain\"");
         assertThat(records[i])
                 .contains("},{\"name\":\"_PreferredName\",\"value\":null},{\"name\":\"_UserOrg\",\"value\":\"" + source
                         + "\"},{\"name\":\"_Surname\",\"value\":\"Buyo\"},{");
-        assertThat(records[i]).containsPattern("\"name\":\"EMailAddress\",\"value\":\"Fransico.Buyo[0-9]{2}@domain\"");
+        assertThat(records[i]).containsPattern("\"name\":\"EMailAddress\",\"value\":\"fransico.buyo[0-9]{2}@domain\"");
         assertThat(records[i]).contains(
                 "},{\"name\":\"Title\",\"value\":\"Fransico Buyo\"},{\"name\":\"_PersonalEmail\",\"value\":\"f.b@email.com\"},{\"name\":\"_PersonalPhone\",\"value\":\"0987654321\"},{\"name\":\"_Address\",\"value\":\"123, Fake Street, Faketon, Fakeside, FA43 1AB\"}]");
         if (hasManager) {
@@ -108,11 +108,11 @@ public class XmaSteps {
                 + "\"},{\"name\":\"_JobRole\",\"value\":null},{\"name\":\"_LocationString\",\"value\":\"London\"},{\"name\":\"_RoleID\",\"value\":\""
                 + roleId + "\"}");
         assertThat(update).contains("{\"name\":\"CurrentGroup\",\"value\":\"" + group + "\"},{\"name\":\"PrimaryGroup\",\"value\":\"" + group + "\"},{");
-        assertThat(update).containsPattern("\"name\":\"Name\",\"value\":\"Fransico.Buyo[0-9]{2}@domain\"");
+        assertThat(update).containsPattern("\"name\":\"Name\",\"value\":\"fransico.buyo[0-9]{2}@domain\"");
         assertThat(update)
                 .contains("},{\"name\":\"_PreferredName\",\"value\":null},{\"name\":\"_UserOrg\",\"value\":\"" + source
                         + "\"},{\"name\":\"_Surname\",\"value\":\"Buyo\"},{");
-        assertThat(update).containsPattern("\"name\":\"EMailAddress\",\"value\":\"Fransico.Buyo[0-9]{2}@domain\"");
+        assertThat(update).containsPattern("\"name\":\"EMailAddress\",\"value\":\"fransico.buyo[0-9]{2}@domain\"");
         assertThat(update).contains("},{\"name\":\"Title\",\"value\":\"Fransico"
                 + " Buyo\"},{\"name\":\"_PersonalEmail\",\"value\":\"f.b@email.com\"},{\"name\":\"_PersonalPhone\",\"value\":\"0987654321\"},{\"name\":\"_Address\",\"value\":\"123, Fake Street, Faketon, Fakeside, FA43 1AB\"}]");
         assertThat(update).containsPattern("\"key\":\"" + uuidPattern + "\",\"originalValues\":null,\"lockVersion\":1}");
@@ -138,11 +138,11 @@ public class XmaSteps {
                 + "\"},{\"name\":\"_JobRole\",\"value\":null},{\"name\":\"_LocationString\",\"value\":\"London\"},{\"name\":\"_RoleID\",\"value\":\""
                 + roleId + "\"}");
         assertThat(records[records.length - 1]).contains("{\"name\":\"CurrentGroup\",\"value\":\"" + group + "\"},{\"name\":\"PrimaryGroup\",\"value\":\"" + group + "\"},{");
-        assertThat(records[records.length - 1]).containsPattern("\"name\":\"Name\",\"value\":\"Fransico.Buyo[0-9]{2}@domain\"");
+        assertThat(records[records.length - 1]).containsPattern("\"name\":\"Name\",\"value\":\"fransico.buyo[0-9]{2}@domain\"");
         assertThat(records[records.length - 1])
                 .contains("},{\"name\":\"_PreferredName\",\"value\":null},{\"name\":\"_UserOrg\",\"value\":\"" + source
                         + "\"},{\"name\":\"_Surname\",\"value\":\"Buyo\"},{");
-        assertThat(records[records.length - 1]).containsPattern("\"name\":\"EMailAddress\",\"value\":\"Fransico.Buyo[0-9]{2}@domain\"");
+        assertThat(records[records.length - 1]).containsPattern("\"name\":\"EMailAddress\",\"value\":\"fransico.buyo[0-9]{2}@domain\"");
         assertThat(records[records.length - 1]).contains("},{\"name\":\"Title\",\"value\":\"" + name
                 + " Buyo\"},{\"name\":\"_PersonalEmail\",\"value\":\"f.b@email.com\"},{\"name\":\"_PersonalPhone\",\"value\":\"0987654321\"},{\"name\":\"_Address\",\"value\":\"123, Fake Street, Faketon, Fakeside, FA43 1AB\"}],\"");
         assertThat(records[records.length - 1]).contains("key\":\"" + id + "\",\"originalValues\":null,\"lockVersion\":1}");

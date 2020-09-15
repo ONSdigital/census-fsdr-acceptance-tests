@@ -52,7 +52,7 @@ public class LwsSteps {
 
     String lwsNumber = "44" + number.substring(1);
 
-    assertThat(record).containsPattern("\"externalSystemPersonCode\":\"Fransico.Buyo[0-9]{2}@domain\"");
+    assertThat(record).containsPattern("\"externalSystemPersonCode\":\"fransico.buyo[0-9]{2}@domain\"");
     assertThat(record).contains("\"isActivated\":1");
     assertThat(record).contains("\"personName\":\"" + name + " Buyo\"");
     assertThat(record).contains("\"hierarchyItem1\":\"" + hierarchyItem1 + "\"");
@@ -80,7 +80,7 @@ public class LwsSteps {
         + " (leave voice mail)\\nb. Wait 10 minutes and repeat Operator Instructions No.1\"");
     assertThat(record).contains("\"operatorInstructions3\":\"Escalate to Field Staff Support - CFS\"");
     assertThat(record).contains("\"takeOnPassword\":\"pass\"");
-    assertThat(record).containsPattern("emailAddress\":\"Fransico.Buyo[0-9]{2}@domain");
+    assertThat(record).containsPattern("emailAddress\":\"fransico.buyo[0-9]{2}@domain");
     if (roleId.length() < FIELD_OFFICER_ROLE_ID_LENGTH) {
       assertThat(record).contains("\"loginEnabled\":1");
       assertThat(record).contains("\"loginPermissionTemplate\":\"ONSLINEMANAGER\"");
@@ -101,7 +101,7 @@ public class LwsSteps {
 
     String lwsNumber = "44" + number.substring(1);
 
-    assertThat(record).containsPattern("\"externalSystemPersonCode\":\"Fransico.Buyo[0-9]{2}@domain\"");
+    assertThat(record).containsPattern("\"externalSystemPersonCode\":\"fransico.buyo[0-9]{2}@domain\"");
     assertThat(record).contains("\"isActivated\":1");
     assertThat(record).contains("\"personName\":\"" + name + " Buyo\"");
     assertThat(record).contains("\"hierarchyItem1\":\"" + hierarchyItem1 + "\"");
@@ -147,7 +147,7 @@ public class LwsSteps {
     gatewayEventMonitor.grabEventsTriggered("SENDING_LWS_ACTION_RESPONSE", 10, 5000L);
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 1000L));
 
-    assertThat(record).containsPattern("\"externalSystemPersonCode\":\"Fransico.Buyo[0-9]{2}@domain\"");
+    assertThat(record).containsPattern("\"externalSystemPersonCode\":\"fransico.buyo[0-9]{2}@domain\"");
     assertThat(record).contains("\"isActivated\":1");
     assertThat(record).contains("\"personName\":\"Fransico Buyo\"");
     assertThat(record).contains("\"hierarchyItem1\":\"" + hierarchyItem1 + "\"");
@@ -192,7 +192,7 @@ public class LwsSteps {
 
     String lwsNumber = "44" + number.substring(1);
 
-    assertThat(record).containsPattern("\"externalSystemPersonCode\":\"Fransico.Buyo[0-9]{2}@domain\"");
+    assertThat(record).containsPattern("\"externalSystemPersonCode\":\"fransico.buyo[0-9]{2}@domain\"");
     assertThat(record).contains("\"isActivated\":0");
     assertThat(record).contains("\"personName\":\"Fransico Buyo\"");
     assertThat(record).contains("\"hierarchyItem1\":null");

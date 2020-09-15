@@ -28,7 +28,7 @@ public class AdeccoExtractSteps {
     String[] messages = adeccoMockUtils.getAdeccoUpdateMessagesById(id);
     assertEquals(1, messages.length);
     assertThat(messages[0]).contains("\"Phone\":null,");
-    assertThat(messages[0]).containsPattern("\"TR1__Work_Email__c\":\"Fransico.Buyo[0-9]{2}@domain\"");
+    assertThat(messages[0]).containsPattern("\"TR1__Work_Email__c\":\"fransico.buyo[0-9]{2}@domain\"");
   }
 
   @Then("the employee {string} is sent to Adecco with phone number {string}")
@@ -38,6 +38,6 @@ public class AdeccoExtractSteps {
     String[] messages = adeccoMockUtils.getAdeccoUpdateMessagesById(id);
     assertEquals(2, messages.length);
     assertThat(messages[1]).contains("\"Phone\":\""+number+"\",");
-    assertThat(messages[1]).containsPattern("\"TR1__Work_Email__c\":\"Fransico.Buyo[0-9]{2}@domain\"");
+    assertThat(messages[1]).containsPattern("\"TR1__Work_Email__c\":\"fransico.buyo[0-9]{2}@domain\"");
   }
 }
