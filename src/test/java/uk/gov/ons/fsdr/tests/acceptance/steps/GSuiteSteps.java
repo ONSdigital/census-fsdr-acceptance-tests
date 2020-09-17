@@ -57,7 +57,7 @@ public class GSuiteSteps {
             + "\"}},\"externalIds\":[{\"type\":\"organization\",\"value\":\""+id+"\"}],\"hashFunction\":\"SHA-1\",\"includeInGlobalAddressList\":true,\"ipWhitelisted\":false,\"name\":{\"familyName\":\"Buyo\",\"givenName\":\"Fransico\"},\"orgUnitPath\":\"/Zero Access"
             + "\",\"organizations\":[{\"department\":\"/Zero Access\",\"primary\":true}]");
     assertThat(records[i]).containsPattern(
-        ",\"password\":\"[0-9a-zA-Z]{40}\",\"primaryEmail\":\"Fransico.Buyo[0-9]{2}@domain\",\"suspended\":false");
+        ",\"password\":\"[0-9a-zA-Z]{40}\",\"primaryEmail\":\"fransico.buyo[0-9]{2}@domain\",\"suspended\":false");
   }
 
   @Then("the HQ employee {string} is correctly created in gsuite with orgUnit {string}")
@@ -73,7 +73,7 @@ public class GSuiteSteps {
         + "\"orgUnitPath\":\"/CFODS/" + orgUnit + "\","
         + "\"organizations\":[{\"department\":\"" + orgUnit + "\",\"primary\":true}]");
     assertThat(records[0]).containsPattern(",\"password\":\"[0-9a-zA-Z]{40}\","
-        + "\"primaryEmail\":\"Kieran.Wardle[0-9]{2}@domain\","
+        + "\"primaryEmail\":\"kieran.wardle[0-9]{2}@domain\","
         + "\"recoveryEmail\":\""+id+"@test\","
         + "\"suspended\":false");
   }
