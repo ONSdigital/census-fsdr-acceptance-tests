@@ -15,7 +15,7 @@ Feature: Movers
     And we ingest a device from pubsub for "<id>" with phone number "07234567890" and IMEI number "990000888888888"
     And we ingest them
     When the employee "<id>" is sent to all downstream services
-    And their old job role gets cancelled
+    And their old job role gets cancelled with assignment reason "Reassigned"
     And we receive a new active job role from adecco for employee "<id>" with new role_id "<new_role_id>"
     And we ingest them
     When the employee "<id>" is sent to all downstream services
