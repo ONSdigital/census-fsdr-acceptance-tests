@@ -91,7 +91,7 @@ public class AdeccoIngestSteps {
     AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
     adeccoResponseJobRoleCode.setRoleId(roleId);
     moverResponse.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
-    moverResponse.setResponseJob(new AdeccoResponseJob(null, null, null, null, null));
+    moverResponse.setResponseJob(new AdeccoResponseJob(null, null, null, null, null,null));
     moverResponse.setStatus("ASSIGNED");
     moverResponse.setCrStatus("ACTIVE");
     moverResponse.setOperationalEndDate(adeccoResponse.getOperationalEndDate());
@@ -110,7 +110,7 @@ public class AdeccoIngestSteps {
   @Given("their old job role gets cancelled with assignment reason {string}")
   public void their_old_job_role_gets_cancelled(String reason) {
     adeccoResponseList.get(0).setStatus("ASSIGNMENT_CANCELLED");
-    adeccoResponseList.get(0).getResponseJob().setEndAssignmentReason(reason);
+    adeccoResponseList.get(0).getResponseJob().setAssignmentEndReason(reason);
   }
 
   @Given("we receive an update from adecco for employee {string} with new first name {string}")
