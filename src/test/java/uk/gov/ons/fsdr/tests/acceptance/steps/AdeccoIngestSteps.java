@@ -109,8 +109,13 @@ public class AdeccoIngestSteps {
 
   @Given("their old job role gets cancelled with assignment reason {string}")
   public void their_old_job_role_gets_cancelled(String reason) {
-    adeccoResponseList.get(0).setStatus("ASSIGNMENT_CANCELLED");
-    adeccoResponseList.get(0).getResponseJob().setAssignmentEndReason(reason);
+    if(reason.equals("Reassigned")) {
+      adeccoResponseList.get(0).setStatus("Assignment Cancelled");
+      adeccoResponseList.get(0).getResponseJob().setAssignmentCancelledReason(reason);
+    } else {
+      adeccoResponseList.get(0).setStatus("Assignment Ended");
+      adeccoResponseList.get(0).getResponseJob().setAssignmentEndReason(reason);
+    }
   }
 
   @Given("we receive an update from adecco for employee {string} with new first name {string}")
