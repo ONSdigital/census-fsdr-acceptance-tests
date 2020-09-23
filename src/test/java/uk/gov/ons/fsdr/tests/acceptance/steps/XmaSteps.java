@@ -10,6 +10,7 @@ import uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.XmaMockUtils;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,6 +20,7 @@ import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.AREA_MANAGER_RO
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.COORDINATOR_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.FIELD_OFFICER_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.gatewayEventMonitor;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.DeviceSteps.getDeviceCount;
 import static uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils.getLastRecord;
 
 @Slf4j
@@ -42,7 +44,7 @@ public class XmaSteps {
 
     private static final String uuidPattern = "([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})";
 
-    @Then("the employee from {string} with roleId {string} is correctly created in XMA with group {string}")
+  @Then("the employee from {string} with roleId {string} is correctly created in XMA with group {string}")
     public void the_employee_with_roleId_is_correctly_updated_in_XMA(String source, String roleId, String group) {
 
       boolean hasManager = roleId.length() > AREA_MANAGER_ROLE_ID_LENGTH;
@@ -167,10 +169,11 @@ public class XmaSteps {
       throws Exception {
     fsdrUtils.sendDeviceAllocation();
 
-    gatewayEventMonitor.grabEventsTriggered("XMA_DEVICE_SENT", 1, 10000l);
+    gatewayEventMonitor.grabEventsTriggered("XMA_DEVICE_SENT", getDeviceCount(), 10000l);
 
     String id = xmaMockUtils.getId(roleId);
     final String[] records = xmaMockUtils.getDeviceAllocationRecords();
+    Arrays.stream(records).forEach(System.out::println);
 
     String expectedRequest = null;
     if (deviceType.equals("phone")) {
