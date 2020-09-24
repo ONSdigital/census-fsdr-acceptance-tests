@@ -103,7 +103,7 @@ Feature: Updates
     And Check the employee "123456781" is sent to RCA
     And the employee "123456781" with roleId "HA-CAR1-ZA-01" "phone" device allocation details are sent to xma with ID "07234567811"
 
-  Scenario Outline: A record in FSDR receives a replacement chromebook device
+  Scenario: A record in FSDR receives a replacement chromebook device
     Given the managers of "HA-CAR1-ZA-01" exist
     And we ingest managers
     And An employee exists in "ADECCO" with an id of "123456781"
@@ -134,16 +134,6 @@ Feature: Updates
     Then the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" and phone number "07234567811" as an update with name "Fransico"
     And Check the employee "123456781" is sent to RCA
     And the employee "123456781" with roleId "HA-CAR1-ZA-01" "chromebook" device allocation details are sent to xma with ID "XMA123457"
-    Examples:
-    |
-    |
-    |
-    |
-    |
-    |
-    |
-    |
-
 
   Scenario: An existing HQ record is ingested and updated
     Given A "HQ" ingest CSV "00000000_000001_CFOD_HQ_Extract.csv" exists in SFTP
