@@ -135,7 +135,6 @@ Feature: Updates
     And Check the employee "123456781" is sent to RCA
     And the employee "123456781" with roleId "HA-CAR1-ZA-01" "chromebook" device allocation details are sent to xma with ID "XMA123457"
 
-
   Scenario: An existing HQ record is ingested and updated
     Given A "HQ" ingest CSV "00000000_000001_CFOD_HQ_Extract.csv" exists in SFTP
     And we ingest the HQ CSV

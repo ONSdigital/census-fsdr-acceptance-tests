@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
 import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
 import uk.gov.ons.fsdr.common.dto.devicelist.DeviceDto;
 import uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils;
@@ -21,8 +22,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collection;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -49,11 +53,17 @@ public class DeviceSteps {
     @Autowired
     private FsdrUtils fsdrUtils;
 
+    private static int deviceCount;
+
     @Then("we ingest a device from pubsub for {string} with phone number {string} and IMEI number {string}")
     public void weIngestADeviceFromPubsubForWithPhoneNumber(String employeeId, String phoneNumber, String imeiNumber) throws Exception {
         String onsId = getOnsId(employeeId);
         if (onsId == null) fail("failed to find ons id for employee " + employeeId);
         postDevice(onsId, phoneNumber, imeiNumber);
+        deviceCount++;
+        Collection<GatewayEventDTO> devices = gatewayEventMonitor.grabEventsTriggered("SAVE_DEVICE", deviceCount, 5000L);
+        Optional<String> any = devices.stream().flatMap(meta -> meta.getMetadata().values().stream()).filter(number -> number.equals(phoneNumber)).findAny();
+        assertTrue("Device event not found for " + phoneNumber, any.isPresent());
         assertTrue(gatewayEventMonitor.hasEventTriggered(employeeId, "SAVE_DEVICE"));
 
     }
@@ -133,5 +143,10 @@ public class DeviceSteps {
       gsuiteMockUtils.addChromebook(deviceDto);
 
       fsdrUtils.ingestChromebooks();
+      deviceCount++;
+  }
+
+  static int getDeviceCount() {
+        return deviceCount;
   }
 }
