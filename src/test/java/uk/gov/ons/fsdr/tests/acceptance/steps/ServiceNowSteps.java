@@ -82,7 +82,7 @@ public class ServiceNowSteps {
 
   @Then("the employee {string} is correctly updated in ServiceNow with {string} and name {string} and number {string}")
   public void the_employee_is_correctly_updated_in_ServiceNow_with(String id, String roleId, String name, String phoneNumber) {
-    Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 10, 3000l);
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SERVICE_NOW_UPDATE_SENT", 10000L));
     String[] records = serviceNowMockUtils.getRecords();
     String update = getLastRecord(records,roleId);
     String expectedMessageRootNode = "";

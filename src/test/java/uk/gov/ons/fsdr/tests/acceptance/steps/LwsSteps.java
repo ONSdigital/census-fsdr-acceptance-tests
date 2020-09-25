@@ -33,15 +33,6 @@ public class LwsSteps {
   @Value("${service.rabbit.password}")
   private String rabbitPassword;
 
-  @Value("${lws.areaManagerInstruction}")
-  private String areaManagerInstruction;
-
-  @Value("${lws.operatorInstructionTwo}")
-  private String operatorInstructionTwo;
-
-  @Value("${lws.operatorInstructionThreeNisra}")
-  private String operatorInstructionThreeNisra;
-
   @Then("the employee {string} is sent to LWS as an create with name {string} and phone number {string} and {string} with expected hierarchy items {string} {string} {string} {string} {string} {string} {string}")
   public void the_employee_in_the_LWS_CSV_as_an_createe(String id, String name, String number, String roleId,
       String hierarchyItem1, String hierarchyItem2, String hierarchyItem3, String hierarchyItem4, String hierarchyItem5,
