@@ -41,7 +41,6 @@ public class LwsSteps {
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 1000L));
     String record = lwsMockUtils.getRecords();
 
-    String lwsNumber = "44" + number.substring(1);
 
     assertThat(record).containsPattern("\"externalSystemPersonCode\":\"fransico.buyo[0-9]{2}@domain\"");
     assertThat(record).contains("\"isActivated\":1");
@@ -58,7 +57,7 @@ public class LwsSteps {
       assertThat(record).contains("\"hierarchyItem7\":\"" + hierarchyItem7 + "\"");
     }
     assertThat(record).contains("\"takeOnCode\":\"code\"");
-    assertThat(record).contains("\"phoneNumber\":\"" + lwsNumber + "\"");
+    assertThat(record).contains("\"phoneNumber\":\"" + number + "\"");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
     assertThat(record).contains("\"updateMode\":\"BULKLOADER\"");
@@ -90,7 +89,6 @@ public class LwsSteps {
     gatewayEventMonitor.grabEventsTriggered("SENDING_LWS_ACTION_RESPONSE", 10, 5000L);
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 1000L));
 
-    String lwsNumber = "44" + number.substring(1);
 
     assertThat(record).containsPattern("\"externalSystemPersonCode\":\"fransico.buyo[0-9]{2}@domain\"");
     assertThat(record).contains("\"isActivated\":1");
@@ -107,7 +105,7 @@ public class LwsSteps {
       assertThat(record).contains("\"hierarchyItem7\":\"" + hierarchyItem7 + "\"");
     }
     assertThat(record).contains("\"takeOnCode\":\"code\"");
-    assertThat(record).contains("\"phoneNumber\":\"" + lwsNumber + "\"");
+    assertThat(record).contains("\"phoneNumber\":\"" + number + "\"");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
     assertThat(record).contains("\"updateMode\":\"BULKLOADER\"");
@@ -181,7 +179,6 @@ public class LwsSteps {
     gatewayEventMonitor.grabEventsTriggered("SENDING_LWS_ACTION_RESPONSE", 10, 3000L);
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 1000L));
 
-    String lwsNumber = "44" + number.substring(1);
 
     assertThat(record).containsPattern("\"externalSystemPersonCode\":\"fransico.buyo[0-9]{2}@domain\"");
     assertThat(record).contains("\"isActivated\":0");
@@ -190,7 +187,7 @@ public class LwsSteps {
     assertThat(record).contains("\"hierarchyItem2\":null");
     assertThat(record).contains("\"hierarchyItem3\":null");
     assertThat(record).contains("\"takeOnCode\":\"code\"");
-    assertThat(record).contains("\"phoneNumber\":\"" + lwsNumber + "\"");
+    assertThat(record).contains("\"phoneNumber\":\"" + number + "\"");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
     assertThat(record).contains("\"updateMode\":\"BULKLOADER\"");

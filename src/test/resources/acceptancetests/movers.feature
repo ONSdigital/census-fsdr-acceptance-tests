@@ -12,7 +12,7 @@ Feature: Movers
     And we ingest them
     And the employee "<id>" is sent to all downstream services
     And the employee assignment status changes to "TRAINING IN PROGRESS"
-    And we ingest a device from pubsub for "<id>" with phone number "07234567890" and IMEI number "990000888888888"
+    And we ingest a device from pubsub for "<id>" with phone number "+447234567890" and IMEI number "990000888888888"
     And we ingest them
     When the employee "<id>" is sent to all downstream services
     And their old job role gets cancelled with assignment reason "<reassignment>"
@@ -22,11 +22,11 @@ Feature: Movers
     Then the employee "<id>" is correctly moved in gsuite with roleId "<new_role_id>" to "<new_org_unit>"
     And the employee "<id>" is no longer in the following groups "<old_groups>"
     And the employee "<id>" is now in the current groups "<new_groups>"
-    Then the employee "<id>" is sent to LWS as a mover with roleId "<new_role_id>" with expected hierarchy items "<hier1>" "<hier2>" "<hier3>" "<hier4>" "<hier5>" "<hier6>" "<hier7>"
-    Then the employee "<id>" is correctly moved in ServiceNow with "<new_role_id>"
+    Then the employee "<id>" is correctly moved in ServiceNow with "<new_role_id>" and phone number "+447234567890"
     Then the employee from "<source>" with old roleId "<role_id>" and new roleId "<new_role_id>" is correctly moved in XMA with group "<new_group>"
-    Then the employee "<inLogisitcs>" in the Logisitics CSV with "<new_role_id>"
+    Then the employee "<inLogisitcs>" in the Logisitics CSV with "<new_role_id>" and phone number "+447234567890"
     And Check the employee "<id>" is sent to RCA
+    Then the employee "<id>" is sent to LWS as a mover with roleId "<new_role_id>" with expected hierarchy items "<hier1>" "<hier2>" "<hier3>" "<hier4>" "<hier5>" "<hier6>" "<hier7>"
 
     Examples:
       | id        | role_id       | inLogisitcs | reassignment                   | source | new_group                            | new_role_id   | new_org_unit                  | new_groups    | old_groups    | hier1           | hier2                  | hier3 | hier4     | hier5          | hier6         | hier7        |

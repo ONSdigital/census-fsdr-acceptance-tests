@@ -23,7 +23,7 @@ public class AdeccoExtractSteps {
 
   @Then("the employee {string} is sent to Adecco")
   public void the_employee_is_sent_to_Adecco(String id) {
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_ADECCO_ACTION_RESPONSE", 30000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_ADECCO_ACTION_RESPONSE", 3000L));
 
     String[] messages = adeccoMockUtils.getAdeccoUpdateMessagesById(id);
     assertEquals(1, messages.length);

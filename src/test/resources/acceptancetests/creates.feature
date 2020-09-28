@@ -18,10 +18,10 @@ Feature: Creates
     And Check the employee "<id>" is sent to RCA
     Then the employee "<id>" is sent to Adecco
       ### LWS Requires a device to be created ###
-    And we ingest a device from pubsub for "<id>" with phone number "07234567890" and IMEI number "990000888888888"
+    And we ingest a device from pubsub for "<id>" with phone number "+447234567890" and IMEI number "990000888888888"
     And we ingest them
-    And the employee "<id>" is sent to LWS as an create with name "Fransico" and phone number "07234567890" and "<role_id>" with expected hierarchy items "<hier1>" "<hier2>" "<hier3>" "<hier4>" "<hier5>" "<hier6>" "<hier7>"
-    And the employee "<id>" with roleId "<role_id>" "phone" device allocation details are sent to xma with ID "07234567890"
+    And the employee "<id>" with roleId "<role_id>" "phone" device allocation details are sent to xma with ID "+447234567890"
+    And the employee "<id>" is sent to LWS as an create with name "Fransico" and phone number "+447234567890" and "<role_id>" with expected hierarchy items "<hier1>" "<hier2>" "<hier3>" "<hier4>" "<hier5>" "<hier6>" "<hier7>"
 
   Examples:
     | id        | role_id       | inLogisitcs | source | group                                | hier1           | hier2                   | hier3 | hier4     | hier5          | hier6         | hier7        |
@@ -105,10 +105,10 @@ Feature: Creates
     And Check the employee "223456789" is sent to RCA
     And the employee "223456789" is sent to Adecco
       ### LWS Requires a device to be created ###
-    And we ingest a device from pubsub for "223456789" with phone number "07234567890" and IMEI number "990000888888888"
+    And we ingest a device from pubsub for "223456789" with phone number "+447234567890" and IMEI number "990000888888888"
     And we ingest them
-    And the employee "223456789" is sent to LWS as an create with name "Fransico" and phone number "07234567890" and "HA-CAR1" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "" ""
-    And the employee "223456789" with roleId "HA-CAR1" "phone" device allocation details are sent to xma with ID "07234567890"
+    And the employee "223456789" with roleId "HA-CAR1" "phone" device allocation details are sent to xma with ID "+447234567890"
+    And the employee "223456789" is sent to LWS as an create with name "Fransico" and phone number "+447234567890" and "HA-CAR1" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "" ""
 
   Scenario: A record with a start date less than 6 days in the future is created in the downstream systems
     Given An employee exists in "ADECCO" with an id of "323456789"
@@ -125,10 +125,10 @@ Feature: Creates
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
     And Check the employee "323456789" is sent to RCA
       ### LWS Requires a device to be created ###
-    And we ingest a device from pubsub for "323456789" with phone number "07234567890" and IMEI number "990000888888888"
+    And we ingest a device from pubsub for "323456789" with phone number "+447234567890" and IMEI number "990000888888888"
     And we ingest them
-    And the employee "323456789" is sent to LWS as an create with name "Fransico" and phone number "07234567890" and "HA-CAR1" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "" ""
-    And the employee "323456789" with roleId "HA-CAR1" "phone" device allocation details are sent to xma with ID "07234567890"
+    And the employee "323456789" with roleId "HA-CAR1" "phone" device allocation details are sent to xma with ID "+447234567890"
+    And the employee "323456789" is sent to LWS as an create with name "Fransico" and phone number "+447234567890" and "HA-CAR1" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "" ""
 
   Scenario Outline: A HQ record is ingested and created
     Given A "HQ" ingest CSV "00000000_000001_CFOD_HQ_Extract.csv" exists in SFTP
@@ -161,7 +161,7 @@ Feature: Creates
     And Check the employee "123456781" is sent to RCA
     Then the employee "123456781" is sent to Adecco
       ### LWS Requires a device to be created ###
-    And we ingest a device from pubsub for "123456781" with phone number "07234567890" and IMEI number "990000888888888"
+    And we ingest a device from pubsub for "123456781" with phone number "+447234567890" and IMEI number "990000888888888"
     And we ingest them
     And the employee "123456781" device details are not sent to xma
     And the employee "123456781" is not sent to LWS
