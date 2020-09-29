@@ -71,6 +71,7 @@ public class LwsSteps {
     assertThat(record).contains("\"operatorInstructions3\":\"Escalate to Field Staff Support - CFS\"");
     assertThat(record).contains("\"takeOnPassword\":\"pass\"");
     assertThat(record).containsPattern("emailAddress\":\"fransico.buyo[0-9]{2}@domain");
+    assertThat(record).contains("\"staffIdNumber\":\""+roleId+"\"");
     if (roleId.length() < FIELD_OFFICER_ROLE_ID_LENGTH) {
       assertThat(record).contains("\"loginEnabled\":1");
       assertThat(record).contains("\"loginPermissionTemplate\":\"ONSLINEMANAGER\"");
@@ -118,6 +119,7 @@ public class LwsSteps {
         + " (leave voice mail)\\nb. Wait 10 minutes and repeat Operator Instructions No.1\"");
     assertThat(record).contains("\"operatorInstructions3\":\"Escalate to Field Staff Support - CFS\"");
     assertThat(record).contains("\"takeOnPassword\":\"pass\"");
+    assertThat(record).contains("\"staffIdNumber\":\""+roleId+"\"");
 
     if (roleId.length() < FIELD_OFFICER_ROLE_ID_LENGTH) {
       assertThat(record).contains("\"loginEnabled\":1");
