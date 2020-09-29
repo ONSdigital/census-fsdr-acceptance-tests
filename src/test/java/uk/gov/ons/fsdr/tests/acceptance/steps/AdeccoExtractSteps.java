@@ -36,8 +36,7 @@ public class AdeccoExtractSteps {
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_ADECCO_ACTION_RESPONSE", 3000L));
 
     String[] messages = adeccoMockUtils.getAdeccoUpdateMessagesById(id);
-    assertEquals(2, messages.length);
-    assertThat(messages[1]).contains("\"Phone\":\""+number+"\",");
-    assertThat(messages[1]).containsPattern("\"TR1__Work_Email__c\":\"fransico.buyo[0-9]{2}@domain\"");
+    assertThat(messages[messages.length - 1]).contains("\"Phone\":\""+number+"\",");
+    assertThat(messages[messages.length - 1]).containsPattern("\"TR1__Work_Email__c\":\"fransico.buyo[0-9]{2}@domain\"");
   }
 }
