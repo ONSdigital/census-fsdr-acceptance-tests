@@ -89,19 +89,20 @@ Feature: Updates
     Then the employee "HA-CAR1-ZA-01" is not updated in XMA
     Then the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" and phone number "+447234567890" as an update with name "Fransico"
     And Check the employee "123456781" is sent to RCA
-    Then the employee "123456781" is sent to Adecco with phone number "07234567810"
+    Then the employee "123456781" is sent to Adecco with phone number "07234567890"
     And the employee "123456781" with roleId "HA-CAR1-ZA-01" "phone" device allocation details are sent to xma with ID "+447234567890"
-    When we ingest a device from pubsub for "123456781" with phone number "+447234567890" and IMEI number "990000777777777"
+    When we ingest a device from pubsub for "123456781" with phone number "+447234567891" and IMEI number "990000777777777"
     And we run create actions
     And the employee "123456781" will only have one phone
     When the employee "123456781" is sent to all downstream services
     Then the employee "HA-CAR1-ZA-01" is not updated in gsuite
-    Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "07234567811"
+    Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "+447234567891"
     Then the employee "HA-CAR1-ZA-01" is not updated in XMA
-    Then the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" and phone number "07234567811" as an update with name "Fransico"
+    Then the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" and phone number "+447234567891" as an update with name "Fransico"
     And Check the employee "123456781" is sent to RCA
-    And the employee "123456781" with roleId "HA-CAR1-ZA-01" "phone" device allocation details are sent to xma with ID "07234567811"
-    Then the employee "123456781" is sent to LWS as an update with name "Fransico" and phone number "07234567811" and "HA-CAR1-ZA-01" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "Team Leader A" "01 Tranche 1"
+    And the employee "123456781" with roleId "HA-CAR1-ZA-01" "phone" device allocation details are sent to xma with ID "+447234567891"
+    Then the employee "123456781" is sent to LWS as an update with name "Fransico" and phone number "+447234567891" and "HA-CAR1-ZA-01" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "Team Leader A" "01 Tranche 1"
+    Then the employee "123456781" is sent to Adecco with phone number "07234567891"
 
   Scenario: A record in FSDR receives a replacement chromebook device
     Given the managers of "HA-CAR1-ZA-01" exist
