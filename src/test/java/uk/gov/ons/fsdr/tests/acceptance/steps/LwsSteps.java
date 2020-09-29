@@ -68,7 +68,7 @@ public class LwsSteps {
             + number + "\"");
     assertThat(record).contains("\"operatorInstructions2\":\"a. Call on Personal mobile number " + "0987654321"
         + " (leave voice mail)\\nb. Wait 10 minutes and repeat Operator Instructions No.1\"");
-    assertThat(record).contains("\"operatorInstructions3\":\"Escalate to Field Staff Support - CFS\"");
+    assertThat(record).contains("\"operatorInstructions3\":\"Escalate to Field Staff Support - CFS 0300 067 1505\"");
     assertThat(record).contains("\"takeOnPassword\":\"pass\"");
     assertThat(record).containsPattern("emailAddress\":\"fransico.buyo[0-9]{2}@domain");
     assertThat(record).contains("\"staffIdNumber\":\""+roleId+"\"");
@@ -117,7 +117,7 @@ public class LwsSteps {
             + number + "\"");
     assertThat(record).contains("\"operatorInstructions2\":\"a. Call on Personal mobile number " + "0987654321"
         + " (leave voice mail)\\nb. Wait 10 minutes and repeat Operator Instructions No.1\"");
-    assertThat(record).contains("\"operatorInstructions3\":\"Escalate to Field Staff Support - CFS\"");
+    assertThat(record).contains("\"operatorInstructions3\":\"Escalate to Field Staff Support - CFS 0300 067 1505\"");
     assertThat(record).contains("\"takeOnPassword\":\"pass\"");
     assertThat(record).contains("\"staffIdNumber\":\""+roleId+"\"");
 
@@ -163,7 +163,7 @@ public class LwsSteps {
         "\"operatorInstructions1\":\"a. Check Yellow/Safe Check messages for contextual information\\nb. Call the lone worker on 07234567890\"");
     assertThat(record).contains("\"operatorInstructions2\":\"a. Call on Personal mobile number " + "0987654321"
         + " (leave voice mail)\\nb. Wait 10 minutes and repeat Operator Instructions No.1\"");
-    assertThat(record).contains("\"operatorInstructions3\":\"Escalate to Field Staff Support - CFS\"");
+    assertThat(record).contains("\"operatorInstructions3\":\"Escalate to Field Staff Support - CFS 0300 067 1505\"");
     assertThat(record).contains("\"takeOnPassword\":\"pass\"");
 
     if (roleId.length() < FIELD_OFFICER_ROLE_ID_LENGTH) {
