@@ -61,10 +61,10 @@ public class DeviceSteps {
         if (onsId == null) fail("failed to find ons id for employee " + employeeId);
         postDevice(onsId, phoneNumber, imeiNumber);
         deviceCount++;
-        Collection<GatewayEventDTO> devices = gatewayEventMonitor.grabEventsTriggered("SAVE_DEVICE", deviceCount, 5000L);
+        Collection<GatewayEventDTO> devices = gatewayEventMonitor.grabEventsTriggered("SAVE_DEVICE_PHONE", deviceCount, 5000L);
         Optional<String> any = devices.stream().flatMap(meta -> meta.getMetadata().values().stream()).filter(number -> number.equals(phoneNumber)).findAny();
         assertTrue("Device event not found for " + phoneNumber, any.isPresent());
-        assertTrue(gatewayEventMonitor.hasEventTriggered(employeeId, "SAVE_DEVICE"));
+        assertTrue(gatewayEventMonitor.hasEventTriggered(employeeId, "SAVE_DEVICE_PHONE"));
 
     }
 
