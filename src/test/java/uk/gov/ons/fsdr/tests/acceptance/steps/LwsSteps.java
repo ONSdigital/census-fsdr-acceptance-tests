@@ -78,7 +78,7 @@ public class LwsSteps {
     } else {
       assertThat(record).contains("\"loginEnabled\":0");
     }
-    assertThat(record).contains("\"receiveAlertClosureReports\":1");
+    assertThat(record).contains("\"receiveAlertClosureReports\":0");
   }
 
   @Then("the employee {string} is sent to LWS as an update with name {string} and phone number {string} and {string} with expected hierarchy items {string} {string} {string} {string} {string} {string} {string}")
