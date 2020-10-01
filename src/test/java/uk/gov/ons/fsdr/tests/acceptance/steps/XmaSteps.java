@@ -146,7 +146,7 @@ public class XmaSteps {
                         + "\"},{\"name\":\"_Surname\",\"value\":\"Buyo\"},{");
         assertThat(records[records.length - 1]).containsPattern("\"name\":\"EMailAddress\",\"value\":\"fransico.buyo[0-9]{2}@domain\"");
         assertThat(records[records.length - 1]).contains("},{\"name\":\"Title\",\"value\":\"" + name
-                + " Buyo\"},{\"name\":\"_PersonalEmail\",\"value\":\"f.b@email.com\"},{\"name\":\"_PersonalPhone\",\"value\":\"0987654321\"},{\"name\":\"_Address\",\"value\":\"123, Fake Street, Faketon, Fakeside, FA43 1AB\"}],\"");
+                + " Buyo\"},{\"name\":\"_PersonalEmail\",\"value\":\"f.b@email.com\"},{\"name\":\"_PersonalPhone\",\"value\":\"0987654321\"},{\"name\":\"_Address\",\"value\":\"123, Fake Street, Faketon, Fakeside, FA43 1AB\"},{\"name\":\"_Postcode\",\"value\":\"FA43 1AB\"}],\"");
         assertThat(records[records.length - 1]).contains("key\":\"" + id + "\",\"originalValues\":null,\"lockVersion\":1}");
         if (hasManager) {
             assertThat(records[records.length - 1]).containsPattern("\"name\":\"_LineManager\",\"value\":\"" + uuidPattern + "\"}");

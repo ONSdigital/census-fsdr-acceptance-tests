@@ -23,10 +23,10 @@ Feature: Setup
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "" as an update with name "<new_name>"
     Then the employee from "<source>" with roleId "<role_id>" is correctly updated in XMA with name "<new_name>" and group "<group>"
     Examples:
-      | id        | role_id | inLogisitcs | source | group                                | org_unit     | new_groups    | new_name |
-      | 900000001 | HA-CAR1 | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ha-all,ha-mgr | John     |
-#      | 900000002 | HA-CAR1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ha-all,ha-mgr | John     |
-#      | 900000003 | HA-CAR1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | ONS Officers | ha-all        | John     |
+      | id        | role_id       | inLogisitcs | source | group                                | org_unit     | new_groups    | new_name |
+      | 900000001 | HA-CAR1       | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ha-all,ha-mgr | John     |
+      | 900000002 | HA-CAR1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ha-all,ha-mgr | John     |
+      | 900000003 | HA-CAR1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | ONS Officers | ha-all        | John     |
 
   Scenario Outline: A record is setup in gsuite with the correct groups
     Given An employee exists in "<source>" with an id of "<id>"
