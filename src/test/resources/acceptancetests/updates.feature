@@ -18,7 +18,7 @@ Feature: Updates
     And we receive an update from adecco for employee "<id>" with new first name "<new_name>"
     And we ingest them
     When the employee "<id>" is sent to all downstream services
-    Then the employee is correctly updated in gsuite with name "<new_name>"
+    Then the employee "<id>" is correctly updated in gsuite with name "<new_name>" and roleId "<role_id>"
     Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number "<number>"
     Then the employee from "<source>" with roleId "<role_id>" is correctly updated in XMA with name "<new_name>" and group "<group>"
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<number>" as an update with name "<new_name>"

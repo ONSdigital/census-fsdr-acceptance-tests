@@ -153,7 +153,7 @@ public class LwsSteps {
       assertThat(record).contains("\"hierarchyItem7\":\"" + hierarchyItem7 + "\"");
     }
     assertThat(record).contains("\"takeOnCode\":\"code\"");
-    assertThat(record).contains("\"phoneNumber\":\"447234567890\"");
+    assertThat(record).contains("\"phoneNumber\":\"+447234567890\"");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
     assertThat(record).contains("\"updateMode\":\"BULKLOADER\"");
