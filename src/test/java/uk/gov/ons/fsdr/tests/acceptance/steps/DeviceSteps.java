@@ -2,6 +2,7 @@ package uk.gov.ons.fsdr.tests.acceptance.steps;
 
 import cucumber.api.java.en.Then;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -10,15 +11,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
 import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
+import uk.gov.ons.fsdr.common.dto.devicelist.DeviceDto;
+import uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils;
+import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collection;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -39,12 +47,24 @@ public class DeviceSteps {
     @Value("${device.baseUrl}")
     private String mockDeviceUrl;
 
+    @Autowired
+    private GsuiteMockUtils gsuiteMockUtils;
+
+    @Autowired
+    private FsdrUtils fsdrUtils;
+
+    private static int deviceCount;
+
     @Then("we ingest a device from pubsub for {string} with phone number {string} and IMEI number {string}")
     public void weIngestADeviceFromPubsubForWithPhoneNumber(String employeeId, String phoneNumber, String imeiNumber) throws Exception {
         String onsId = getOnsId(employeeId);
         if (onsId == null) fail("failed to find ons id for employee " + employeeId);
         postDevice(onsId, phoneNumber, imeiNumber);
-        assertTrue(gatewayEventMonitor.hasEventTriggered(employeeId, "SAVE_DEVICE"));
+        deviceCount++;
+        Collection<GatewayEventDTO> devices = gatewayEventMonitor.grabEventsTriggered("SAVE_DEVICE_PHONE", deviceCount, 5000L);
+        Optional<String> any = devices.stream().flatMap(meta -> meta.getMetadata().values().stream()).filter(number -> number.equals(phoneNumber)).findAny();
+        assertTrue("Device event not found for " + phoneNumber, any.isPresent());
+        assertTrue(gatewayEventMonitor.hasEventTriggered(employeeId, "SAVE_DEVICE_PHONE"));
 
     }
 
@@ -111,4 +131,22 @@ public class DeviceSteps {
         }
         return result;
     }
+
+  @Then("we ingest a chromebook device for {string} with id {string}")
+  public void weIngestAChromebookDeviceForThem(String employeeId, String deviceId) throws Exception {
+      String onsId = getOnsId(employeeId);
+      if (onsId == null) fail("failed to find ons id for employee " + employeeId);
+      DeviceDto deviceDto = new DeviceDto();
+      deviceDto.setOnsId(onsId);
+      deviceDto.setDeviceId(deviceId);
+
+      gsuiteMockUtils.addChromebook(deviceDto);
+
+      fsdrUtils.ingestChromebooks();
+      deviceCount++;
+  }
+
+  static int getDeviceCount() {
+        return deviceCount;
+  }
 }

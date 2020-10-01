@@ -1,13 +1,13 @@
 package uk.gov.ons.fsdr.tests.acceptance.utils;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.ons.fsdr.common.dto.HqJobRole;
+import uk.gov.ons.fsdr.common.dto.devicelist.DeviceDto;
 import uk.gov.ons.fsdr.tests.acceptance.exceptions.MockInaccessibleException;
 
 import java.io.IOException;
@@ -64,6 +64,14 @@ public class GsuiteMockUtils {
     HqJobRole jobRole = new HqJobRole(employeeId, roleId);
     HttpEntity<HqJobRole> role = new HttpEntity<>(jobRole);
     restTemplate.postForEntity(url, role, ResponseEntity.class);
+  }
+
+  public void addChromebook(DeviceDto deviceDto) {
+    RestTemplate restTemplate = new RestTemplate();
+    String url = mockGsuiteUrl + "device";
+    log.info("getRecords-mock_url:" + url);
+    HttpEntity<DeviceDto> device = new HttpEntity<>(deviceDto);
+    restTemplate.postForEntity(url, device, ResponseEntity.class);
   }
 
 }

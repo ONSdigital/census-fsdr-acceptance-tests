@@ -88,7 +88,7 @@ dependencies {
         exclude group: 'com.fasterxml.jackson.dataformat', module: 'jackson-dataformat-xml'
     }
     compile('uk.gov.ons.census.ffa:census-ffa-storage-utils:0.0.1-RELEASE')
-    compile('uk.gov.ons:census-fsdr-common:0.0.18-SNAPSHOT')
+    compile('uk.gov.ons:census-fsdr-common:0.0.20-SNAPSHOT')
 
     compile('com.google.guava:guava:27.0.1-jre')
 

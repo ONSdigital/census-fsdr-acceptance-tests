@@ -1,5 +1,6 @@
 package uk.gov.ons.fsdr.tests.acceptance.steps;
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +10,17 @@ import uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.XmaMockUtils;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
+import static junit.framework.TestCase.assertFalse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.AREA_MANAGER_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.COORDINATOR_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.FIELD_OFFICER_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.gatewayEventMonitor;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.DeviceSteps.getDeviceCount;
 import static uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils.getLastRecord;
 
 @Slf4j
@@ -39,7 +44,7 @@ public class XmaSteps {
 
     private static final String uuidPattern = "([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})";
 
-    @Then("the employee from {string} with roleId {string} is correctly created in XMA with group {string}")
+  @Then("the employee from {string} with roleId {string} is correctly created in XMA with group {string}")
     public void the_employee_with_roleId_is_correctly_updated_in_XMA(String source, String roleId, String group) {
 
       boolean hasManager = roleId.length() > AREA_MANAGER_ROLE_ID_LENGTH;
@@ -60,11 +65,11 @@ public class XmaSteps {
                 + "\"},{\"name\":\"_JobRole\",\"value\":null},{\"name\":\"_LocationString\",\"value\":\"London\"},{\"name\":\"_RoleID\",\"value\":\""
                 + roleId + "\"}");
         assertThat(records[i]).contains("{\"name\":\"CurrentGroup\",\"value\":\"" + group + "\"},{\"name\":\"PrimaryGroup\",\"value\":\"" + group + "\"},{");
-        assertThat(records[i]).containsPattern("\"name\":\"Name\",\"value\":\"Fransico.Buyo[0-9]{2}@domain\"");
+        assertThat(records[i]).containsPattern("\"name\":\"Name\",\"value\":\"fransico.buyo[0-9]{2}@domain\"");
         assertThat(records[i])
                 .contains("},{\"name\":\"_PreferredName\",\"value\":null},{\"name\":\"_UserOrg\",\"value\":\"" + source
                         + "\"},{\"name\":\"_Surname\",\"value\":\"Buyo\"},{");
-        assertThat(records[i]).containsPattern("\"name\":\"EMailAddress\",\"value\":\"Fransico.Buyo[0-9]{2}@domain\"");
+        assertThat(records[i]).containsPattern("\"name\":\"EMailAddress\",\"value\":\"fransico.buyo[0-9]{2}@domain\"");
         assertThat(records[i]).contains(
                 "},{\"name\":\"Title\",\"value\":\"Fransico Buyo\"},{\"name\":\"_PersonalEmail\",\"value\":\"f.b@email.com\"},{\"name\":\"_PersonalPhone\",\"value\":\"0987654321\"},{\"name\":\"_Address\",\"value\":\"123, Fake Street, Faketon, Fakeside, FA43 1AB\"}]");
         if (hasManager) {
@@ -105,11 +110,11 @@ public class XmaSteps {
                 + "\"},{\"name\":\"_JobRole\",\"value\":null},{\"name\":\"_LocationString\",\"value\":\"London\"},{\"name\":\"_RoleID\",\"value\":\""
                 + roleId + "\"}");
         assertThat(update).contains("{\"name\":\"CurrentGroup\",\"value\":\"" + group + "\"},{\"name\":\"PrimaryGroup\",\"value\":\"" + group + "\"},{");
-        assertThat(update).containsPattern("\"name\":\"Name\",\"value\":\"Fransico.Buyo[0-9]{2}@domain\"");
+        assertThat(update).containsPattern("\"name\":\"Name\",\"value\":\"fransico.buyo[0-9]{2}@domain\"");
         assertThat(update)
                 .contains("},{\"name\":\"_PreferredName\",\"value\":null},{\"name\":\"_UserOrg\",\"value\":\"" + source
                         + "\"},{\"name\":\"_Surname\",\"value\":\"Buyo\"},{");
-        assertThat(update).containsPattern("\"name\":\"EMailAddress\",\"value\":\"Fransico.Buyo[0-9]{2}@domain\"");
+        assertThat(update).containsPattern("\"name\":\"EMailAddress\",\"value\":\"fransico.buyo[0-9]{2}@domain\"");
         assertThat(update).contains("},{\"name\":\"Title\",\"value\":\"Fransico"
                 + " Buyo\"},{\"name\":\"_PersonalEmail\",\"value\":\"f.b@email.com\"},{\"name\":\"_PersonalPhone\",\"value\":\"0987654321\"},{\"name\":\"_Address\",\"value\":\"123, Fake Street, Faketon, Fakeside, FA43 1AB\"}]");
         assertThat(update).containsPattern("\"key\":\"" + uuidPattern + "\",\"originalValues\":null,\"lockVersion\":1}");
@@ -135,11 +140,11 @@ public class XmaSteps {
                 + "\"},{\"name\":\"_JobRole\",\"value\":null},{\"name\":\"_LocationString\",\"value\":\"London\"},{\"name\":\"_RoleID\",\"value\":\""
                 + roleId + "\"}");
         assertThat(records[records.length - 1]).contains("{\"name\":\"CurrentGroup\",\"value\":\"" + group + "\"},{\"name\":\"PrimaryGroup\",\"value\":\"" + group + "\"},{");
-        assertThat(records[records.length - 1]).containsPattern("\"name\":\"Name\",\"value\":\"Fransico.Buyo[0-9]{2}@domain\"");
+        assertThat(records[records.length - 1]).containsPattern("\"name\":\"Name\",\"value\":\"fransico.buyo[0-9]{2}@domain\"");
         assertThat(records[records.length - 1])
                 .contains("},{\"name\":\"_PreferredName\",\"value\":null},{\"name\":\"_UserOrg\",\"value\":\"" + source
                         + "\"},{\"name\":\"_Surname\",\"value\":\"Buyo\"},{");
-        assertThat(records[records.length - 1]).containsPattern("\"name\":\"EMailAddress\",\"value\":\"Fransico.Buyo[0-9]{2}@domain\"");
+        assertThat(records[records.length - 1]).containsPattern("\"name\":\"EMailAddress\",\"value\":\"fransico.buyo[0-9]{2}@domain\"");
         assertThat(records[records.length - 1]).contains("},{\"name\":\"Title\",\"value\":\"" + name
                 + " Buyo\"},{\"name\":\"_PersonalEmail\",\"value\":\"f.b@email.com\"},{\"name\":\"_PersonalPhone\",\"value\":\"0987654321\"},{\"name\":\"_Address\",\"value\":\"123, Fake Street, Faketon, Fakeside, FA43 1AB\"}],\"");
         assertThat(records[records.length - 1]).contains("key\":\"" + id + "\",\"originalValues\":null,\"lockVersion\":1}");
@@ -159,19 +164,40 @@ public class XmaSteps {
 
     }
 
-  @Then("the employee {string} with roleId {string} device allocation details are sent to xma with IMEI number {string}")
-  public void theEmployeeDeviceAllocationDetailsAreSentToXma(String employeeId, String roleId, String imeiNumber)
+  @Then("the employee {string} with roleId {string} {string} device allocation details are sent to xma with ID {string}")
+  public void theEmployeeDeviceAllocationDetailsAreSentToXma(String employeeId, String roleId, String deviceType, String deviceId)
       throws Exception {
     fsdrUtils.sendDeviceAllocation();
 
-    gatewayEventMonitor.grabEventsTriggered("DEVICE_DETAILS_COMPLETE", 1, 10000l);
+    gatewayEventMonitor.grabEventsTriggered("XMA_DEVICE_SENT", getDeviceCount(), 10000l);
 
     String id = xmaMockUtils.getId(roleId);
     final String[] records = xmaMockUtils.getDeviceAllocationRecords();
-    final String expectedRequest = "{\"className\":\"RequestManagement.Request\",\"formValues\":[{\"name\":\"RaiseUser\",\"value\":\"d2ba61a5-f0c7-4904-b02a-362a3b348899\"},{\"name\":\"_eTrackerAllocUserObj\",\"value\":\"" + id + "\"},{\"name\":\"_eTrackerIMEI\",\"value\":\"" + imeiNumber + "\"},{\"name\":\"_SystemPartition\",\"value\":\"762a653c-35bf-456a-9de3-41444504e6d6\"},{\"name\":\"Title\",\"value\":\"eTracker API Device Allocation\"},{\"name\":\"Description\",\"value\":\"eTracker API Device Allocation\"}],\"lifecycle_name\":\"NewProcess12\"}";
+    Arrays.stream(records).forEach(System.out::println);
+
+    String expectedRequest = null;
+    if (deviceType.equals("phone")) {
+      expectedRequest =
+          "{\"className\":\"RequestManagement.Request\",\"formValues\":[{\"name\":\"RaiseUser\",\"value\":\"d2ba61a5-f0c7-4904-b02a-362a3b348899\"},{\"name\":\"_eTrackerAllocUserObj\",\"value\":\""
+              + id + "\"},{\"name\":\"_eTrackerDevicePhoneNumber\",\"value\":\"" + deviceId
+              + "\"},{\"name\":\"_SystemPartition\",\"value\":\"762a653c-35bf-456a-9de3-41444504e6d6\"},{\"name\":\"Title\",\"value\":\"eTracker API Device Allocation\"},{\"name\":\"Description\",\"value\":\"eTracker API Device Allocation\"}],\"lifecycle_name\":\"NewProcess12\"}";
+    } else if (deviceType.equals("chromebook")) {
+      expectedRequest =
+          "{\"className\":\"RequestManagement.Request\",\"formValues\":[{\"name\":\"RaiseUser\",\"value\":\"d2ba61a5-f0c7-4904-b02a-362a3b348899\"},{\"name\":\"_eTrackerAllocUserObj\",\"value\":\""
+              + id + "\"},{\"name\":\"_eTrackerIMEI\",\"value\":\"" + deviceId
+              + "\"},{\"name\":\"_SystemPartition\",\"value\":\"762a653c-35bf-456a-9de3-41444504e6d6\"},{\"name\":\"Title\",\"value\":\"eTracker API Device Allocation\"},{\"name\":\"Description\",\"value\":\"eTracker API Device Allocation\"}],\"lifecycle_name\":\"NewProcess12\"}";
+    } else fail();
 
     assertEquals(expectedRequest, records[records.length - 1]);
 
 
+  }
+
+  @And("the employee {string} device details are not sent to xma")
+  public void theEmployeeDeviceDetailsAreNotSentToXma(String employeeId) {
+    gatewayEventMonitor.grabEventsTriggered("XMA_DEVICE_SENT", 1, 3000L);
+    assertFalse(gatewayEventMonitor.hasEventTriggered(employeeId, "XMA_DEVICE_SENT", 1000L));
+    String[] records = xmaMockUtils.getDeviceAllocationRecords();
+    assertThat(records).isEmpty();
   }
 }

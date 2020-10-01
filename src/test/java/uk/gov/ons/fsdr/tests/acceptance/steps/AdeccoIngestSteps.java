@@ -44,6 +44,11 @@ public class AdeccoIngestSteps {
     adeccoResponse.setStatus(assignmentStatus);
   }
 
+  @When("the employee assignment status changes to {string}")
+  public void theEmployeeAssignmentStatusChangesTo(String assignmentStatus) {
+    adeccoResponse.setStatus(assignmentStatus);
+  }
+
   @Given("a closing report status of {string}")
   public void a_closing_report_status_of(String crStatus) {
     adeccoResponse.setCrStatus(crStatus);
@@ -86,7 +91,7 @@ public class AdeccoIngestSteps {
     AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
     adeccoResponseJobRoleCode.setRoleId(roleId);
     moverResponse.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
-    moverResponse.setResponseJob(new AdeccoResponseJob(null, null, null, null));
+    moverResponse.setResponseJob(new AdeccoResponseJob(null, null, null, null, null,null));
     moverResponse.setStatus("ASSIGNED");
     moverResponse.setCrStatus("ACTIVE");
     moverResponse.setOperationalEndDate(adeccoResponse.getOperationalEndDate());
@@ -102,9 +107,15 @@ public class AdeccoIngestSteps {
     adeccoResponseList.add(moverResponse);
   }
 
-  @Given("their old job role gets cancelled")
-  public void their_old_job_role_gets_cancelled() {
-    adeccoResponseList.get(0).setStatus("ASSIGNMENT_CANCELLED");
+  @Given("their old job role gets cancelled with assignment reason {string}")
+  public void their_old_job_role_gets_cancelled(String reason) {
+    if(reason.equals("Reassigned")) {
+      adeccoResponseList.get(0).setStatus("Assignment Cancelled");
+      adeccoResponseList.get(0).getResponseJob().setAssignmentCancelledReason(reason);
+    } else {
+      adeccoResponseList.get(0).setStatus("Assignment Ended");
+      adeccoResponseList.get(0).getResponseJob().setAssignmentEndReason(reason);
+    }
   }
 
   @Given("we receive an update from adecco for employee {string} with new first name {string}")

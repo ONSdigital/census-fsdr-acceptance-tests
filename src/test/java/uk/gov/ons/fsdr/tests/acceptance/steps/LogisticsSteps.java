@@ -35,7 +35,7 @@ public class LogisticsSteps {
       assertThat(csv).doesNotContain("\""+roleId+"\"");
     } else {
       assertThat(csv).containsPattern(
-          "\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\",,,\""
+          "\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"fransico.buyo[0-9]{2}@domain\",\"0987654321\",,,\""
               + roleId
               + "\",,\"ACTIVE\"");
     }
@@ -47,27 +47,27 @@ public class LogisticsSteps {
     String csvFilename = sftpUtils.getLogisticsFileName();
       String csv = sftpUtils.getCsv("logistics/", csvFilename);
     if (!phoneNumber.equals(""))
-      phoneNumber = "\"" + phoneNumber + "\"";
+      phoneNumber = "\"\\" + phoneNumber + "\"";
     if (inCsv.contains("is not")) {
       assertThat(csv).doesNotContain("\""+roleId+"\"");
     } else {
       assertThat(csv).containsPattern(
           "\"" + name
-              + "\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\","
+              + "\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"fransico.buyo[0-9]{2}@domain\",\"0987654321\","
               + phoneNumber + ",,\"" + roleId
               + "\",,\"ACTIVE\"");
     }
   }
 
-  @Then("the employee {string} in the Logisitics CSV with {string}")
-  public void the_employee_in_the_Logisitics_CSV_with(String inCsv, String roleId) throws Exception {
+  @Then("the employee {string} in the Logisitics CSV with {string} and phone number {string}")
+  public void the_employee_in_the_Logisitics_CSV_with(String inCsv, String roleId, String phoneNumber) throws Exception {
     String csvFilename = sftpUtils.getLogisticsFileName();
       String csv = sftpUtils.getCsv("logistics/", csvFilename);
     if (inCsv.contains("is not")) {
       assertThat(csv).doesNotContain("\""+roleId+"\"");
     } else {
       assertThat(csv).containsPattern(
-          "\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\",\"07234567890\",,\"" + roleId
+          "\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"fransico.buyo[0-9]{2}@domain\",\"0987654321\",\"\\"+phoneNumber+"\",,\"" + roleId
               + "\",,\"ACTIVE\"");
     }
   }
@@ -77,7 +77,7 @@ public class LogisticsSteps {
     String csvFilename = sftpUtils.getLogisticsFileName();
     String csv = sftpUtils.getCsv("logistics/", csvFilename);
     if(inCsv.equals("is")) {
-      assertThat(csv).containsPattern("\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"Fransico.Buyo[0-9]{2}@domain\",\"0987654321\",\""+phoneNumber+"\",,\""+roleId+"\",,\"LEFT\"");
+      assertThat(csv).containsPattern("\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"fransico.buyo[0-9]{2}@domain\",\"0987654321\",\"\\"+phoneNumber+"\",,\""+roleId+"\",,\"LEFT\"");
     } else {
       assertThat(csv).doesNotContain("\""+roleId+"\"");
     }
