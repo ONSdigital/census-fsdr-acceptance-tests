@@ -153,14 +153,14 @@ public class LwsSteps {
       assertThat(record).contains("\"hierarchyItem7\":\"" + hierarchyItem7 + "\"");
     }
     assertThat(record).contains("\"takeOnCode\":\"code\"");
-    assertThat(record).contains("\"phoneNumber\":\"447234567890\"");
+    assertThat(record).contains("\"phoneNumber\":\"+447234567890\"");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
     assertThat(record).contains("\"updateMode\":\"BULKLOADER\"");
     assertThat(record).contains("\"templatePersonId\":-1");
     assertThat(record).contains("\"newPersonId\":-1");
     assertThat(record).contains(
-        "\"operatorInstructions1\":\"a. Check Yellow/Safe Check messages for contextual information\\nb. Call the lone worker on 07234567890\"");
+        "\"operatorInstructions1\":\"a. Check Yellow/Safe Check messages for contextual information\\nb. Call the lone worker on +447234567890\"");
     assertThat(record).contains("\"operatorInstructions2\":\"a. Call on Personal mobile number " + "0987654321"
         + " (leave voice mail)\\nb. Wait 10 minutes and repeat Operator Instructions No.1\"");
     assertThat(record).contains("\"operatorInstructions3\":\"Escalate to Field Staff Support - CFS 0300 067 1505\"");

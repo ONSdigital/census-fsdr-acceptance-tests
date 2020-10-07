@@ -179,3 +179,20 @@ Feature: Updates
     And we ingest them
     And the employee "123456781" with roleId "HA-CAR1" "phone" device allocation details are sent to xma with ID "+447234567890"
     And the employee "123456781" is sent to LWS as an create with name "Fransico" and phone number "+447234567890" and "HA-CAR1" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "" ""
+
+  Scenario: A record in FSDR with recieves an update with multiple closing reports for same role ID  Scenario: Device details are not sent to xma and lws when ready to start
+    Given An employee exists in "ADECCO" with an id of "123456781"
+    And an assignment status of "ASSIGNED"
+    And a closing report status of "ACTIVE"
+    And a role id of "HA-CAR1"
+    And a contract start date of "2020-01-01"
+    And we ingest them
+    When the employee "123456781" is sent to all downstream services
+    And we receive an update from adecco for employee "123456781" with multiple closing reports for role id "HA-CAR1" updating name to "John"
+    And we ingest them
+    When the employee "123456781" is sent to all downstream services
+    Then the employee is correctly updated in gsuite with name "John"
+    Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1" and name "John" and number "" and contract start date "2020-02-01"
+    Then the employee from "ADECCO" with roleId "HA-CAR1" is correctly updated in XMA with name "John" and group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
+    Then the employee "is" in the Logisitics CSV with "HA-CAR1" and phone number "" as an update with name "John"
+    And Check the employee "123456781" is sent to RCA
