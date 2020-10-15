@@ -57,7 +57,7 @@ Feature: Updates
     And Check the employee "<id>" is sent to RCA
     Then the employee "<id>" is sent to Adecco with phone number "07234567890"
     And the employee "<id>" with roleId "<role_id>" "phone" device allocation details are sent to xma with ID "<phone_number>"
-    Then the employee "<id>" is sent to LWS as an update with name "<name>" and phone number "<phone_number>" and "<role_id>" with expected hierarchy items "<hier1>" "<hier2>" "<hier3>" "<hier4>" "<hier5>" "<hier6>" "<hier7>"
+    And the employee "<id>" is sent to LWS as an create with name "Fransico" and phone number "<phone_number>" and "<role_id>" with expected hierarchy items "<hier1>" "<hier2>" "<hier3>" "<hier4>" "<hier5>" "<hier6>" "<hier7>"
 
     Examples:
       | id        | role_id       | inLogisitcs | source | name     | phone_number  | hier1           | hier2                   | hier3 | hier4     | hier5          | hier6         | hier7        |
@@ -85,7 +85,7 @@ Feature: Updates
     When the employee "123456781" is sent to all downstream services
     Then the employee "HA-CAR1-ZA-01" is not updated in gsuite
     Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1-ZA-01" and name "Fransico" and number "+447234567890"
-    Then the employee "123456781" is sent to LWS as an update with name "Fransico" and phone number "+447234567890" and "HA-CAR1-ZA-01" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "Team Leader A" "01 Tranche 1"
+    And the employee "123456781" is sent to LWS as an create with name "Fransico" and phone number "+447234567890" and "HA-CAR1-ZA-01" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "Team Leader A" "01 Tranche 1"
     Then the employee "HA-CAR1-ZA-01" is not updated in XMA
     Then the employee "is not" in the Logisitics CSV with "HA-CAR1-ZA-01" and phone number "+447234567890" as an update with name "Fransico"
     And Check the employee "123456781" is sent to RCA
@@ -180,7 +180,7 @@ Feature: Updates
     And the employee "123456781" with roleId "HA-CAR1" "phone" device allocation details are sent to xma with ID "+447234567890"
     And the employee "123456781" is sent to LWS as an create with name "Fransico" and phone number "+447234567890" and "HA-CAR1" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "" ""
 
-  Scenario: A record in FSDR with recieves an update with multiple closing reports for same role ID  Scenario: Device details are not sent to xma and lws when ready to start
+  Scenario: A record in FSDR with recieves an update with multiple closing reports for same role ID
     Given An employee exists in "ADECCO" with an id of "123456781"
     And an assignment status of "ASSIGNED"
     And a closing report status of "ACTIVE"
@@ -191,7 +191,7 @@ Feature: Updates
     And we receive an update from adecco for employee "123456781" with multiple closing reports for role id "HA-CAR1" updating name to "John"
     And we ingest them
     When the employee "123456781" is sent to all downstream services
-    Then the employee is correctly updated in gsuite with name "John"
+    Then the employee "123456781" is correctly updated in gsuite with name "John" and roleId "HA-CAR1"
     Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1" and name "John" and number "" and contract start date "2020-02-01"
     Then the employee from "ADECCO" with roleId "HA-CAR1" is correctly updated in XMA with name "John" and group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     Then the employee "is" in the Logisitics CSV with "HA-CAR1" and phone number "" as an update with name "John"
