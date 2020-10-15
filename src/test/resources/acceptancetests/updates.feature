@@ -18,7 +18,7 @@ Feature: Updates
     And we receive an update from adecco for employee "<id>" with new first name "<new_name>"
     And we ingest them
     When the employee "<id>" is sent to all downstream services
-    Then the employee is correctly updated in gsuite with name "<new_name>" and "<role_id>"
+    Then the employee "<id>" is correctly updated in gsuite with name "<new_name>" and roleId "<role_id>"
     Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number "<number>"
     Then the employee from "<source>" with roleId "<role_id>" is correctly updated in XMA with name "<new_name>" and group "<group>"
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<number>" as an update with name "<new_name>"
@@ -191,7 +191,7 @@ Feature: Updates
     And we receive an update from adecco for employee "123456781" with multiple closing reports for role id "HA-CAR1" updating name to "John"
     And we ingest them
     When the employee "123456781" is sent to all downstream services
-    Then the employee is correctly updated in gsuite with name "John" and "HA-CAR1"
+    Then the employee "123456781" is correctly updated in gsuite with name "John" and roleId "HA-CAR1"
     Then the employee "123456781" is correctly updated in ServiceNow with "HA-CAR1" and name "John" and number "" and contract start date "2020-02-01"
     Then the employee from "ADECCO" with roleId "HA-CAR1" is correctly updated in XMA with name "John" and group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     Then the employee "is" in the Logisitics CSV with "HA-CAR1" and phone number "" as an update with name "John"
