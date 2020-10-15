@@ -1,5 +1,6 @@
 package uk.gov.ons.fsdr.tests.acceptance.steps;
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.UUID;
 
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.AREA_MANAGER_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.COORDINATOR_ROLE_ID_LENGTH;
@@ -32,10 +34,14 @@ public class AdeccoIngestSteps {
   public static Optional<AdeccoResponse> adeccoResponseLeaver = Optional.empty();
   public Set<String> sentManagerIds = new HashSet<>();
 
+  private final String fransicoClosingReportId = "66d321a3-cc92-47d5-ab0d-3a4552684286";
+  private final String fransicoNewClosingReportId = "edbb546f-b985-447c-9369-43f5f3e0c548";
+
+
   @Given("An employee exists in {string} with an id of {string}")
   public void we_recieve_an_employee_with_an_id_of(String source, String id) {
 
-    adeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(id);
+    adeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(id, fransicoClosingReportId);
     adeccoResponse.setContractStartDate("2020-01-01");
   }
 
@@ -144,7 +150,7 @@ public class AdeccoIngestSteps {
   private void buildCoordinatorTypeManager(String roleId, int id) {
     String managerRoleId = roleId.substring(0, COORDINATOR_ROLE_ID_LENGTH);
     if (!sentManagerIds.contains(managerRoleId)) {
-      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id));
+      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id), UUID.randomUUID().toString());
       managerAdeccoResponse.setContractStartDate("2020-01-01");
       managerAdeccoResponse.setStatus("ASSIGNED");
       managerAdeccoResponse.setCrStatus("ACTIVE");
@@ -163,7 +169,7 @@ public class AdeccoIngestSteps {
   private void buildAreaManagerTypeManager(String roleId, int id) {
     String managerRoleId = roleId.substring(0, AREA_MANAGER_ROLE_ID_LENGTH);
     if (!sentManagerIds.contains(managerRoleId)) {
-      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id));
+      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id), UUID.randomUUID().toString());
       managerAdeccoResponse.setContractStartDate("2020-01-01");
       managerAdeccoResponse.setStatus("ASSIGNED");
       managerAdeccoResponse.setCrStatus("ACTIVE");
@@ -197,4 +203,24 @@ public class AdeccoIngestSteps {
   public void thePreviousGetsCancelled(String arg0) {
     adeccoResponseLeaver.ifPresent(response -> response.setStatus("ASSIGNMENT_CANCELLED"));
   }
+
+  @And("we receive an update from adecco for employee {string} with multiple closing reports for role id {string} updating name to {string}")
+  public void weReceiveAnUpdateFromAdeccoForEmployeeWithMultipleClosingReportsForRoleId(String employeeId, String roleId, String newFName) {
+    adeccoResponse.setCrStatus("INACTIVE");
+    adeccoResponse.setStatus("ASSIGNMENT CANCELLED");
+
+    AdeccoResponse newClosingReport = AdeccoPeopleFactory.buildFransicoBuyo(employeeId, fransicoNewClosingReportId);
+
+    newClosingReport.setContractStartDate("2020-02-01");
+    newClosingReport.setStatus("ASSIGNED");
+    newClosingReport.setCrStatus("ACTIVE");
+    newClosingReport.getResponseContact().setFirstName(newFName);
+
+    AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
+    adeccoResponseJobRoleCode.setRoleId(roleId);
+    newClosingReport.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
+
+    adeccoResponseList.add(newClosingReport);
+  }
+
 }
