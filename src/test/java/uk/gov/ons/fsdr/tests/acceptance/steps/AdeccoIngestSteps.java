@@ -97,7 +97,7 @@ public class AdeccoIngestSteps {
     AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
     adeccoResponseJobRoleCode.setRoleId(roleId);
     moverResponse.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
-    moverResponse.setResponseJob(new AdeccoResponseJob(null, null, null, null, null,null));
+    moverResponse.setResponseJob(new AdeccoResponseJob(null, null, null, null));
     moverResponse.setStatus("ASSIGNED");
     moverResponse.setCrStatus("ACTIVE");
     moverResponse.setOperationalEndDate(adeccoResponse.getOperationalEndDate());
@@ -117,10 +117,10 @@ public class AdeccoIngestSteps {
   public void their_old_job_role_gets_cancelled(String reason) {
     if(reason.equals("Reassigned")) {
       adeccoResponseList.get(0).setStatus("Assignment Cancelled");
-      adeccoResponseList.get(0).getResponseJob().setAssignmentCancelledReason(reason);
+      adeccoResponseList.get(0).setAssignmentCancelledReason(reason);
     } else {
       adeccoResponseList.get(0).setStatus("Assignment Ended");
-      adeccoResponseList.get(0).getResponseJob().setAssignmentEndReason(reason);
+      adeccoResponseList.get(0).setAssignmentEndReason(reason);
     }
   }
 
