@@ -89,8 +89,17 @@ public class AdeccoIngestSteps {
     adeccoResponse.setContractStartDate(LocalDate.now().toString());
   }
 
+  @Given("we receive a new active job role from adecco for employee {string} with new role_id {string} and status {string}")
+  public void we_receive_an_update_from_adecco_for_employee_with_new_role_id_and_status(String id, String roleId, String status) {
+    createSecondJobRole(id, roleId, status);
+  }
+
   @Given("we receive a new active job role from adecco for employee {string} with new role_id {string}")
-  public void we_receive_an_update_from_adecco_for_employee_with_new_role_id(String id, String roleId) {
+  public void we_receive_an_update_from_adecco_for_employee_with_new_role_id(String id, String roleId){
+    createSecondJobRole(id, roleId, "ASSIGNED");
+  }
+
+  private void createSecondJobRole(String id, String roleId, String status) {
     AdeccoResponse moverResponse = new AdeccoResponse();
     moverResponse.setAdeccoResponseWorker(new AdeccoResponseWorker(id));
     moverResponse.setResponseContact(adeccoResponse.getResponseContact());
@@ -98,7 +107,7 @@ public class AdeccoIngestSteps {
     adeccoResponseJobRoleCode.setRoleId(roleId);
     moverResponse.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
     moverResponse.setResponseJob(new AdeccoResponseJob(null, null, null, null));
-    moverResponse.setStatus("ASSIGNED");
+    moverResponse.setStatus(status);
     moverResponse.setCrStatus("ACTIVE");
     moverResponse.setOperationalEndDate(adeccoResponse.getOperationalEndDate());
     moverResponse.setContractStartDate(adeccoResponse.getContractStartDate());
