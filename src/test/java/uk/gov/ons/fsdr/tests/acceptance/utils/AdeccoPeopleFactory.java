@@ -15,6 +15,7 @@ public class AdeccoPeopleFactory {
   
   public static AdeccoResponse buildFransicoBuyo(String uuid, String closingReportId) {
     AdeccoResponseJob job = AdeccoResponseJob.builder()
+        .parentJobRole("parentJobRole")
         .build();
     LocalAuthority localAuthority = LocalAuthority.builder()
         .country("Wales")
