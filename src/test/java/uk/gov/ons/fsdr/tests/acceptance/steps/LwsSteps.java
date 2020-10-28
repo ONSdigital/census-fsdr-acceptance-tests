@@ -97,9 +97,12 @@ public class LwsSteps {
     assertThat(record).contains("\"staffIdNumber\":\""+roleId+"\"");
     if (roleId.length() < FIELD_OFFICER_ROLE_ID_LENGTH) {
       assertThat(record).contains("\"loginEnabled\":1");
+      assertThat(record).containsPattern("loginUsername\":\"fransico.buyo[0-9]{2}@domain");
       assertThat(record).contains("\"loginPermissionTemplate\":\"ONSLINEMANAGER\"");
     } else {
       assertThat(record).contains("\"loginEnabled\":0");
+      assertThat(record).doesNotContainPattern("loginUsername\":\"fransico.buyo[0-9]{2}@domain");
+      assertThat(record).doesNotContain("\"loginPermissionTemplate\":\"ONSLINEMANAGER\"");
     }
     assertThat(record).contains("\"receiveAlertClosureReports\":0");
   }
@@ -118,7 +121,7 @@ public class LwsSteps {
     assertThat(record).contains("\"hierarchyItem2\":null");
     assertThat(record).contains("\"hierarchyItem3\":null");
     assertThat(record).contains("\"takeOnCode\":\"code\"");
-    assertThat(record).contains("\"phoneNumber\":\"" + number + "\"");
+    assertThat(record).contains("\"phoneNumber\":null");
     assertThat(record).contains("\"personalMobileNumber\":\"0987654321\"");
     assertThat(record).contains("\"pinNumber\":-2");
     assertThat(record).contains("\"updateMode\":\"BULKLOADER\"");
