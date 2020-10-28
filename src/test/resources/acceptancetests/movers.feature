@@ -55,7 +55,7 @@ Feature: Movers
     And we ingest them
     When the employee "<id>" is sent to all downstream services
     And their old job role gets cancelled with assignment reason "<reassignment>"
-    And we receive a new active job role from adecco for employee "<id>" with new role_id "<new_role_id>"
+    And we receive a new active job role from adecco for employee "<id>" with new role_id "<new_role_id>" and status "READY TO START"
     And we ingest them
     When the employee "<id>" is sent to all downstream services
     Then the employee "<id>" is correctly updated in gsuite with name "<new_name>" and roleId "<new_role_id>"
@@ -63,8 +63,8 @@ Feature: Movers
     Then the employee from "<source>" with old roleId "<role_id>" and new roleId "<new_role_id>" is correctly moved in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<new_role_id>" and phone number "+447234567890" as an update with name "<new_name>"
     And Check the employee "<id>" is sent to RCA
-    Then the employee "<id>" is sent to LWS as an update with name "<new_name>" and phone number "+447234567890" and "<new_role_id>" with expected hierarchy items "<hier1>" "<hier2>" "<hier3>" "<hier4>" "<hier5>" "<hier6>" "<hier7>"
-
+    And the employee "<id>" is not sent to LWS
+    
     Examples:
       | id        | role_id | inLogisitcs | reassignment | source | new_role_id | hier1           | hier2                  | hier3 | hier4     | hier5          | hier6 | hier7 | new_name |
       | 123456780 | HA-CAR1 | is          | Reassigned   | ADECCO | CA-RUN1     | England & Wales | Census Coverage Survey | A     | Runnymede | Area Manager 1 |       |       | Fransico |
