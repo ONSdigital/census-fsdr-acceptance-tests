@@ -97,7 +97,7 @@ public class AdeccoIngestSteps {
     AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
     adeccoResponseJobRoleCode.setRoleId(roleId);
     moverResponse.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
-    moverResponse.setResponseJob(new AdeccoResponseJob(null, null, null, null));
+    moverResponse.setResponseJob(new AdeccoResponseJob(null, null, null, null, "parentJobRole"));
     moverResponse.setStatus("ASSIGNED");
     moverResponse.setCrStatus("ACTIVE");
     moverResponse.setOperationalEndDate(adeccoResponse.getOperationalEndDate());

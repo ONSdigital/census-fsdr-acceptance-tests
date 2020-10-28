@@ -35,7 +35,7 @@ public class LogisticsSteps {
       assertThat(csv).doesNotContain("\""+roleId+"\"");
     } else {
       assertThat(csv).containsPattern(
-          "\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"fransico.buyo[0-9]{2}@domain\",\"0987654321\",,,\""
+          "\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"fransico.buyo[0-9]{2}@domain\",\"0987654321\",,\"parentJobRole\",\""
               + roleId
               + "\",,\"ACTIVE\"");
     }
@@ -54,7 +54,7 @@ public class LogisticsSteps {
       assertThat(csv).containsPattern(
           "\"" + name
               + "\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"fransico.buyo[0-9]{2}@domain\",\"0987654321\","
-              + phoneNumber + ",,\"" + roleId
+              + phoneNumber + ",\"parentJobRole\",\"" + roleId
               + "\",,\"ACTIVE\"");
     }
   }
@@ -67,7 +67,7 @@ public class LogisticsSteps {
       assertThat(csv).doesNotContain("\""+roleId+"\"");
     } else {
       assertThat(csv).containsPattern(
-          "\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"fransico.buyo[0-9]{2}@domain\",\"0987654321\",\"\\"+phoneNumber+"\",,\"" + roleId
+          "\"Fransico\",\"Buyo\",,\"123\",\"Fake Street\",\"Faketon\",\"Fakeside\",\"FA43 1AB\",\"Wales\",\"f.b@email.com\",\"fransico.buyo[0-9]{2}@domain\",\"0987654321\",\"\\"+phoneNumber+"\",\"parentJobRole\",\"" + roleId
               + "\",,\"ACTIVE\"");
     }
   }
