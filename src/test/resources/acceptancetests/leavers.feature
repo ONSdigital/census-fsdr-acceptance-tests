@@ -24,7 +24,7 @@ Feature: Leavers
     When the employee "<id>" is sent to all downstream services
     Then the employee "<id>" is correctly suspended in gsuite
     And the employee "<id>" is correctly suspended in ServiceNow with "<role_id>"
-    And the employee with roleId "<role_id>" is correctly suspended in XMA
+    And the employee "00000001" with roleId "<role_id>" is correctly suspended in XMA
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<phone_number>" as a leaver
     And Check the employee "<id>" is not sent to RCA
     And the employee "<id>" is sent to LWS as an leaver with "<phone_number>"
@@ -61,7 +61,12 @@ Feature: Leavers
     When we ingest the HQ CSV
     And we run HQ actions
     Then the HQ employee "00000001" is correctly created in gsuite with orgUnit "ONS HQ Staff"
+    Given the roleId for "00000001" is set to "xx-RMTx" in gsuite
+    When we retrieve the roleIds from GSuite for "00000001"
+    And we run HQ actions
+    And the HQ employee "00000001" with roleId "xx-RMTx" is correctly created in XMA
     Given A "HQ" ingest CSV "00000000_000002_CFOD_HQ_Extract.csv" exists in SFTP
     When we ingest the HQ CSV
     And we run HQ actions
     Then the employee "00000001" is correctly suspended in gsuite
+    And the employee "00000001" with roleId "xx-RMTx" is correctly suspended in XMA
