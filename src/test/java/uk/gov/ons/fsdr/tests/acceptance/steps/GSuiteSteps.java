@@ -172,7 +172,7 @@ public class GSuiteSteps {
     String update = records[records.length - 1];
 
     JsonNode expectedMessageRootNode = objectMapper
-        .readTree("{\"name\":{\"familyName\":\"Smith\",\"givenName\":\"Kieran\"}}");
+        .readTree("{\"customSchemas\":{\"Employee_Information\":{\"RoleID\":\"xx-RMTx\"}},\"name\":{\"familyName\":\"Smith\",\"givenName\":\"Kieran\"}}");
     JsonNode actualMessageRootNode = objectMapper.readTree(update);
 
     assertEquals(expectedMessageRootNode, actualMessageRootNode);

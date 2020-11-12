@@ -141,10 +141,15 @@ Feature: Updates
     And we ingest the HQ CSV
     And we run HQ actions
     And the HQ employee "00000001" is correctly created in gsuite with orgUnit "ONS HQ Staff"
+    Given the roleId for "00000001" is set to "xx-RMTx" in gsuite
+    When we retrieve the roleIds from GSuite for "00000001"
+    And we run HQ actions
+    And the HQ employee "00000001" with roleId "xx-RMTx" is correctly created in XMA
     When A "HQ" ingest CSV "00000000_000003_CFOD_HQ_Extract.csv" exists in SFTP
     And we ingest the HQ CSV
     And we run HQ actions
     Then the hq employee "00000001" is correctly updated in gsuite
+    And the HQ employee "00000001" with roleId "xx-RMTx" is correctly updated in XMA
 
   Scenario: An existing HQ record not ingested or updated
     Given A "HQ" ingest CSV "00000000_000001_CFOD_HQ_Extract.csv" exists in SFTP
