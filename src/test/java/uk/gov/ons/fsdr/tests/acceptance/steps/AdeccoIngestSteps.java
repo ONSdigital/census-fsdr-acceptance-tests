@@ -8,6 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponseJob;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponseJobRoleCode;
+import uk.gov.ons.fsdr.common.dto.AdeccoResponseReportsTo;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponseWorker;
 import uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoPeopleFactory;
 
@@ -64,14 +65,16 @@ public class AdeccoIngestSteps {
   public void a_role_id_of(String roleId) {
     AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
     adeccoResponseJobRoleCode.setRoleId(roleId);
+    AdeccoResponseReportsTo manager = new AdeccoResponseReportsTo();
     adeccoResponse.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
     if (roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
-      adeccoResponse.getResponseJob().setLineManagerFirstName("Bob");
-      adeccoResponse.getResponseJob().setLineManagerSurName("Jones");
+      manager.setLineManagerFirstName("Bob");
+      manager.setLineManagerSurName("Jones");
     } else if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
-      adeccoResponse.getResponseJob().setLineManagerFirstName("Dave");
-      adeccoResponse.getResponseJob().setLineManagerSurName("Davis");
+      manager.setLineManagerFirstName("Dave");
+      manager.setLineManagerSurName("Davis");
     }
+    adeccoResponse.setReportsTo(manager);
   }
 
   @Given("an operational end date of {string}")
@@ -106,19 +109,21 @@ public class AdeccoIngestSteps {
     AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
     adeccoResponseJobRoleCode.setRoleId(roleId);
     moverResponse.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
-    moverResponse.setResponseJob(new AdeccoResponseJob(null, null, null, null, "parentJobRole"));
+    moverResponse.setResponseJob(new AdeccoResponseJob(null, null, "parentJobRole"));
     moverResponse.setStatus(status);
     moverResponse.setCrStatus("ACTIVE");
     moverResponse.setOperationalEndDate(adeccoResponse.getOperationalEndDate());
     moverResponse.setContractStartDate(adeccoResponse.getContractStartDate());
     moverResponse.setContractEndDate(adeccoResponse.getContractEndDate());
+    AdeccoResponseReportsTo manager = new AdeccoResponseReportsTo();
     if (roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
-      moverResponse.getResponseJob().setLineManagerFirstName("Bob");
-      moverResponse.getResponseJob().setLineManagerSurName("Jones");
+      manager.setLineManagerFirstName("Bob");
+      manager.setLineManagerSurName("Jones");
     } else if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
-      moverResponse.getResponseJob().setLineManagerFirstName("Dave");
-      moverResponse.getResponseJob().setLineManagerSurName("Davis");
+      manager.setLineManagerFirstName("Dave");
+      manager.setLineManagerSurName("Davis");
     }
+    moverResponse.setReportsTo(manager);
     adeccoResponseList.add(moverResponse);
   }
 
@@ -168,9 +173,12 @@ public class AdeccoIngestSteps {
       managerAdeccoResponse.getResponseContact().setTelephoneNo1("0112233445");
       AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
       adeccoResponseJobRoleCode.setRoleId(managerRoleId);
+      AdeccoResponseReportsTo manager = new AdeccoResponseReportsTo();
+      manager.setLineManagerFirstName("Dave");
+      manager.setLineManagerSurName("Davis");
+      managerAdeccoResponse.setReportsTo(manager);
       managerAdeccoResponse.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
       sentManagerIds.add(managerRoleId);
-
       adeccoResponseManagers.add(managerAdeccoResponse);
     }
   }
@@ -187,6 +195,8 @@ public class AdeccoIngestSteps {
       managerAdeccoResponse.getResponseContact().setTelephoneNo1("0112233445");
       AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
       adeccoResponseJobRoleCode.setRoleId(managerRoleId);
+      AdeccoResponseReportsTo responseReportsTo = new AdeccoResponseReportsTo();
+      managerAdeccoResponse.setReportsTo(responseReportsTo);
       managerAdeccoResponse.setAdeccoResponseJobRoleCode(adeccoResponseJobRoleCode);
       sentManagerIds.add(managerRoleId);
       adeccoResponseManagers.add(managerAdeccoResponse);
