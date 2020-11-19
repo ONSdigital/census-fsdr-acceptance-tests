@@ -95,8 +95,6 @@ public class XmaSteps {
   public void the_employee_with_roleId_is_correctly_updated_in_XMA(String source, String roleId, String group) {
     gatewayEventMonitor.grabEventsTriggered("XMA_CREATE_SENT", 6, 20000l);
 
-    boolean hasManager = roleId.length() > AREA_MANAGER_ROLE_ID_LENGTH;
-
     String[] records = xmaMockUtils.getEmployeeRecords();
     int i = 0;
     for (String record : records) {
@@ -121,9 +119,7 @@ public class XmaSteps {
     assertThat(records[i]).containsPattern("\"name\":\"EMailAddress\",\"value\":\"fransico.buyo[0-9]{2}@domain\"");
     assertThat(records[i]).contains(
         "},{\"name\":\"Title\",\"value\":\"Fransico Buyo\"},{\"name\":\"_PersonalEmail\",\"value\":\"f.b@email.com\"},{\"name\":\"_PersonalPhone\",\"value\":\"0987654321\"},{\"name\":\"_Address\",\"value\":\"123, Fake Street, Faketon, Fakeside, FA43 1AB\"},{\"name\":\"_Postcode\",\"value\":\"FA43 1AB\"}]");
-    if (hasManager) {
-      assertThat(records[i]).containsPattern("\"name\":\"_LineManager\",\"value\":\"([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})\"}");
-    }
+
   }
 
   @Then("the employee  is not created in XMA")
@@ -149,7 +145,6 @@ public class XmaSteps {
   public void the_employee_from_with_roleId_is_correctly_moved_in_XMA_with_group(String source, String oldRoleId, String roleId, String group) {
     gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 6, 20000l);
 
-    boolean hasManager = roleId.length() > AREA_MANAGER_ROLE_ID_LENGTH;
     String[] records = xmaMockUtils.getEmployeeRecords();
     String update = getLastRecord(records, roleId);
 
@@ -169,16 +164,13 @@ public class XmaSteps {
     assertThat(update).contains("},{\"name\":\"Title\",\"value\":\"Fransico"
         + " Buyo\"},{\"name\":\"_PersonalEmail\",\"value\":\"f.b@email.com\"},{\"name\":\"_PersonalPhone\",\"value\":\"0987654321\"},{\"name\":\"_Address\",\"value\":\"123, Fake Street, Faketon, Fakeside, FA43 1AB\"},{\"name\":\"_Postcode\",\"value\":\"FA43 1AB\"}]");
     assertThat(update).containsPattern("\"key\":\"" + uuidPattern + "\",\"originalValues\":null,\"lockVersion\":1}");
-    if (hasManager) {
-      assertThat(update).containsPattern("\"name\":\"_LineManager\",\"value\":\"" + uuidPattern + "\"}");
-    }
+
   }
 
   @Then("the employee from {string} with roleId {string} is correctly updated in XMA with name {string} and group {string}")
   public void the_employee_with_roleId_is_correctly_updated_in_XMA(String source, String roleId, String name,
       String group) {
     String id = xmaMockUtils.getId(roleId);
-    boolean hasManager = roleId.length() > AREA_MANAGER_ROLE_ID_LENGTH;
 
     String[] records = xmaMockUtils.getEmployeeRecords();
 
@@ -198,9 +190,7 @@ public class XmaSteps {
     assertThat(records[records.length - 1]).contains("},{\"name\":\"Title\",\"value\":\"" + name
         + " Buyo\"},{\"name\":\"_PersonalEmail\",\"value\":\"f.b@email.com\"},{\"name\":\"_PersonalPhone\",\"value\":\"0987654321\"},{\"name\":\"_Address\",\"value\":\"123, Fake Street, Faketon, Fakeside, FA43 1AB\"},{\"name\":\"_Postcode\",\"value\":\"FA43 1AB\"}],\"");
     assertThat(records[records.length - 1]).contains("key\":\"" + id + "\",\"originalValues\":null,\"lockVersion\":1}");
-    if (hasManager) {
-      assertThat(records[records.length - 1]).containsPattern("\"name\":\"_LineManager\",\"value\":\"" + uuidPattern + "\"}");
-    }
+
   }
 
   @Then("the employee {string} with roleId {string} is correctly suspended in XMA")
