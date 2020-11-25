@@ -50,10 +50,10 @@ public final class QueueClient {
       clearQueue("ServiceNow.Leaver");
       clearQueue("ServiceNow.Mover");
       clearQueue("Xma.ActionDLQ");
-      clearQueue("Xma.Coordiantor");
+      clearQueue("Xma.Action");
       clearQueue("Xma.Events");
-      clearQueue("Xma.FieldOfficer");
-      clearQueue("Xma.Leaver");
+      clearQueue("Xma.Device");
+      clearQueue("Xma.DeviceDLQ");
 
       clearQueue("Action.Result");
       clearQueue("Adecco.Action");
