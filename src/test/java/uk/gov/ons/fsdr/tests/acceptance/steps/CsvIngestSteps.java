@@ -13,6 +13,9 @@ import uk.gov.ons.fsdr.tests.acceptance.utils.SftpUtils;
 import java.io.IOException;
 import java.net.URI;
 
+import static org.junit.Assert.assertTrue;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.gatewayEventMonitor;
+
 @Slf4j
 @PropertySource("classpath:application.properties")
 public class CsvIngestSteps {
@@ -39,5 +42,7 @@ public class CsvIngestSteps {
   @Given("we ingest the HQ CSV")
   public void we_ingest_the_HQ_CSV() throws IOException {
     fsdrUtils.ingestHqCsv();
+    assertTrue(gatewayEventMonitor.hasEventTriggered("<N/A>", "HQ_INGEST_COMPLETE", 20000l));
+
   }
 }

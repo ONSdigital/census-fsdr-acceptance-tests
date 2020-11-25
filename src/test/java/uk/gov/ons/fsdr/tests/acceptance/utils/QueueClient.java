@@ -50,6 +50,10 @@ public final class QueueClient {
       clearQueue("Xma.Coordiantor");
       clearQueue("Xma.FieldOfficer");
       clearQueue("Xma.Leaver");
+      clearQueue("Xma.Action");
+      clearQueue("Xma.Events");
+      clearQueue("Xma.Device");
+      clearQueue("Xma.DeviceDLQ");
 
       clearQueue("Action.Result");
       clearQueue("Adecco.Action");

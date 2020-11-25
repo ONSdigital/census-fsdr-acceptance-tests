@@ -13,8 +13,9 @@ import uk.gov.ons.fsdr.common.dto.LocalAuthorityArea;
 
 public class AdeccoPeopleFactory {
   
-  public static AdeccoResponse buildFransicoBuyo(String uuid) {
+  public static AdeccoResponse buildFransicoBuyo(String uuid, String closingReportId) {
     AdeccoResponseJob job = AdeccoResponseJob.builder()
+        .parentJobRole("parentJobRole")
         .build();
     LocalAuthority localAuthority = LocalAuthority.builder()
         .country("Wales")
@@ -50,6 +51,7 @@ public class AdeccoPeopleFactory {
         .responseContact(contact)
         .adeccoResponseWorker(worker)
         .responseJob(job)
+        .closingReportId(closingReportId)
         .build();
    
     return adeccoResponse;

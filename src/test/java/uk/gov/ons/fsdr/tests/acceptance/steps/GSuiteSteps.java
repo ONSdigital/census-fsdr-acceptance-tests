@@ -43,7 +43,7 @@ public class GSuiteSteps {
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   @Then("the employee {string} is correctly created in gsuite with roleId {string}")
-  public void the_employee_is_correctly_updated_in_gsuite(String id, String roleId) {
+  public void the_employee_is_correctly_created_in_gsuite(String id, String roleId) {
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_GSUITE_ACTION_RESPONSE", 10000L));
     String[] records = gsuiteMockUtils.getRecords();
       int i = 0;
@@ -88,21 +88,23 @@ public class GSuiteSteps {
         + "\"suspended\":false");
   }
 
-  @Then("the employee is correctly updated in gsuite with name {string}")
-  public void the_employee_is_correctly_updated_in_gsuite(String name) throws IOException {
+  @Then("the employee {string} is correctly updated in gsuite with name {string} and roleId {string}")
+  public void the_employee_is_correctly_updated_in_gsuite(String id, String name, String roleId) throws IOException {
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_USER_UPDATE_COMPLETE", 10000L));
     String[] records = gsuiteMockUtils.getRecords();
     String update = records[records.length - 1];
 
     JsonNode expectedMessageRootNode = objectMapper
-        .readTree("{\"name\":{\"familyName\":\"Buyo\",\"givenName\":\"" + name + "\"}}");
+        .readTree("{\"customSchemas\":{\"Employee_Information\":{\"RoleID\":\""+roleId+"\"}},\"name\":{\"familyName\":\"Buyo\",\"givenName\":\"" + name + "\"}}");
     JsonNode actualMessageRootNode = objectMapper.readTree(update);
-
+    System.out.println(update);
+    System.out.println(actualMessageRootNode);
     assertEquals(expectedMessageRootNode, actualMessageRootNode);
   }
 
   @Then("the employee {string} is correctly moved in gsuite with roleId {string} to {string}")
   public void the_employee_is_correctly_moved_in_gsuite_with_roleId(String id, String roleId, String orgUnit) throws IOException {
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_USER_MOVE_COMPLETE", 15000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_USER_MOVE_COMPLETE", 10000L));
 
     String[] records = gsuiteMockUtils.getRecords();
     String update = getLastRecord(records, roleId);
@@ -183,7 +185,7 @@ public class GSuiteSteps {
     String update = records[records.length - 1];
 
     JsonNode expectedMessageRootNode = objectMapper
-        .readTree("{\"name\":{\"familyName\":\"Smith\",\"givenName\":\"Kieran\"}}");
+        .readTree("{\"customSchemas\":{\"Employee_Information\":{\"RoleID\":\"xx-RMTx\"}},\"name\":{\"familyName\":\"Smith\",\"givenName\":\"Kieran\"}}");
     JsonNode actualMessageRootNode = objectMapper.readTree(update);
 
     assertEquals(expectedMessageRootNode, actualMessageRootNode);

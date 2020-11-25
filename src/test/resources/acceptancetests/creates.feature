@@ -139,12 +139,13 @@ Feature: Creates
     When we retrieve the roleIds from GSuite for "00000001"
     And we run HQ actions
     Then the user "00000001" is added to the following groups "<groups>"
-  Examples:
-    | role_id    | groups            | lws   | xma   |
-    | xx-RMTx    | hq-all,rmt-all    | false | false |
-#    | PT-FPHx-xx | hq-all,pt-fph-all | false | false |
-#    | PT-FPTx-xx | hq-all,pt-fpt-all | false | false |
-    ### Add in extra service creates once implemented
+    And the HQ employee "00000001" with roleId "<role_id>" is correctly created in XMA
+
+    Examples:
+    | role_id    | groups            | lws   |
+    | xx-RMTx    | hq-all,rmt-all    | false |
+    | PT-FPHx-xx | hq-all,pt-fph-all | false |
+    | PT-FPTx-xx | hq-all,pt-fpt-all | false |
 
 #  Scenario: Device details are not sent to xma and lws when ready to start
 #    Given An employee exists in "ADECCO" with an id of "123456781"
