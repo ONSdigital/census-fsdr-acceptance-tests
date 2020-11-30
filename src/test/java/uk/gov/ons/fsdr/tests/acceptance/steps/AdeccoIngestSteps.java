@@ -115,6 +115,7 @@ public class AdeccoIngestSteps {
     moverResponse.setOperationalEndDate(adeccoResponse.getOperationalEndDate());
     moverResponse.setContractStartDate(adeccoResponse.getContractStartDate());
     moverResponse.setContractEndDate(adeccoResponse.getContractEndDate());
+    moverResponse.setClosingReportId(fransicoNewClosingReportId);
     AdeccoResponseReportsTo manager = new AdeccoResponseReportsTo();
     if (roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
       manager.setLineManagerFirstName("Bob");
