@@ -7,9 +7,9 @@ import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoRes
 import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponseManagers;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
-import cucumber.api.java.en.Then;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -20,13 +20,14 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import lombok.extern.slf4j.Slf4j;
+import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
 import uk.gov.ons.census.fwmt.events.utils.GatewayEventMonitor;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
 import uk.gov.ons.fsdr.tests.acceptance.utils.AdeccoMockUtils;
-import uk.gov.ons.fsdr.tests.acceptance.utils.MockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.LwsMockUtils;
+import uk.gov.ons.fsdr.tests.acceptance.utils.MockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.QueueClient;
 import uk.gov.ons.fsdr.tests.acceptance.utils.ServiceNowMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.SftpUtils;
@@ -127,9 +128,9 @@ public class CommonSteps {
     fsdrUtils.ingestRunFSDRProcess();
     adeccoResponseManagers.clear();
 
-    gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 5, 3000l);
-    gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 5, 3000l);
-    gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 5, 3000l);
+    Collection<GatewayEventDTO> gsuiteEvents = gatewayEventMonitor.grabEventsTriggered("SENDING_GSUITE_ACTION_RESPONSE", 5, 3000l);
+    Collection<GatewayEventDTO> snowEvents = gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 5, 3000l);
+    Collection<GatewayEventDTO> xmaEvents = gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 5, 3000l);
 
   }
 
@@ -143,8 +144,8 @@ public class CommonSteps {
   public void theEmployeeIsSentToAllDownstreamServices(String id) throws Exception {
 
     //Waits for movers/leavers/updates as they all need to do an initial create that will also trigger the same events
-    gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 6, 10000l);
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_XMA_ACTION_RESPONSE", 2000L));
+    gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 6, 5000L);
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_XMA_ACTION_RESPONSE", 5000L));
     fsdrUtils.ingestGranby();
     fsdrUtils.rcaExtract();
   }

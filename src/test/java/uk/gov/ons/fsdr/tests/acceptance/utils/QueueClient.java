@@ -40,16 +40,16 @@ public final class QueueClient {
     }
 
     public void clearQueues() throws URISyntaxException {
-      clearQueue("FSDR.Events");
-      clearQueue("FSDR.EventsDLQ");
       clearQueue("Lws.Action");
       clearQueue("Lws.ActionDLQ");
       clearQueue("ServiceNow.Action");
       clearQueue("ServiceNow.ActionDLQ");
-      clearQueue("ServiceNow.Events");
       clearQueue("ServiceNow.Leaver");
       clearQueue("ServiceNow.Mover");
       clearQueue("Xma.ActionDLQ");
+      clearQueue("Xma.Coordiantor");
+      clearQueue("Xma.FieldOfficer");
+      clearQueue("Xma.Leaver");
       clearQueue("Xma.Action");
       clearQueue("Xma.Events");
       clearQueue("Xma.Device");
@@ -59,10 +59,17 @@ public final class QueueClient {
       clearQueue("Adecco.Action");
       clearQueue("Adecco.ActionDLQ");
 
-      clearQueue("xma.transient.error");
-      clearQueue("report.events");
+      clearQueue("Xma.Transient.Error");
+      clearQueue("Report.Events");
       clearQueue("Hq.RoleId");
+
+      clearQueue("FSDR.Events");
+      clearQueue("FSDR.Events");
+      clearQueue("ServiceNow.Events");
+      clearQueue("Xma.Events");
       clearQueue("Gsuite.Events");
+    
+    
     }
 
     private void clearQueue(String queueName) throws URISyntaxException {

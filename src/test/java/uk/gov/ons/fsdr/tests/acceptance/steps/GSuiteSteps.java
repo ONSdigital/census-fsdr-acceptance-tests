@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
+import uk.gov.ons.fsdr.common.util.JsonCompareUtil;
 import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
 
 import java.io.IOException;
@@ -52,12 +53,21 @@ public class GSuiteSteps {
         i++;
       }
 
-    assertThat(records[i]).contains(
-        "\"changePasswordAtNextLogin\":false,\"customSchemas\":{\"Employee_Information\":{\"RoleID\":\"" + roleId
-            + "\"}},\"externalIds\":[{\"type\":\"organization\",\"value\":\""+id+"\"}],\"hashFunction\":\"SHA-1\",\"includeInGlobalAddressList\":true,\"ipWhitelisted\":false,\"name\":{\"familyName\":\"Buyo\",\"givenName\":\"Fransico\"},\"orgUnitPath\":\"/Zero Access"
-            + "\",\"organizations\":[{\"department\":\"/Zero Access\",\"primary\":true}]");
-    assertThat(records[i]).containsPattern(
-        ",\"password\":\"[0-9a-zA-Z]{40}\",\"primaryEmail\":\"fransico.buyo[0-9]{2}@domain\",\"suspended\":false");
+      
+      String expected = "{\"changePasswordAtNextLogin\":false,\"customSchemas\":{\"Employee_Information\":{\"RoleID\":\"" + roleId
+              + "\"}},\"externalIds\":[{\"type\":\"organization\",\"value\":\""+id+"\"}],\"hashFunction\":\"SHA-1\",\"includeInGlobalAddressList\":true,\"ipWhitelisted\":false,\"name\":{\"familyName\":\"Buyo\",\"givenName\":\"Fransico\"},\"orgUnitPath\":\"/Zero Access"
+              + "\",\"organizations\":[{\"department\":\"/Zero Access\",\"primary\":true}], \"password\" : \"b308edffc594a97b8d2ed10b22e6e4385bc1ef76\",  \n" + 
+              "                                          \"primaryEmail\" : \"fransico.buyo49@domain\",                \n" + 
+              "                                          \"suspended\" : false  }";
+      assertTrue(JsonCompareUtil.isEquals(expected, records[i], "$['primaryEmail']", "$['password']"));
+      assertTrue(JsonCompareUtil.matches(records[i], "$['primaryEmail']", "fransico.buyo[0-9]{2}@domain"));
+      assertTrue(JsonCompareUtil.matches(records[i], "$['password']", "[0-9a-zA-Z]{40}"));
+//      assertThat(records[i]).contains(
+//          "\"changePasswordAtNextLogin\":false,\"customSchemas\":{\"Employee_Information\":{\"RoleID\":\"" + roleId
+//              + "\"}},\"externalIds\":[{\"type\":\"organization\",\"value\":\""+id+"\"}],\"hashFunction\":\"SHA-1\",\"includeInGlobalAddressList\":true,\"ipWhitelisted\":false,\"name\":{\"familyName\":\"Buyo\",\"givenName\":\"Fransico\"},\"orgUnitPath\":\"/Zero Access"
+//              + "\",\"organizations\":[{\"department\":\"/Zero Access\",\"primary\":true}]");
+//      assertThat(records[i]).containsPattern(
+//          ",\"password\":\"[0-9a-zA-Z]{40}\",\"primaryEmail\":\"fransico.buyo[0-9]{2}@domain\",\"suspended\":false");
   }
 
   @Then("the HQ employee {string} is correctly created in gsuite with orgUnit {string}")
@@ -132,6 +142,9 @@ public class GSuiteSteps {
     else if (id.length() == COORDINATOR_ROLE_ID_LENGTH) expextedCount = 2;
     else if (id.length() == AREA_MANAGER_ROLE_ID_LENGTH) expextedCount = 1;
     String[] records = gsuiteMockUtils.getRecords();
+    for (String rec : records) {
+    	log.info("@@REC@@" + rec);		
+	}
     assertEquals(expextedCount, events.size());
     assertEquals(expextedCount, records.length);
   }
