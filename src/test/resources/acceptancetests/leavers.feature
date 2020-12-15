@@ -26,7 +26,7 @@ Feature: Leavers
     And the employee "<id>" is correctly suspended in ServiceNow with "<role_id>"
     And the employee "<id>" with roleId "<role_id>" is correctly suspended in XMA
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<phone_number>" as a leaver
-    And Check the employee "<id>" is not sent to RCA
+#    And Check the employee "<id>" is not sent to RCA
     And the employee "<id>" is sent to LWS as an leaver with "<phone_number>"
 
     Examples:

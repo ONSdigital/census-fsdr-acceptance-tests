@@ -147,7 +147,7 @@ public class CommonSteps {
     gatewayEventMonitor.grabEventsTriggered("SENDING_XMA_ACTION_RESPONSE", 6, 5000L);
     assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_XMA_ACTION_RESPONSE", 5000L));
     fsdrUtils.ingestGranby();
-    fsdrUtils.rcaExtract();
+//    fsdrUtils.rcaExtract();
   }
 
   //TODO Remove when event driven is finished
@@ -155,7 +155,7 @@ public class CommonSteps {
   public void theEmployeeIsNotSentToAllDownstreamServices(String id) throws Exception {
   //Calling non-event based integrations to ensure that employee is not sent to them
     fsdrUtils.ingestGranby();
-    fsdrUtils.rcaExtract();
+//    fsdrUtils.rcaExtract();
   }
 
   @And("we ingest the cancel")

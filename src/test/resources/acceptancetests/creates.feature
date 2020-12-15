@@ -15,7 +15,7 @@ Feature: Creates
     And the employee from "<source>" with roleId "<role_id>" is correctly created in XMA with group "<group>"
     And the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" as a create
     And the employee "<id>" is correctly created in ServiceNow with "<role_id>"
-    And Check the employee "<id>" is sent to RCA
+#    And Check the employee "<id>" is sent to RCA
     Then the employee "<id>" is sent to Adecco
       ### LWS Requires a device to be created ###
     And we ingest a device from pubsub for "<id>" with phone number "+447234567890" and IMEI number "990000888888888"
@@ -48,7 +48,7 @@ Feature: Creates
     And the employee  is not created in XMA
     And the employee "<id>" is not sent to LWS
     And the employee is not in the Logisitics CSV
-    And Check the employee "<id>" is not sent to RCA
+#    And Check the employee "<id>" is not sent to RCA
     And the employee "<id>" is not sent to Adecco
 
   Examples:
@@ -87,7 +87,7 @@ Feature: Creates
     And the employee  is not created in XMA
     And the employee "123456789" is not sent to LWS
     And the employee is not in the Logisitics CSV
-    And Check the employee "123456789" is not sent to RCA
+#    And Check the employee "123456789" is not sent to RCA
     And the employee "123456789" is not sent to Adecco
 
   Scenario: A record with a start date 6 days in the future is created in the downstream systems
@@ -102,7 +102,7 @@ Feature: Creates
     And the employee "223456789" is correctly created in ServiceNow with "HA-CAR1"
     And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
-    And Check the employee "223456789" is sent to RCA
+#    And Check the employee "223456789" is sent to RCA
     And the employee "223456789" is sent to Adecco
       ### LWS Requires a device to be created ###
     And we ingest a device from pubsub for "223456789" with phone number "+447234567890" and IMEI number "990000888888888"
@@ -123,7 +123,7 @@ Feature: Creates
     And the employee "323456789" is correctly created in ServiceNow with "HA-CAR1"
     And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
-    And Check the employee "323456789" is sent to RCA
+#    And Check the employee "323456789" is sent to RCA
       ### LWS Requires a device to be created ###
     And we ingest a device from pubsub for "323456789" with phone number "+447234567890" and IMEI number "990000888888888"
     And we ingest them
@@ -159,7 +159,7 @@ Feature: Creates
     And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
     And the employee "123456781" is correctly created in ServiceNow with "HA-CAR1"
-    And Check the employee "123456781" is sent to RCA
+#    And Check the employee "123456781" is sent to RCA
     Then the employee "123456781" is sent to Adecco
       ### LWS Requires a device to be created ###
     And we ingest a device from pubsub for "123456781" with phone number "+447234567890" and IMEI number "990000888888888"
@@ -179,7 +179,7 @@ Feature: Creates
     And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
     And the employee "123456781" is correctly created in ServiceNow with "HA-CAR1"
-    And Check the employee "123456781" is sent to RCA
+#    And Check the employee "123456781" is sent to RCA
     Then the employee "123456781" is sent to Adecco
       ### LWS Requires a device to be created ###
     And we ingest a chromebook device for "123456781" with id "XMA123456"
