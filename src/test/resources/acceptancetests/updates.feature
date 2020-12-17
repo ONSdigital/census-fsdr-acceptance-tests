@@ -172,8 +172,7 @@ Feature: Updates
     Then the employee "123456781" is correctly created in gsuite with roleId "HA-CAR1"
     And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
-    And the employee "123456781" is correctly created in ServiceNow with "HA-CAR1"
-#    And Check the employee "123456781" is sent to RCA
+    And the employee "123456781" is correctly created in ServiceNow with "HA-CAR1" with employment status "READY_TO_START"
     Then the employee "123456781" is sent to Adecco
       ### LWS Requires a device to be created ###
     And we ingest a device from pubsub for "123456781" with phone number "+447234567890" and IMEI number "990000888888888"
