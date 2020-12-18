@@ -25,31 +25,31 @@ Feature: Leavers
     And the employee "<id>" with closing report id "<cr_id>" is sent to LWS as an leaver with "<phone_number>"
 
     Examples:
-      | id        | cr_id | role_id       | new_assignment_status | new_cr_status | inLogisitcs | source | op_end_date | phone_number  |
-      | 123456780 | cr001 | HA-CAR1       | ASSIGNMENT CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
-      | 123456781 | cr001 | HA-CAR1-ZA    | ASSIGNMENT CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
-      | 123456782 | cr001 | HA-CAR1-ZA-01 | ASSIGNMENT CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
-      | 123456783 | cr001 | SA-CAR1-ZA    | ASSIGNMENT CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
-      | 123456784 | cr001 | SA-CAR1-ZA-01 | ASSIGNMENT CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
-      | 123456785 | cr001 | CA-RUN1       | ASSIGNMENT CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
-      | 123456786 | cr001 | CA-RUN1-ZA    | ASSIGNMENT CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
-      | 123456787 | cr001 | CA-RUN1-ZA-01 | ASSIGNMENT CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
-      | 123456788 | cr001 | HA-CAR1       | ASSIGNMENT ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
-      | 123456789 | cr001 | HA-CAR1-ZA    | ASSIGNMENT ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
-      | 123456780 | cr001 | HA-CAR1-ZA-01 | ASSIGNMENT ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
-      | 223456781 | cr001 | SA-CAR1-ZA    | ASSIGNMENT ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
-      | 223456782 | cr001 | SA-CAR1-ZA-01 | ASSIGNMENT ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
-      | 223456783 | cr001 | CA-RUN1       | ASSIGNMENT ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
-      | 223456784 | cr001 | CA-RUN1-ZA    | ASSIGNMENT ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
-      | 223456785 | cr001 | CA-RUN1-ZA-01 | ASSIGNMENT ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
-      | 223456786 | cr001 | HA-CAR1       | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | +447234567890 |
-      | 223456787 | cr001 | HA-CAR1-ZA    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | +447234567890 |
-      | 223456788 | cr001 | HA-CAR1-ZA-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | +447234567890 |
-      | 223456789 | cr001 | SA-CAR1-ZA    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | +447234567890 |
-      | 223456780 | cr001 | SA-CAR1-ZA-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | +447234567890 |
-      | 323456781 | cr001 | CA-RUN1       | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | +447234567890 |
-      | 323456782 | cr001 | CA-RUN1-ZA    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | +447234567890 |
-      | 323456783 | cr001 | CA-RUN1-ZA-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | +447234567890 |
+      | id        | cr_id  | role_id       | new_assignment_status | new_cr_status | inLogisitcs | source | op_end_date | phone_number  |
+      | 200000000 | cr2000 | HA-CAR1       | ASSIGNMENT CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000001 | cr2001 | HA-CAR1-ZA    | ASSIGNMENT CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000002 | cr2002 | HA-CAR1-ZA-01 | ASSIGNMENT CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000003 | cr2003 | SA-CAR1-ZA    | ASSIGNMENT CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000004 | cr2004 | SA-CAR1-ZA-01 | ASSIGNMENT CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000005 | cr2005 | CA-RUN1       | ASSIGNMENT CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000006 | cr2006 | CA-RUN1-ZA    | ASSIGNMENT CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000007 | cr2007 | CA-RUN1-ZA-01 | ASSIGNMENT CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000008 | cr2008 | HA-CAR1       | ASSIGNMENT ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000009 | cr2009 | HA-CAR1-ZA    | ASSIGNMENT ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000010 | cr2010 | HA-CAR1-ZA-01 | ASSIGNMENT ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000011 | cr2011 | SA-CAR1-ZA    | ASSIGNMENT ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000012 | cr2012 | SA-CAR1-ZA-01 | ASSIGNMENT ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000013 | cr2013 | CA-RUN1       | ASSIGNMENT ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000014 | cr2014 | CA-RUN1-ZA    | ASSIGNMENT ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000015 | cr2015 | CA-RUN1-ZA-01 | ASSIGNMENT ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000016 | cr2016 | HA-CAR1       | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | +447234567890 |
+      | 200000017 | cr2017 | HA-CAR1-ZA    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | +447234567890 |
+      | 200000018 | cr2018 | HA-CAR1-ZA-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | +447234567890 |
+      | 200000019 | cr2019 | SA-CAR1-ZA    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | +447234567890 |
+      | 200000020 | cr2020 | SA-CAR1-ZA-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | +447234567890 |
+      | 200000021 | cr2021 | CA-RUN1       | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | +447234567890 |
+      | 200000022 | cr2022 | CA-RUN1-ZA    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | +447234567890 |
+      | 200000023 | cr2023 | CA-RUN1-ZA-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | +447234567890 |
 
   Scenario: A HQ record is left
     Given A "HQ" ingest CSV "00000000_000001_CFOD_HQ_Extract.csv" exists in SFTP

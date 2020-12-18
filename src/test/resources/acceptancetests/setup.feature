@@ -16,13 +16,13 @@ Feature: Setup
     Then the employee "<id>" with closing report id "<cr_id>" is correctly setup in gsuite with orgUnit "<org_unit>" with name "<new_name>" and roleId "<role_id>"
     Then the employee "<id>" with closing report id "<cr_id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number ""
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "" as an update with name "<new_name>"
-    Then the employee from "<source>" with roleId "<role_id>" is correctly updated in XMA with name "<new_name>" and group "<group>"
+    Then the employee "<id>" with closing report id "<cr_id>" from "<source>" with roleId "<role_id>" is correctly updated in XMA with name "<new_name>" and group "<group>"
     And the user "<id>" with closing report id "<cr_id>" is added to the following groups "<new_groups>"
     Examples:
-      | id        | cr_id | role_id       | inLogisitcs | source | group                                | org_unit     | new_groups    | new_name |
-      | 900000001 | cr001 | HA-CAR1       | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ha-all,ha-mgr | John     |
-      | 900000002 | cr001 | HA-CAR1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ha-all,ha-mgr | John     |
-      | 900000003 | cr001 | HA-CAR1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | ONS Officers | ha-all        | John     |
+      | id        | cr_id  | role_id       | inLogisitcs | source | group                                | org_unit     | new_groups    | new_name |
+      | 400000001 | cr4001 | HA-CAR1       | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ha-all,ha-mgr | John     |
+      | 400000002 | cr4002 | HA-CAR1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | ONS Managers | ha-all,ha-mgr | John     |
+      | 400000003 | cr4003 | HA-CAR1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | ONS Officers | ha-all        | John     |
 
 
   #TODO is it worth keeping these as there's about 1800 possibilities and it's just reading from a file given to us

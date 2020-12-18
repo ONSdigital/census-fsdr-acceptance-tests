@@ -6,25 +6,17 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
 import uk.gov.ons.fsdr.common.util.JsonCompareUtil;
 import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
 
 import java.io.IOException;
-import java.util.Collection;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponse;
-import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.AREA_MANAGER_ROLE_ID_LENGTH;
-import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.COORDINATOR_ROLE_ID_LENGTH;
-import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.FIELD_OFFICER_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.gatewayEventMonitor;
-import static uk.gov.ons.fsdr.tests.acceptance.utils.FsdrUtils.getLastRecord;
 
 @Slf4j
 @PropertySource("classpath:application.properties")
@@ -88,7 +80,7 @@ public class GSuiteSteps {
 
   @Then("the employee {string} with closing report id {string} is correctly suspended in gsuite")
   public void theEmployeeIsCorrectlySuspendedInGsuite(String id, String closingReportId) {
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id+closingReportId, "GSUITE_USER_SUSPEND_COMPLETE", 5000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id+closingReportId, "GSUITE_USER_SUSPEND_COMPLETE", 10000L));
     String[] records = gsuiteMockUtils.getRecords();
     String suspended1 = records[records.length - 2];
     String suspended2 = records[records.length - 1];
@@ -107,7 +99,7 @@ public class GSuiteSteps {
   @Then("the employee {string} with closing report id {string} is not updated in gsuite")
   public void the_employee_is_not_updated_in_gsuite(String id, String crId) {
     if(crId.equals("")){
-      assertFalse(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_USER_UPDATE_NA", 5000L));
+      assertFalse(gatewayEventMonitor.hasEventTriggered(id, "GSUITE_USER_UPDATE_COMPLETE", 5000L));
     } else assertTrue(gatewayEventMonitor.hasEventTriggered(id+crId, "GSUITE_USER_UPDATE_NA", 5000L));
   }
 
@@ -131,11 +123,12 @@ public class GSuiteSteps {
   }
 
   @Then("the user {string} with closing report id {string} is added to the following groups {string}")
-  public void the_user_is_added_to_the_following_groups(String id, String closingReportId, String grps) {
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id+closingReportId, "GSUITE_GROUPS_COMPLETE", 5000L));
+  public void the_user_is_added_to_the_following_groups(String eId, String crId, String grps) {
+    assertTrue(gatewayEventMonitor.hasEventTriggered(eId+crId, "GSUITE_GROUPS_COMPLETE", 5000L));
 
+    String id = !crId.equals("") ? crId : eId;
     String[] groups = grps.split(",");
-    String[] currentMemberGroups = gsuiteMockUtils.getGroups(closingReportId);
+    String[] currentMemberGroups = gsuiteMockUtils.getGroups(id);
     for(String group : groups) {
       assertThat(currentMemberGroups).contains(group+"@domain");
     }

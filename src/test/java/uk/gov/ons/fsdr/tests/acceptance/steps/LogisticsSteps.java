@@ -2,9 +2,7 @@ package uk.gov.ons.fsdr.tests.acceptance.steps;
 
 import cucumber.api.java.en.Then;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import uk.gov.ons.fsdr.tests.acceptance.utils.SftpUtils;
 
@@ -18,15 +16,6 @@ public class LogisticsSteps {
 
   @Autowired
   private SftpUtils sftpUtils;
-
-  @Value("${service.rabbit.url}")
-  private String rabbitLocation;
-
-  @Value("${service.rabbit.username}")
-  private String rabbitUsername;
-
-  @Value("${service.rabbit.password}")
-  private String rabbitPassword;
 
   @Then("the employee {string} in the Logisitics CSV with {string} as a create")
   public void the_employee_in_the_Logisitics_CSV_with_as_a_create(String inCsv, String roleId) throws Exception {

@@ -6,11 +6,7 @@ Feature: Movers
     And an assignment status of "READY TO START"
     And a closing report status of "ACTIVE"
     And a role id of "<role_id>"
-#    And the managers of "<role_id>" exist
-#    And the managers of "<new_role_id>" exist
-#    And we ingest managers
     And we ingest them
-#    And the employee "<id>" is sent to all downstream services
     And the employee assignment status changes to "TRAINING IN PROGRESS"
 #    And we ingest a device from pubsub for "<id>" with phone number "+447234567890" and IMEI number "990000888888888"
     And we ingest them
@@ -18,7 +14,6 @@ Feature: Movers
     And their old job role gets cancelled with assignment reason "<reassignment>"
     And we receive a new active job role from adecco for employee "<id>" with new role_id "<new_role_id>"
     And we ingest them
-    When the employee "<id>" is sent to all downstream services
     Then the employee "<id>" is correctly moved in gsuite with roleId "<new_role_id>" to "<new_org_unit>"
     And the employee "<id>" is no longer in the following groups "<old_groups>"
     And the employee "<id>" is now in the current groups "<new_groups>"
@@ -46,14 +41,9 @@ Feature: Movers
     And an assignment status of "READY TO START"
     And a closing report status of "ACTIVE"
     And a role id of "<role_id>"
-    And the managers of "<role_id>" exist
-    And the managers of "<new_role_id>" exist
-    And we ingest managers
     And we ingest them
-    And the employee "<id>" is sent to all downstream services
     And we ingest a device from pubsub for "<id>" with phone number "+447234567890" and IMEI number "990000888888888"
     And we ingest them
-    When the employee "<id>" is sent to all downstream services
     And their old job role gets cancelled with assignment reason "<reassignment>"
     And we receive a new active job role from adecco for employee "<id>" with new role_id "<new_role_id>" and status "READY TO START"
     And we ingest them

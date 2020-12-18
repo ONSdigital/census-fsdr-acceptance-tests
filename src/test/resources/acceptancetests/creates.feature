@@ -9,12 +9,11 @@ Feature: Creates
     And a closing report id of "<cr_id>"
     And a contract start date of "2020-01-01"
     And we ingest them
-    #When the employee "<id>" is sent to all downstream services
     Then the employee "<id>" with closing report id "<cr_id>" is correctly created in gsuite with roleId "<role_id>"
-    And the employee from "<source>" with roleId "<role_id>" is correctly created in XMA with group "<group>"
+    And the employee "<id>" with closing report id "<cr_id>" from "<source>" with roleId "<role_id>" is correctly created in XMA with group "<group>"
     And the employee "<id>" with closing report id "<cr_id>" is correctly created in ServiceNow with "<role_id>"
     And the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" as a create
-    #Then the employee "<id>" is sent to Adecco
+    Then the employee "<id>" with closing report id "<cr_id>" is sent to Adecco
       ### LWS Requires a device to be created ###
     And we ingest a device from pubsub for "<id>" with closing report id "<cr_id>" with phone number "+447234567890" and IMEI number "990000888888888"
     And we ingest them
@@ -23,15 +22,15 @@ Feature: Creates
 
     Examples:
       | id        | cr_id  | role_id       | inLogisitcs | source | group                                | hier1           | hier2                   | hier3 | hier4     | hier5          | hier6         | hier7        |
-      | 123456781 | cr0001 | HA-CAR1       | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | England & Wales | Household               | A     | Carlisle  | Area Manager 1 |               |              |
-      | 123456782 | cr0002 | HA-CAR1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | England & Wales | Household               | A     | Carlisle  | Area Manager 1 | Team Leader A |              |
-      | 123456783 | cr0003 | HA-CAR1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | England & Wales | Household               | A     | Carlisle  | Area Manager 1 | Team Leader A | 01 Tranche 1 |
-      | 123456784 | cr0004 | SA-CAR1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | England & Wales | Communal Establishments | A     | Carlisle  | Area Manager 1 | Team Leader A |              |
-      | 123456785 | cr0005 | SA-CAR1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | England & Wales | Communal Establishments | A     | Carlisle  | Area Manager 1 | Team Leader A | 01 Tranche 1 |
-      | 123456786 | cr0006 | CA-RUN1       | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 |               |              |
-      | 123456787 | cr0007 | CA-RUN1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 | Team Leader A |              |
-      | 123456788 | cr0008 | CA-RUN1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 | Team Leader A | 01 Tranche 1 |
-      | 123456788 | cr0009 | XF-CEA1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | England & Wales | Community Engagement    | F     | Leicester | Area Manager 1 | Team Leader A | 01 Tranche 1 |
+      | 100000001 | cr1001 | HA-CAR1       | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | England & Wales | Household               | A     | Carlisle  | Area Manager 1 |               |              |
+      | 100000002 | cr1002 | HA-CAR1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | England & Wales | Household               | A     | Carlisle  | Area Manager 1 | Team Leader A |              |
+      | 100000003 | cr1003 | HA-CAR1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | England & Wales | Household               | A     | Carlisle  | Area Manager 1 | Team Leader A | 01 Tranche 1 |
+      | 100000004 | cr1004 | SA-CAR1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | England & Wales | Communal Establishments | A     | Carlisle  | Area Manager 1 | Team Leader A |              |
+      | 100000005 | cr1005 | SA-CAR1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | England & Wales | Communal Establishments | A     | Carlisle  | Area Manager 1 | Team Leader A | 01 Tranche 1 |
+      | 100000006 | cr1006 | CA-RUN1       | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 |               |              |
+      | 100000007 | cr1007 | CA-RUN1-ZA    | is          | ADECCO | 7DD2611D-F60D-4A17-B759-B021BC5C669A | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 | Team Leader A |              |
+      | 100000008 | cr1008 | CA-RUN1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | England & Wales | Census Coverage Survey  | A     | Runnymede | Area Manager 1 | Team Leader A | 01 Tranche 1 |
+      | 100000009 | cr1009 | XF-CEA1-ZA-01 | is not      | ADECCO | 8A2FEF60-9429-465F-B711-83753B234BDD | England & Wales | Community Engagement    | F     | Leicester | Area Manager 1 | Team Leader A | 01 Tranche 1 |
 
   Scenario Outline: A record is not created in the downstream systems
     Given An employee exists in "<source>" with an id of "<id>"
@@ -41,92 +40,126 @@ Feature: Creates
     And a role id of "<role_id>"
     And a contract start date of "<start_date>"
     And we ingest them
-    When the employee "<id>" is not sent to all downstream services
     Then the employee "<id>" with closing report id "<cr_id>" is not created in gsuite
     And the employee "<id>" with closing report id "<cr_id>" is not created in ServiceNow
     And the employee  is not created in XMA
     And the employee "<id>" with closing report id "<cr_id>" is not sent to LWS
     And the employee is not in the Logisitics CSV
-    #And the employee "<id>" is not sent to Adecco
+    And the employee "<id>" with closing report id "<cr_id>" is not sent to Adecco
 
     Examples:
       | id        | cr_id  |  assignment_status    | cr_status | role_id       | start_date | source |
-      | 123456781 | cr0001 |  ASSIGNMENT ENDED     | ACTIVE    | SA-CAR1-ZA    | 2020-01-01 | ADECCO |
-      | 123456782 | cr0002 |  ASSIGNMENT CANCELLED | ACTIVE    | SA-CAR1-ZA-01 | 2020-01-01 | ADECCO |
-      | 123456783 | cr0003 |  ASSIGNED             | INACTIVE  | CA-RLN1       | 2020-01-01 | ADECCO |
-      | 123456784 | cr0004 |  READY TO START       | INACTIVE  | CA-RLN1       | 2020-01-01 | ADECCO |
-      | 123456785 | cr0005 |  ASSIGNMENT ENDED     | INACTIVE  | CA-RLN1-ZA    | 2020-01-01 | ADECCO |
-      | 123456786 | cr0006 |  ASSIGNMENT CANCELLED | INACTIVE  | CA-RLN1-ZA-01 | 2020-01-01 | ADECCO |
-      | 123456787 | cr0007 |  ASSIGNMENT ENDED     | PENDING   | CA-RLN1-ZA    | 2020-01-01 | ADECCO |
-      | 123456788 | cr0008 |  ASSIGNMENT CANCELLED | PENDING   | CA-RLN1-ZA-01 | 2020-01-01 | ADECCO |
-      | 123456789 | cr0009 |  ASSIGNED             | ACTIVE    | HA-CAR1       | 2021-01-01 | ADECCO |
-      | 223456781 | cr0010 |  READY TO START       | ACTIVE    | HA-CAR1       | 2021-01-01 | ADECCO |
-      | 223456782 | cr0011 |  ASSIGNMENT ENDED     | ACTIVE    | HA-CAR1-ZA    | 2021-01-01 | ADECCO |
-      | 223456783 | cr0012 |  ASSIGNMENT CANCELLED | ACTIVE    | HA-CAR1-ZA-01 | 2021-01-01 | ADECCO |
-      | 223456784 | cr0013 |  ASSIGNED             | INACTIVE  | CA-RLN1       | 2021-01-01 | ADECCO |
-      | 223456785 | cr0014 |  READY TO START       | INACTIVE  | CA-RLN1       | 2021-01-01 | ADECCO |
-      | 223456786 | cr0015 |  ASSIGNMENT ENDED     | INACTIVE  | CA-RLN1-ZA    | 2021-01-01 | ADECCO |
-      | 223456787 | cr0016 |  ASSIGNMENT CANCELLED | INACTIVE  | CA-RLN1-ZA-01 | 2021-01-01 | ADECCO |
-      | 223456788 | cr0017 |  ASSIGNED             | PENDING   | CA-RLN1       | 2021-01-01 | ADECCO |
-      | 223456789 | cr0018 |  READY TO START       | PENDING   | CA-RLN1       | 2021-01-01 | ADECCO |
-      | 323456781 | cr0019 |  ASSIGNMENT ENDED     | PENDING   | CA-RLN1-ZA    | 2021-01-01 | ADECCO |
-      | 323456782 | cr0020 |  ASSIGNMENT CANCELLED | PENDING   | CA-RLN1-ZA-01 | 2021-01-01 | ADECCO |
+      | 100000010 | cr1010 |  ASSIGNMENT ENDED     | ACTIVE    | SA-CAR1-ZA    | 2020-01-01 | ADECCO |
+      | 100000012 | cr1011 |  ASSIGNMENT CANCELLED | ACTIVE    | SA-CAR1-ZA-01 | 2020-01-01 | ADECCO |
+      | 100000013 | cr1012 |  ASSIGNED             | INACTIVE  | CA-RLN1       | 2020-01-01 | ADECCO |
+      | 100000014 | cr1013 |  READY TO START       | INACTIVE  | CA-RLN1       | 2020-01-01 | ADECCO |
+      | 100000015 | cr1014 |  ASSIGNMENT ENDED     | INACTIVE  | CA-RLN1-ZA    | 2020-01-01 | ADECCO |
+      | 100000016 | cr1015 |  ASSIGNMENT CANCELLED | INACTIVE  | CA-RLN1-ZA-01 | 2020-01-01 | ADECCO |
+      | 100000017 | cr1016 |  ASSIGNMENT ENDED     | PENDING   | CA-RLN1-ZA    | 2020-01-01 | ADECCO |
+      | 100000018 | cr1017 |  ASSIGNMENT CANCELLED | PENDING   | CA-RLN1-ZA-01 | 2020-01-01 | ADECCO |
+      | 100000019 | cr1018 |  ASSIGNED             | ACTIVE    | HA-CAR1       | 2021-01-01 | ADECCO |
+      | 100000020 | cr1019 |  READY TO START       | ACTIVE    | HA-CAR1       | 2021-01-01 | ADECCO |
+      | 100000021 | cr1020 |  ASSIGNMENT ENDED     | ACTIVE    | HA-CAR1-ZA    | 2021-01-01 | ADECCO |
+      | 100000022 | cr1021 |  ASSIGNMENT CANCELLED | ACTIVE    | HA-CAR1-ZA-01 | 2021-01-01 | ADECCO |
+      | 100000023 | cr1022 |  ASSIGNED             | INACTIVE  | CA-RLN1       | 2021-01-01 | ADECCO |
+      | 100000024 | cr1023 |  READY TO START       | INACTIVE  | CA-RLN1       | 2021-01-01 | ADECCO |
+      | 100000025 | cr1024 |  ASSIGNMENT ENDED     | INACTIVE  | CA-RLN1-ZA    | 2021-01-01 | ADECCO |
+      | 100000026 | cr1025 |  ASSIGNMENT CANCELLED | INACTIVE  | CA-RLN1-ZA-01 | 2021-01-01 | ADECCO |
+      | 100000027 | cr1026 |  ASSIGNED             | PENDING   | CA-RLN1       | 2021-01-01 | ADECCO |
+      | 100000028 | cr1027 |  READY TO START       | PENDING   | CA-RLN1       | 2021-01-01 | ADECCO |
+      | 100000029 | cr1028 |  ASSIGNMENT ENDED     | PENDING   | CA-RLN1-ZA    | 2021-01-01 | ADECCO |
+      | 100000030 | cr1029 |  ASSIGNMENT CANCELLED | PENDING   | CA-RLN1-ZA-01 | 2021-01-01 | ADECCO |
 
   Scenario: A record with a start date grater than 6 days in the future is not created in the downstream systems
-    Given An employee exists in "ADECCO" with an id of "123456789"
+    Given An employee exists in "ADECCO" with an id of "100000031"
     And an assignment status of "ASSIGNED"
     And a closing report status of "ACTIVE"
-    And a closing report id of "cr0001"
+    And a closing report id of "cr1031"
     And a role id of "HA-CAR1"
     And a contract start date 8 days in the future
     And we ingest them
-    When the employee "123456789" is not sent to all downstream services
-    Then the employee "123456789" with closing report id "cr0001" is not created in gsuite
-    And the employee "123456789" with closing report id "cr0001" is not created in ServiceNow
+    Then the employee "100000031" with closing report id "cr1031" is not created in gsuite
+    And the employee "100000031" with closing report id "cr1031" is not created in ServiceNow
     And the employee  is not created in XMA
-    And the employee "123456789" with closing report id "cr0001" is not sent to LWS
+    And the employee "100000031" with closing report id "cr1031" is not sent to LWS
     And the employee is not in the Logisitics CSV
-    #And the employee "123456789" is not sent to Adecco
+    And the employee "100000031" with closing report id "cr1031" is not sent to Adecco
 
   Scenario: A record with a start date 6 days in the future is created in the downstream systems
-    Given An employee exists in "ADECCO" with an id of "223456789"
+    Given An employee exists in "ADECCO" with an id of "100000032"
     And an assignment status of "ASSIGNED"
     And a closing report status of "ACTIVE"
-    And a closing report id of "cr0001"
+    And a closing report id of "cr1032"
     And a role id of "HA-CAR1"
     And a contract start date 6 days in the future
     And we ingest them
-    When the employee "223456789" is sent to all downstream services
-    Then the employee "223456789" with closing report id "cr0001" is correctly created in gsuite with roleId "HA-CAR1"
-    And the employee "223456789" with closing report id "cr0001" is correctly created in ServiceNow with "HA-CAR1"
-    And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
+    Then the employee "100000032" with closing report id "cr1032" is correctly created in gsuite with roleId "HA-CAR1"
+    And the employee "100000032" with closing report id "cr1032" is correctly created in ServiceNow with "HA-CAR1"
+    And the employee "100000032" with closing report id "cr1032" from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
-    #And the employee "223456789" is sent to Adecco
+    And the employee "100000032" with closing report id "cr1032" is sent to Adecco
       ### LWS Requires a device to be created ###
-    And we ingest a device from pubsub for "223456789" with closing report id "cr0001" with phone number "+447234567890" and IMEI number "990000888888888"
+    And we ingest a device from pubsub for "100000032" with closing report id "cr1032" with phone number "+447234567890" and IMEI number "990000888888888"
     And we ingest them
-    And the employee "223456789" with closing report id "cr0001" with roleId "HA-CAR1" "phone" device allocation details are sent to xma with ID "+447234567890"
-    And the employee "223456789" with closing report id "cr0001" is sent to LWS as an create with name "Fransico" and phone number "+447234567890" and "HA-CAR1" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "" ""
+    And the employee "100000032" with closing report id "cr1032" with roleId "HA-CAR1" "phone" device allocation details are sent to xma with ID "+447234567890"
+    And the employee "100000032" with closing report id "cr1032" is sent to LWS as an create with name "Fransico" and phone number "+447234567890" and "HA-CAR1" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "" ""
 
   Scenario: A record with a start date less than 6 days in the future is created in the downstream systems
-    Given An employee exists in "ADECCO" with an id of "323456789"
+    Given An employee exists in "ADECCO" with an id of "100000033"
     And an assignment status of "ASSIGNED"
     And a closing report status of "ACTIVE"
-    And a closing report id of "cr0001"
+    And a closing report id of "cr1033"
     And a role id of "HA-CAR1"
     And a contract start date 5 days in the future
     And we ingest them
-    When the employee "323456789" is sent to all downstream services
-    And the employee "323456789" with closing report id "cr0001" is correctly created in gsuite with roleId "HA-CAR1"
-    #Then the employee "323456789" is sent to Adecco
-    And the employee "323456789" with closing report id "cr0001" is correctly created in ServiceNow with "HA-CAR1"
-    And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
+    And the employee "100000033" with closing report id "cr1033" is correctly created in gsuite with roleId "HA-CAR1"
+    Then the employee "100000033" with closing report id "cr1033" is sent to Adecco
+    And the employee "100000033" with closing report id "cr1033" is correctly created in ServiceNow with "HA-CAR1"
+    And the employee "100000033" with closing report id "cr1033" from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
       ### LWS Requires a device to be created ###
-    And we ingest a device from pubsub for "323456789" with closing report id "cr0001" with phone number "+447234567890" and IMEI number "990000888888888"
+    And we ingest a device from pubsub for "100000033" with closing report id "cr1033" with phone number "+447234567890" and IMEI number "990000888888888"
     And we ingest them
-    And the employee "323456789" with closing report id "cr0001" with roleId "HA-CAR1" "phone" device allocation details are sent to xma with ID "+447234567890"
-    And the employee "323456789" with closing report id "cr0001" is sent to LWS as an create with name "Fransico" and phone number "+447234567890" and "HA-CAR1" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "" ""
+    And the employee "100000033" with closing report id "cr1033" with roleId "HA-CAR1" "phone" device allocation details are sent to xma with ID "+447234567890"
+    And the employee "100000033" with closing report id "cr1033" is sent to LWS as an create with name "Fransico" and phone number "+447234567890" and "HA-CAR1" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "" ""
+
+  Scenario: Device details are not sent to xma and lws when ready to start
+    Given An employee exists in "ADECCO" with an id of "100000034"
+    And an assignment status of "READY TO START"
+    And a closing report status of "ACTIVE"
+    And a closing report id of "cr1034"
+    And a role id of "HA-CAR1"
+    And a contract start date of "2020-01-01"
+    And we ingest them
+    Then the employee "100000034" with closing report id "cr1034" is correctly created in gsuite with roleId "HA-CAR1"
+    And the employee "100000034" with closing report id "cr1034" from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
+    And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
+    And the employee "100000034" with closing report id "cr1034" is correctly created in ServiceNow with "HA-CAR1"
+    Then the employee "100000034" with closing report id "cr1034" is sent to Adecco
+      ### LWS Requires a device to be created ###
+    And we ingest a device from pubsub for "100000034" with closing report id "cr1034" with phone number "+447234567890" and IMEI number "990000888888888"
+    And we ingest them
+    And the employee "100000034" with closing report id "cr1034" device details are not sent to xma
+    And the employee "100000034" with closing report id "cr1034" is not sent to LWS
+
+  Scenario: Chromebook details are sent to XMA
+    Given An employee exists in "ADECCO" with an id of "100000035"
+    And an assignment status of "ASSIGNED"
+    And a closing report status of "ACTIVE"
+    And a closing report id of "cr1035"
+    And a role id of "HA-CAR1"
+    And a contract start date of "2020-01-01"
+    And we ingest them
+    Then the employee "100000035" with closing report id "cr1035" is correctly created in gsuite with roleId "HA-CAR1"
+    And the employee "100000035" with closing report id "cr1035" from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
+    And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
+    And the employee "100000035" with closing report id "cr1035" is correctly created in ServiceNow with "HA-CAR1"
+    Then the employee "100000035" with closing report id "cr1035" is sent to Adecco
+      ### LWS Requires a device to be created ###
+    And we ingest a chromebook device for "100000035" with closing report id "cr1035" with id "XMA123456"
+    And we ingest them
+    And the employee "100000035" with closing report id "cr1035" with roleId "HA-CAR1" "chromebook" device allocation details are sent to xma with ID "XMA123456"
+    And the employee "100000035" with closing report id "cr1035" is not sent to LWS
 
   Scenario Outline: A HQ record is ingested and created
     Given A "HQ" ingest CSV "00000000_000001_CFOD_HQ_Extract.csv" exists in SFTP
@@ -145,42 +178,3 @@ Feature: Creates
       | PT-FPHx-xx | hq-all,pt-fph-all | false |
       | PT-FPTx-xx | hq-all,pt-fpt-all | false |
 
-  Scenario: Device details are not sent to xma and lws when ready to start
-    Given An employee exists in "ADECCO" with an id of "123456781"
-    And an assignment status of "READY TO START"
-    And a closing report status of "ACTIVE"
-    And a closing report id of "cr0001"
-    And a role id of "HA-CAR1"
-    And a contract start date of "2020-01-01"
-    And we ingest them
-    When the employee "123456781" is sent to all downstream services
-    Then the employee "123456781" with closing report id "cr0001" is correctly created in gsuite with roleId "HA-CAR1"
-    And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
-    And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
-    And the employee "123456781" with closing report id "cr0001" is correctly created in ServiceNow with "HA-CAR1"
-    #Then the employee "123456781" is sent to Adecco
-      ### LWS Requires a device to be created ###
-    And we ingest a device from pubsub for "123456781" with closing report id "cr0001" with phone number "+447234567890" and IMEI number "990000888888888"
-    And we ingest them
-    And the employee "123456781" with closing report id "cr0001" device details are not sent to xma
-    And the employee "123456781" with closing report id "cr0001" is not sent to LWS
-
-  Scenario: Chromebook details are sent to XMA
-    Given An employee exists in "ADECCO" with an id of "123456781"
-    And an assignment status of "ASSIGNED"
-    And a closing report status of "ACTIVE"
-    And a closing report id of "cr0001"
-    And a role id of "HA-CAR1"
-    And a contract start date of "2020-01-01"
-    And we ingest them
-    When the employee "123456781" is sent to all downstream services
-    Then the employee "123456781" with closing report id "cr0001" is correctly created in gsuite with roleId "HA-CAR1"
-    And the employee from "ADECCO" with roleId "HA-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
-    And the employee "is" in the Logisitics CSV with "HA-CAR1" as a create
-    And the employee "123456781" with closing report id "cr0001" is correctly created in ServiceNow with "HA-CAR1"
-   # Then the employee "123456781" is sent to Adecco
-      ### LWS Requires a device to be created ###
-    And we ingest a chromebook device for "123456781" with closing report id "cr0001" with id "XMA123456"
-    And we ingest them
-    And the employee "123456781" with closing report id "cr0001" with roleId "HA-CAR1" "chromebook" device allocation details are sent to xma with ID "XMA123456"
-    And the employee "123456781" with closing report id "cr0001" is not sent to LWS
