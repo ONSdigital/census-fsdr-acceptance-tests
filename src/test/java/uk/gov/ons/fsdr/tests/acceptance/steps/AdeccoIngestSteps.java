@@ -35,14 +35,10 @@ public class AdeccoIngestSteps {
   public static Optional<AdeccoResponse> adeccoResponseLeaver = Optional.empty();
   public Set<String> sentManagerIds = new HashSet<>();
 
-  private final String fransicoClosingReportId = "66d321a3-cc92-47d5-ab0d-3a4552684286";
-  private final String fransicoNewClosingReportId = "edbb546f-b985-447c-9369-43f5f3e0c548";
-
-
   @Given("An employee exists in {string} with an id of {string}")
   public void we_recieve_an_employee_with_an_id_of(String source, String id) {
 
-    adeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(id, fransicoClosingReportId);
+    adeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(id);
     adeccoResponse.setContractStartDate("2020-01-01");
   }
 
@@ -59,6 +55,11 @@ public class AdeccoIngestSteps {
   @Given("a closing report status of {string}")
   public void a_closing_report_status_of(String crStatus) {
     adeccoResponse.setCrStatus(crStatus);
+  }
+
+  @Given("a closing report id of {string}")
+  public void a_closing_report_id_of(String crId) {
+    adeccoResponse.setClosingReportId(crId);
   }
 
   @Given("a role id of {string}")
@@ -115,6 +116,7 @@ public class AdeccoIngestSteps {
     moverResponse.setOperationalEndDate(adeccoResponse.getOperationalEndDate());
     moverResponse.setContractStartDate(adeccoResponse.getContractStartDate());
     moverResponse.setContractEndDate(adeccoResponse.getContractEndDate());
+    moverResponse.setClosingReportId(UUID.randomUUID().toString());
     AdeccoResponseReportsTo manager = new AdeccoResponseReportsTo();
     if (roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
       manager.setLineManagerFirstName("Bob");
@@ -139,7 +141,8 @@ public class AdeccoIngestSteps {
   }
 
   @Given("we receive an update from adecco for employee {string} with new first name {string}")
-  public void we_receive_an_update_from_adecco_for_employee_with_new_first_name(String id, String newFName) {
+  public void we_receive_an_update_from_adecco_for_employee_with_new_first_name(String id, String newFName) throws InterruptedException {
+    Thread.sleep(10000L);
     adeccoResponse.getResponseContact().setFirstName(newFName);
   }
 
@@ -164,7 +167,7 @@ public class AdeccoIngestSteps {
   private void buildCoordinatorTypeManager(String roleId, int id) {
     String managerRoleId = roleId.substring(0, COORDINATOR_ROLE_ID_LENGTH);
     if (!sentManagerIds.contains(managerRoleId)) {
-      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id), UUID.randomUUID().toString());
+      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id));
       managerAdeccoResponse.setContractStartDate("2020-01-01");
       managerAdeccoResponse.setStatus("ASSIGNED");
       managerAdeccoResponse.setCrStatus("ACTIVE");
@@ -186,7 +189,7 @@ public class AdeccoIngestSteps {
   private void buildAreaManagerTypeManager(String roleId, int id) {
     String managerRoleId = roleId.substring(0, AREA_MANAGER_ROLE_ID_LENGTH);
     if (!sentManagerIds.contains(managerRoleId)) {
-      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id), UUID.randomUUID().toString());
+      AdeccoResponse managerAdeccoResponse = AdeccoPeopleFactory.buildFransicoBuyo(String.valueOf(id));
       managerAdeccoResponse.setContractStartDate("2020-01-01");
       managerAdeccoResponse.setStatus("ASSIGNED");
       managerAdeccoResponse.setCrStatus("ACTIVE");
@@ -228,7 +231,7 @@ public class AdeccoIngestSteps {
     adeccoResponse.setCrStatus("INACTIVE");
     adeccoResponse.setStatus("ASSIGNMENT CANCELLED");
 
-    AdeccoResponse newClosingReport = AdeccoPeopleFactory.buildFransicoBuyo(employeeId, fransicoNewClosingReportId);
+    AdeccoResponse newClosingReport = AdeccoPeopleFactory.buildFransicoBuyo(employeeId);
 
     newClosingReport.setContractStartDate("2020-02-01");
     newClosingReport.setStatus("ASSIGNED");

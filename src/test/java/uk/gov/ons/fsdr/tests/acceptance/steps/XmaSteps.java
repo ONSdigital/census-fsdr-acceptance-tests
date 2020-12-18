@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponse;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.AREA_MANAGER_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.COORDINATOR_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.FIELD_OFFICER_ROLE_ID_LENGTH;
@@ -130,15 +131,8 @@ public class XmaSteps {
 
   @Then("the employee {string} is not updated in XMA")
   public void the_employee_is_not_updated_in_XMA(String id) {
-    int expextedCount = 0;
-    if (id.length() == FIELD_OFFICER_ROLE_ID_LENGTH)
-      expextedCount = 3;
-    else if (id.length() == COORDINATOR_ROLE_ID_LENGTH)
-      expextedCount = 2;
-    else if (id.length() == AREA_MANAGER_ROLE_ID_LENGTH)
-      expextedCount = 1;
     String[] records = xmaMockUtils.getEmployeeRecords();
-    assertEquals(expextedCount, records.length);
+    assertEquals(1, records.length);
   }
 
   @Then("the employee from {string} with old roleId {string} and new roleId {string} is correctly moved in XMA with group {string}")
@@ -193,9 +187,9 @@ public class XmaSteps {
 
   }
 
-  @Then("the employee {string} with roleId {string} is correctly suspended in XMA")
-  public void theEmployeeIsCorrectlySuspendedInXMA(String empId, String roleId) {
-    assertTrue(gatewayEventMonitor.hasEventTriggered(empId, "XMA_LEAVER_SENT", 20000l));
+  @Then("the employee {string} with closing report id {string} with roleId {string} is correctly suspended in XMA")
+  public void theEmployeeIsCorrectlySuspendedInXMA(String empId, String crId, String roleId) {
+    assertTrue(gatewayEventMonitor.hasEventTriggered(empId+crId, "XMA_LEAVER_SENT", 20000l));
 
     String id = xmaMockUtils.getId(roleId);
 
@@ -206,8 +200,8 @@ public class XmaSteps {
 
   }
 
-  @Then("the employee {string} with roleId {string} {string} device allocation details are sent to xma with ID {string}")
-  public void theEmployeeDeviceAllocationDetailsAreSentToXma(String employeeId, String roleId, String deviceType, String deviceId)
+  @Then("the employee {string} with closing report id {string} with roleId {string} {string} device allocation details are sent to xma with ID {string}")
+  public void theEmployeeDeviceAllocationDetailsAreSentToXma(String employeeId, String crId, String roleId, String deviceType, String deviceId)
       throws Exception {
     fsdrUtils.sendDeviceAllocation();
 
@@ -235,10 +229,10 @@ public class XmaSteps {
 
   }
 
-  @And("the employee {string} device details are not sent to xma")
-  public void theEmployeeDeviceDetailsAreNotSentToXma(String employeeId) {
+  @And("the employee {string} with closing report id {string} device details are not sent to xma")
+  public void theEmployeeDeviceDetailsAreNotSentToXma(String employeeId, String crId) {
     gatewayEventMonitor.grabEventsTriggered("XMA_DEVICE_SENT", 1, 3000L);
-    assertFalse(gatewayEventMonitor.hasEventTriggered(employeeId, "XMA_DEVICE_SENT", 1000L));
+    assertFalse(gatewayEventMonitor.hasEventTriggered(employeeId+crId, "XMA_DEVICE_SENT", 1000L));
     String[] records = xmaMockUtils.getDeviceAllocationRecords();
     assertThat(records).isEmpty();
   }

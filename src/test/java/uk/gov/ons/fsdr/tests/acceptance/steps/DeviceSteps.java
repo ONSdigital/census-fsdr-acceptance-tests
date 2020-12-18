@@ -29,6 +29,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponse;
 
 @Slf4j
 public class DeviceSteps {
@@ -55,17 +56,17 @@ public class DeviceSteps {
 
     private static int deviceCount;
 
-    @Then("we ingest a device from pubsub for {string} with phone number {string} and IMEI number {string}")
-    public void weIngestADeviceFromPubsubForWithPhoneNumber(String employeeId, String phoneNumber, String imeiNumber) throws Exception {
-        String onsId = getOnsId(employeeId);
-        if (onsId == null) fail("failed to find ons id for employee " + employeeId);
+    @Then("we ingest a device from pubsub for {string} with closing report id {string} with phone number {string} and IMEI number {string}")
+    public void weIngestADeviceFromPubsubForWithPhoneNumber(String employeeId, String crId, String phoneNumber, String imeiNumber) throws Exception {
+        String eId = employeeId+crId;
+        String onsId = getOnsId(eId);
+        if (onsId == null) fail("failed to find ons id for employee " + eId);
         postDevice(onsId, phoneNumber, imeiNumber);
         deviceCount++;
         Collection<GatewayEventDTO> devices = gatewayEventMonitor.grabEventsTriggered("SAVE_DEVICE_PHONE", deviceCount, 5000L);
         Optional<String> any = devices.stream().flatMap(meta -> meta.getMetadata().values().stream()).filter(number -> number.equals(phoneNumber)).findAny();
         assertTrue("Device event not found for " + phoneNumber, any.isPresent());
-        assertTrue(gatewayEventMonitor.hasEventTriggered(employeeId, "SAVE_DEVICE_PHONE"));
-
+        assertTrue(gatewayEventMonitor.hasEventTriggered(eId, "SAVE_DEVICE_PHONE"));
     }
 
     private String getOnsId(String employeeId) throws Exception {
@@ -103,9 +104,9 @@ public class DeviceSteps {
                 entity, HttpStatus.class);
     }
 
-    @Then("the employee {string} will only have one phone")
-    public void theEmployeeWillOnlyHaveOnePhone(String employeeId) throws Exception {
-        int deviceCount = countDevices(employeeId);
+    @Then("the employee {string} with closing report id {string} will only have one phone")
+    public void theEmployeeWillOnlyHaveOnePhone(String employeeId, String crId) throws Exception {
+        int deviceCount = countDevices(employeeId+crId);
         assertEquals(deviceCount, 1);
     }
 
@@ -132,10 +133,10 @@ public class DeviceSteps {
         return result;
     }
 
-  @Then("we ingest a chromebook device for {string} with id {string}")
-  public void weIngestAChromebookDeviceForThem(String employeeId, String deviceId) throws Exception {
-      String onsId = getOnsId(employeeId);
-      if (onsId == null) fail("failed to find ons id for employee " + employeeId);
+  @Then("we ingest a chromebook device for {string} with closing report id {string} with id {string}")
+  public void weIngestAChromebookDeviceForThem(String employeeId, String crId, String deviceId) throws Exception {
+      String onsId = getOnsId(employeeId+crId);
+      if (onsId == null) fail("failed to find ons id for employee " + employeeId+crId);
       DeviceDto deviceDto = new DeviceDto();
       deviceDto.setOnsId(onsId);
       deviceDto.setDeviceId(deviceId);

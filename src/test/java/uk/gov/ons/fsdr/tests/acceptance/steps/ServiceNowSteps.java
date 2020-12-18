@@ -16,6 +16,7 @@ import static junit.framework.TestCase.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponse;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.AREA_MANAGER_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.COORDINATOR_ROLE_ID_LENGTH;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.CommonSteps.FIELD_OFFICER_ROLE_ID_LENGTH;
@@ -38,8 +39,8 @@ public class ServiceNowSteps {
   @Value("${service.rabbit.password}")
   private String rabbitPassword;
 
-  @Then("the employee {string} is correctly created in ServiceNow with {string}")
-  public void the_employee_is_correctly_create_in_ServiceNow_with(String employeeId, String roleId) {
+  @Then("the employee {string} with closing report id {string} is correctly created in ServiceNow with {string}")
+  public void the_employee_is_correctly_create_in_ServiceNow_with(String employeeId, String crId, String roleId) {
     String[] records = serviceNowMockUtils.getRecords();
     String create = records[records.length-1];
 
@@ -54,13 +55,13 @@ public class ServiceNowSteps {
     String expectedMessageRootNode =
         "\"location\":\"London\",\"first_name\":\"Fransico\",\"last_name\":\"Buyo\",\"u_preferred_name\":null,\"u_badge_number\":null,"+lmName+",\"employee_number\":\""
             + roleId
-            + "\",\"u_job_role_2\":null,\"u_contract_start_date\":\"[0-9-]{10}\",\"u_contract_end_date\":\"[0-9-]{10}\",\"u_employment_status\":\"ACTIVE\",\"zip\":\"FA43 1AB\",\"u_ons_id\":\"fransico.buyo[0-9]{2}@domain\",\"u_ons_device_number\":null,\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true,\"user_name\":\""+employeeId+"\"";
+            + "\",\"u_job_role_2\":null,\"u_contract_start_date\":\"[0-9-]{10}\",\"u_contract_end_date\":\"[0-9-]{10}\",\"u_employment_status\":\"ACTIVE\",\"zip\":\"FA43 1AB\",\"u_ons_id\":\"fransico.buyo[0-9]{2}@domain\",\"u_ons_device_number\":null,\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true,\"user_name\":\"fransico.buyo[0-9]{2}@domain\"";
 
     assertThat(create).containsPattern(expectedMessageRootNode);
   }
 
-  @Then("the employee {string} is correctly moved in ServiceNow with {string} and phone number {string}")
-  public void the_employee_is_correctly_moved_in_ServiceNow_with(String employeeId, String roleId, String phoneNumber) {
+  @Then("the employee {string} with closing report id {string} is correctly moved in ServiceNow with {string} and phone number {string}")
+  public void the_employee_is_correctly_moved_in_ServiceNow_with(String employeeId, String crId, String roleId, String phoneNumber) {
     Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 10, 5000l);
     String[] records = serviceNowMockUtils.getRecords();
     String update = getLastRecord(records, roleId);
@@ -75,19 +76,19 @@ public class ServiceNowSteps {
         + "\",\"last_name\":\"Buyo\",\"u_preferred_name\":null,\"u_badge_number\":null,"+lineManager+",\"employee_number\":\""
         + roleId
         + "\",\"u_job_role_2\":null,\"u_contract_start_date\":\"2020-01-01\",\"u_contract_end_date\":\""+ LocalDate.now().plusDays(5)+"\",\"u_employment_status\":\"ACTIVE\",\"zip\":\"FA43 1AB\",\"u_ons_id\":\"fransico.buyo[0-9]{2}@domain\",\"u_ons_device_number\":\""
-        + "\\" + phoneNumber + "\",\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true,\"user_name\":\""+employeeId+"\"";
+        + "\\" + phoneNumber + "\",\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true,\"user_name\":\"fransico.buyo[0-9]{2}@domain\"";
 
     Assertions.assertThat(update).containsPattern(expectedMessageRootNode);
   }
 
-  @Then("the employee {string} is correctly updated in ServiceNow with {string} and name {string} and number {string}")
-  public void the_employee_is_correctly_updated_in_ServiceNow_with(String id, String roleId, String name, String phoneNumber) {
-    checkSentEmployee(id, roleId, name, phoneNumber, null);
+  @Then("the employee {string} with closing report id {string} is correctly updated in ServiceNow with {string} and name {string} and number {string}")
+  public void the_employee_is_correctly_updated_in_ServiceNow_with(String id, String crId, String roleId, String name, String phoneNumber) {
+    checkSentEmployee(id+crId, roleId, name, phoneNumber, null);
   }
 
-  @Then("the employee {string} is correctly updated in ServiceNow with {string} and name {string} and number {string} and contract start date {string}")
-  public void the_employee_is_correctly_updated_in_ServiceNow_with(String id, String roleId, String name, String phoneNumber, String contractStartDate) {
-    checkSentEmployee(id, roleId, name, phoneNumber, contractStartDate);
+  @Then("the employee {string} with closing report id {string} is correctly updated in ServiceNow with {string} and name {string} and number {string} and contract start date {string}")
+  public void the_employee_is_correctly_updated_in_ServiceNow_with(String id, String crId, String roleId, String name, String phoneNumber, String contractStartDate) {
+    checkSentEmployee(id+crId, roleId, name, phoneNumber, contractStartDate);
   }
 
   public void checkSentEmployee(String id, String roleId, String name, String phoneNumber, String contractStartDate) {
@@ -114,14 +115,14 @@ public class ServiceNowSteps {
         + "\",\"last_name\":\"Buyo\",\"u_preferred_name\":null,\"u_badge_number\":null,"+lineManager+",\"employee_number\":\""
         + roleId
         + "\",\"u_job_role_2\":null,\"u_contract_start_date\":\"" + contractStartDate + "\",\"u_contract_end_date\":\"" + LocalDate.now().plusDays(5)+"\",\"u_employment_status\":\"ACTIVE\",\"zip\":\"FA43 1AB\",\"u_ons_id\":\"fransico.buyo[0-9]{2}@domain\",\"u_ons_device_number\":"
-        + phoneNumber + ",\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true,\"user_name\":\""+id+"\"";
+        + phoneNumber + ",\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true,\"user_name\":\"fransico.buyo[0-9]{2}@domain\"";
     assertThat(update).containsPattern(expectedMessageRootNode);
   }
 
-  @Then("the employee {string} is correctly suspended in ServiceNow with {string}")
-  public void theEmployeeIsCorrectlySuspendedInServiceNow(String id, String roleId) {
+  @Then("the employee {string} with closing report id {string} is correctly suspended in ServiceNow with {string}")
+  public void theEmployeeIsCorrectlySuspendedInServiceNow(String id, String crId, String roleId) {
     gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 5, 3000L);
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 3000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id+crId, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 3000L));
 
     String[] records = serviceNowMockUtils.getRecords();
     String suspended = getLastRecord(records, roleId);
@@ -129,29 +130,30 @@ public class ServiceNowSteps {
     assertThat(suspended).containsPattern("\"active\":false");
     assertThat(suspended).containsPattern("\"u_employment_status\":\"Left\"");
     assertThat(suspended).containsPattern(".*\"employee_number\":\""+roleId+"\".*");
-    assertThat(suspended).containsPattern(".*\"user_name\":\""+id+"\".*");
+    assertThat(suspended).containsPattern(".*\"user_name\":\"fransico.buyo[0-9]{2}@domain\".*");
   }
 
-  @Then("the employee {string} is not created in ServiceNow")
-  public void the_employee_is_not_created_in_ServiceNow(String id) {
+  @Then("the employee {string} with closing report id {string} is not created in ServiceNow")
+  public void the_employee_is_not_created_in_ServiceNow(String id, String crId) {
     gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 5, 3000L);
-    assertFalse(gatewayEventMonitor.hasEventTriggered(id, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 2000L));
+    assertFalse(gatewayEventMonitor.hasEventTriggered(id+crId, "SENDING_SERVICE_NOW_ACTION_RESPONSE", 2000L));
     String[] records = serviceNowMockUtils.getRecords();
     assertThat(records).isEmpty();
   }
 
-  @Then("the employee {string} is not updated in ServiceNow")
-  public void the_employee_is_not_updated_in_ServiceNow(String id) {
-    Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 10, 3000l);
-    int expextedCount = 0;
-    if (id.length() == FIELD_OFFICER_ROLE_ID_LENGTH)
-      expextedCount = 3;
-    else if (id.length() == COORDINATOR_ROLE_ID_LENGTH)
-      expextedCount = 2;
-    else if (id.length() == AREA_MANAGER_ROLE_ID_LENGTH)
-      expextedCount = 1;
-    String[] records = serviceNowMockUtils.getRecords();
-    assertEquals(expextedCount, events.size());
-    assertEquals(expextedCount, records.length);
+  @Then("the employee {string} with closing report id {string} is not updated in ServiceNow")
+  public void the_employee_is_not_updated_in_ServiceNow(String id, String crId) {
+    //Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SERVICE_NOW_UPDATE_SENT", 1, 5000l);
+    assertFalse(gatewayEventMonitor.hasEventTriggered(id+crId, "SERVICE_NOW_UPDATE_SENT", 5000L));
+//    int expextedCount = 0;
+//    if (id.length() == FIELD_OFFICER_ROLE_ID_LENGTH)
+//      expextedCount = 3;
+//    else if (id.length() == COORDINATOR_ROLE_ID_LENGTH)
+//      expextedCount = 2;
+//    else if (id.length() == AREA_MANAGER_ROLE_ID_LENGTH)
+//      expextedCount = 1;
+//    String[] records = serviceNowMockUtils.getRecords();
+//    assertEquals(expextedCount, events.size());
+//    assertEquals(expextedCount, records.length);
   }
 }
