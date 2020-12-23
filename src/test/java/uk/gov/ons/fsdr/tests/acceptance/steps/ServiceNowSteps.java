@@ -38,44 +38,44 @@ public class ServiceNowSteps {
   @Value("${service.rabbit.password}")
   private String rabbitPassword;
 
-  @Then("the employee {string} is correctly created in ServiceNow with {string}")
-  public void the_employee_is_correctly_create_in_ServiceNow_with(String employeeId, String roleId) {
+  @Then("the employee {string} is correctly created in ServiceNow with {string} with employment status {string}")
+  public void the_employee_is_correctly_create_in_ServiceNow_with(String employeeId, String roleId, String employmentStatus) {
     String[] records = serviceNowMockUtils.getRecords();
     String create = records[records.length-1];
 
-    String lmName = "\"u_lm_first_name_2\":null,\"u_lm_last_name_2\":null";
+    String lmName = "\"u_line_manager\":\"null null\"";
 
     if(roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
-      lmName = "\"u_lm_first_name_2\":\"Bob\",\"u_lm_last_name_2\":\"Jones\"";
+      lmName = "\"u_line_manager\":\"Bob Jones\"";
     }
     if(roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
-      lmName = "\"u_lm_first_name_2\":\"Dave\",\"u_lm_last_name_2\":\"Davis\"";
+      lmName = "\"u_line_manager\":\"Dave Davis\"";
     }
     String expectedMessageRootNode =
         "\"location\":\"London\",\"first_name\":\"Fransico\",\"last_name\":\"Buyo\",\"u_preferred_name\":null,\"u_badge_number\":null,"+lmName+",\"employee_number\":\""
             + roleId
-            + "\",\"u_job_role_2\":null,\"u_contract_start_date\":\"[0-9-]{10}\",\"u_contract_end_date\":\"[0-9-]{10}\",\"u_employment_status\":\"ACTIVE\",\"zip\":\"FA43 1AB\",\"u_ons_id\":\"fransico.buyo[0-9]{2}@domain\",\"u_ons_device_number\":null,\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true,\"user_name\":\""+employeeId+"\"";
+            + "\",\"u_job_role_2\":null,\"u_contract_start_date\":\"[0-9-]{10}\",\"u_contract_end_date\":\"[0-9-]{10}\",\"u_employment_status\":\"" + employmentStatus + "\",\"zip\":\"FA43 1AB\",\"u_ons_id\":\"fransico.buyo[0-9]{2}@domain\",\"u_ons_device_number\":null,\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true,\"user_name\":\""+employeeId+"\"";
 
     assertThat(create).containsPattern(expectedMessageRootNode);
   }
 
-  @Then("the employee {string} is correctly moved in ServiceNow with {string} and phone number {string}")
-  public void the_employee_is_correctly_moved_in_ServiceNow_with(String employeeId, String roleId, String phoneNumber) {
+  @Then("the employee {string} is correctly moved in ServiceNow with {string}, phone number {string} and employment status {string}")
+  public void the_employee_is_correctly_moved_in_ServiceNow_with(String employeeId, String roleId, String phoneNumber, String employmentStatus) {
     Collection<GatewayEventDTO> events = gatewayEventMonitor.grabEventsTriggered("SENDING_SERVICE_NOW_ACTION_RESPONSE", 10, 5000l);
     String[] records = serviceNowMockUtils.getRecords();
     String update = getLastRecord(records, roleId);
     String expectedMessageRootNode = "";
-    String lineManager = "\"u_lm_first_name_2\":null,\"u_lm_last_name_2\":null";
+    String lineManager = "\"u_line_manager\":\"null null\"";
     if( roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
-      lineManager = "\"u_lm_first_name_2\":\"Bob\",\"u_lm_last_name_2\":\"Jones\"";
+      lineManager = "\"u_line_manager\":\"Bob Jones\"";
     } else if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
-      lineManager = "\"u_lm_first_name_2\":\"Dave\",\"u_lm_last_name_2\":\"Davis\"";
+      lineManager = "\"u_line_manager\":\"Dave Davis\"";
     }
     expectedMessageRootNode = "\"location\":\"London\",\"first_name\":\"Fransico"
         + "\",\"last_name\":\"Buyo\",\"u_preferred_name\":null,\"u_badge_number\":null,"+lineManager+",\"employee_number\":\""
         + roleId
-        + "\",\"u_job_role_2\":null,\"u_contract_start_date\":\"2020-01-01\",\"u_contract_end_date\":\""+ LocalDate.now().plusDays(5)+"\",\"u_employment_status\":\"ACTIVE\",\"zip\":\"FA43 1AB\",\"u_ons_id\":\"fransico.buyo[0-9]{2}@domain\",\"u_ons_device_number\":\""
-        + "\\" + phoneNumber + "\",\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true,\"user_name\":\""+employeeId+"\"";
+        + "\",\"u_job_role_2\":null,\"u_contract_start_date\":\"2020-01-01\",\"u_contract_end_date\":\""+ LocalDate.now().plusDays(5)+"\",\"u_employment_status\":\"" + employmentStatus + "\",\"zip\":\"FA43 1AB\",\"u_ons_id\":\"fransico.buyo[0-9]{2}@domain\",\"u_ons_device_number\":"
+        + "\"\\+" + phoneNumber + "\",\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true,\"user_name\":\""+employeeId+"\"";
 
     Assertions.assertThat(update).containsPattern(expectedMessageRootNode);
   }
@@ -99,13 +99,13 @@ public class ServiceNowSteps {
       phoneNumber = "null";
     }
     else {
-      phoneNumber = "\"\\"+phoneNumber+"\"";
+      phoneNumber = "\"\\+"+phoneNumber.replace("+", "")+"\"";
     }
-    String lineManager = "\"u_lm_first_name_2\":null,\"u_lm_last_name_2\":null";
+    String lineManager = "\"u_line_manager\":\"null null\"";
     if( roleId.length() == FIELD_OFFICER_ROLE_ID_LENGTH) {
-      lineManager = "\"u_lm_first_name_2\":\"Bob\",\"u_lm_last_name_2\":\"Jones\"";
+      lineManager = "\"u_line_manager\":\"Bob Jones\"";
     } else if (roleId.length() == COORDINATOR_ROLE_ID_LENGTH) {
-      lineManager = "\"u_lm_first_name_2\":\"Dave\",\"u_lm_last_name_2\":\"Davis\"";
+      lineManager = "\"u_line_manager\":\"Dave Davis\"";
     }
     if(contractStartDate == null) {
       contractStartDate = "2020-01-01";
@@ -113,7 +113,7 @@ public class ServiceNowSteps {
     expectedMessageRootNode = "\"location\":\"London\",\"first_name\":\"" + name
         + "\",\"last_name\":\"Buyo\",\"u_preferred_name\":null,\"u_badge_number\":null,"+lineManager+",\"employee_number\":\""
         + roleId
-        + "\",\"u_job_role_2\":null,\"u_contract_start_date\":\"" + contractStartDate + "\",\"u_contract_end_date\":\"" + LocalDate.now().plusDays(5)+"\",\"u_employment_status\":\"ACTIVE\",\"zip\":\"FA43 1AB\",\"u_ons_id\":\"fransico.buyo[0-9]{2}@domain\",\"u_ons_device_number\":"
+        + "\",\"u_job_role_2\":null,\"u_contract_start_date\":\"" + contractStartDate + "\",\"u_contract_end_date\":\"" + LocalDate.now().plusDays(5)+"\",\"u_employment_status\":\"ASSIGNED\",\"zip\":\"FA43 1AB\",\"u_ons_id\":\"fransico.buyo[0-9]{2}@domain\",\"u_ons_device_number\":"
         + phoneNumber + ",\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true,\"user_name\":\""+id+"\"";
     assertThat(update).containsPattern(expectedMessageRootNode);
   }
