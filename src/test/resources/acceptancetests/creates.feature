@@ -10,7 +10,7 @@ Feature: Creates
     And a contract start date of "2020-01-01"
     And we ingest them
     Then the employee "<id>" with closing report id "<cr_id>" is correctly created in gsuite with roleId "<role_id>"
-    And the employee "<id>" with closing report id "<cr_id>" is correctly created in ServiceNow with "<role_id>"
+    And the employee "<id>" with closing report id "<cr_id>" is correctly created in ServiceNow with "<role_id>" and status "ASSIGNED"
     And the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" as a create
     Then the employee "<id>" with closing report id "<cr_id>" is sent to Adecco
       ### LWS Requires a device to be created ###
@@ -93,7 +93,7 @@ Feature: Creates
     And a contract start date 6 days in the future
     And we ingest them
     Then the employee "100000032" with closing report id "cr1032" is correctly created in gsuite with roleId "HB-CAR1"
-    And the employee "100000032" with closing report id "cr1032" is correctly created in ServiceNow with "HB-CAR1"
+    And the employee "100000032" with closing report id "cr1032" is correctly created in ServiceNow with "HB-CAR1" and status "ASSIGNED"
     And the employee "100000032" with closing report id "cr1032" from "ADECCO" with roleId "HB-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HB-CAR1" as a create
     And the employee "100000032" with closing report id "cr1032" is sent to Adecco
@@ -113,7 +113,7 @@ Feature: Creates
     And we ingest them
     And the employee "100000033" with closing report id "cr1033" is correctly created in gsuite with roleId "HB-CAR1"
     Then the employee "100000033" with closing report id "cr1033" is sent to Adecco
-    And the employee "100000033" with closing report id "cr1033" is correctly created in ServiceNow with "HB-CAR1"
+    And the employee "100000033" with closing report id "cr1033" is correctly created in ServiceNow with "HB-CAR1" and status "ASSIGNED"
     And the employee "100000033" with closing report id "cr1033" from "ADECCO" with roleId "HB-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HB-CAR1" as a create
       ### LWS Requires a device to be created ###
@@ -133,7 +133,7 @@ Feature: Creates
     Then the employee "100000034" with closing report id "cr1034" is correctly created in gsuite with roleId "HB-CAR1"
     And the employee "100000034" with closing report id "cr1034" from "ADECCO" with roleId "HB-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HB-CAR1" as a create
-    And the employee "100000034" with closing report id "cr1034" is correctly created in ServiceNow with "HB-CAR1"
+    And the employee "100000034" with closing report id "cr1034" is correctly created in ServiceNow with "HB-CAR1" and status "READY_TO_START"
     Then the employee "100000034" with closing report id "cr1034" is sent to Adecco
       ### LWS Requires a device to be created ###
     And we ingest a device from pubsub for "100000034" with closing report id "cr1034" with phone number "+447234567890" and IMEI number "990000888888888"
@@ -152,7 +152,7 @@ Feature: Creates
     Then the employee "100000035" with closing report id "cr1035" is correctly created in gsuite with roleId "HB-CAR1"
     And the employee "100000035" with closing report id "cr1035" from "ADECCO" with roleId "HB-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HB-CAR1" as a create
-    And the employee "100000035" with closing report id "cr1035" is correctly created in ServiceNow with "HB-CAR1"
+    And the employee "100000035" with closing report id "cr1035" is correctly created in ServiceNow with "HB-CAR1" and status "ASSIGNED"
     Then the employee "100000035" with closing report id "cr1035" is sent to Adecco
       ### LWS Requires a device to be created ###
     And we ingest a chromebook device for "100000035" with closing report id "cr1035" with id "XMA123456"

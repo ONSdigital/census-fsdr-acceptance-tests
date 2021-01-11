@@ -16,7 +16,7 @@ Feature: Updates
     And we receive an update from adecco for employee "<id>" with new first name "<new_name>"
     And we ingest them
     Then the employee "<id>" with closing report id "<cr_id>" is correctly updated in gsuite with name "<new_name>" and roleId "<role_id>"
-    Then the employee "<id>" with closing report id "<cr_id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number "<number>"
+    Then the employee "<id>" with closing report id "<cr_id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number "<number>" and status "ASSIGNED"
     Then the employee "<id>" with closing report id "<cr_id>" from "<source>" with roleId "<role_id>" is correctly updated in XMA with name "<new_name>" and group "<group>"
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "<number>" as an update with name "<new_name>"
     And the employee "<id>" with closing report id "<cr_id>" with roleId "<role_id>" "phone" device allocation details are sent to xma with ID "<number>"
@@ -44,7 +44,7 @@ Feature: Updates
     And we ingest a device from pubsub for "<id>" with closing report id "<cr_id>" with phone number "<phone_number>" and IMEI number "990000888888888"
     And we run create actions
     Then the employee "<id>" with closing report id "<cr_id>" is not updated in gsuite
-    Then the employee "<id>" with closing report id "<cr_id>" is correctly updated in ServiceNow with "<role_id>" and name "<name>" and number "<phone_number>"
+    Then the employee "<id>" with closing report id "<cr_id>" is correctly updated in ServiceNow with "<role_id>" and name "<name>" and number "<phone_number>" and status "ASSIGNED"
     Then the employee "<role_id>" is not updated in XMA
     Then the employee "<id>" with closing report id "<cr_id>" is sent to Adecco with phone number "07234567890"
     And the employee "<id>" with closing report id "<cr_id>" with roleId "<role_id>" "phone" device allocation details are sent to xma with ID "<phone_number>"
@@ -73,7 +73,7 @@ Feature: Updates
     And we ingest a device from pubsub for "300000017" with closing report id "cr3017" with phone number "+447234567890" and IMEI number "990000888888888"
     And we run create actions
     Then the employee "300000017" with closing report id "cr3017" is not updated in gsuite
-    Then the employee "300000017" with closing report id "cr3017" is correctly updated in ServiceNow with "HB-CAR1-ZA-01" and name "Fransico" and number "+447234567890"
+    Then the employee "300000017" with closing report id "cr3017" is correctly updated in ServiceNow with "HB-CAR1-ZA-01" and name "Fransico" and number "+447234567890" and status "ASSIGNED"
     And the employee "300000017" with closing report id "cr3017" is sent to LWS as an create with name "Fransico" and phone number "+447234567890" and "HB-CAR1-ZA-01" with expected hierarchy items "England & Wales" "Household" "B" "Carlisle" "Area Manager 1" "Team Leader A" "01 Tranche 1"
     Then the employee "HB-CAR1-ZA-01" is not updated in XMA
     Then the employee "is not" in the Logisitics CSV with "HB-CAR1-ZA-01" and phone number "+447234567890" as an update with name "Fransico"
@@ -83,7 +83,7 @@ Feature: Updates
     And we run create actions
     And the employee "300000017" with closing report id "cr3017" will only have one phone
     Then the employee "300000017" with closing report id "cr3017" is not updated in gsuite
-    Then the employee "300000017" with closing report id "cr3017" is correctly updated in ServiceNow with "HB-CAR1-ZA-01" and name "Fransico" and number "+447234567891"
+    Then the employee "300000017" with closing report id "cr3017" is correctly updated in ServiceNow with "HB-CAR1-ZA-01" and name "Fransico" and number "+447234567891" and status "ASSIGNED"
     Then the employee "HB-CAR1-ZA-01" is not updated in XMA
     Then the employee "is not" in the Logisitics CSV with "HB-CAR1-ZA-01" and phone number "+447234567891" as an update with name "Fransico"
     Then the employee "300000017" with closing report id "cr3017" is sent to LWS as an update with name "Fransico" and phone number "+447234567891" and "HB-CAR1-ZA-01" with expected hierarchy items "England & Wales" "Household" "B" "Carlisle" "Area Manager 1" "Team Leader A" "01 Tranche 1"
@@ -127,7 +127,7 @@ Feature: Updates
     Then the employee "300000019" with closing report id "cr3019" is correctly created in gsuite with roleId "HB-CAR1"
     And the employee "300000019" with closing report id "cr3019" from "ADECCO" with roleId "HB-CAR1" is correctly created in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     And the employee "is" in the Logisitics CSV with "HB-CAR1" as a create
-    And the employee "300000019" with closing report id "cr3019" is correctly created in ServiceNow with "HB-CAR1"
+    And the employee "300000019" with closing report id "cr3019" is correctly created in ServiceNow with "HB-CAR1" and status "READY_TO_START"
     Then the employee "300000019" with closing report id "cr3019" is sent to Adecco
       ### LWS Requires a device to be created ###
     And we ingest a device from pubsub for "300000019" with closing report id "cr3019" with phone number "+447234567890" and IMEI number "990000888888888"
@@ -137,7 +137,7 @@ Feature: Updates
     And the employee assignment status changes to "ASSIGNED"
     And we ingest them
     And the employee "300000019" with closing report id "cr3019" with roleId "HB-CAR1" "phone" device allocation details are sent to xma with ID "+447234567890"
-    And the employee "300000019" with closing report id "cr3019" is sent to LWS as an create with name "Fransico" and phone number "+447234567890" and "HB-CAR1" with expected hierarchy items "England & Wales" "Household" "A" "Carlisle" "Area Manager 1" "" ""
+    And the employee "300000019" with closing report id "cr3019" is sent to LWS as an create with name "Fransico" and phone number "+447234567890" and "HB-CAR1" with expected hierarchy items "England & Wales" "Household" "B" "Carlisle" "Area Manager 1" "" ""
 
   #TODO Is this still a valid scenario?
 #  Scenario: A record in FSDR with recieves an update with multiple closing reports for same role ID
