@@ -10,8 +10,7 @@ Feature: Creates
     And a contract start date of "2020-01-01"
     And we ingest them
     Then the employee "<id>" with closing report id "<cr_id>" is correctly created in gsuite with roleId "<role_id>"
-    And the employee "<id>" with closing report id "<cr_id>" from "<source>" with roleId "<role_id>" is correctly created in XMA with group "<group>"
-    And the employee "<id>" with closing report id "<cr_id>" is correctly created in ServiceNow with "<role_id>"
+    And the employee "<id>" is correctly created in ServiceNow with "<role_id>" with employment status "ASSIGNED"
     And the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" as a create
     Then the employee "<id>" with closing report id "<cr_id>" is sent to Adecco
       ### LWS Requires a device to be created ###

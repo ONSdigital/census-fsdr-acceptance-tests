@@ -14,7 +14,7 @@ Feature: Setup
     And we receive an update from adecco for employee "<id>" with new first name "<new_name>"
     And we ingest them
     Then the employee "<id>" with closing report id "<cr_id>" is correctly setup in gsuite with orgUnit "<org_unit>" with name "<new_name>" and roleId "<role_id>"
-    Then the employee "<id>" with closing report id "<cr_id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number ""
+    Then the employee "<id>" is correctly updated in ServiceNow with "<role_id>" and name "<new_name>" and number ""
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<role_id>" and phone number "" as an update with name "<new_name>"
     Then the employee "<id>" with closing report id "<cr_id>" from "<source>" with roleId "<role_id>" is correctly updated in XMA with name "<new_name>" and group "<group>"
     And the user "<id>" with closing report id "<cr_id>" is added to the following groups "<new_groups>"

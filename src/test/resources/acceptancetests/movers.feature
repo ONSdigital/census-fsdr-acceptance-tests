@@ -17,10 +17,9 @@ Feature: Movers
     Then the employee "<id>" is correctly moved in gsuite with roleId "<new_role_id>" to "<new_org_unit>"
     And the employee "<id>" is no longer in the following groups "<old_groups>"
     And the employee "<id>" is now in the current groups "<new_groups>"
-    Then the employee "<id>" is correctly moved in ServiceNow with "<new_role_id>" and phone number "+447234567890"
+    Then the employee "<id>" is correctly moved in ServiceNow with "<new_role_id>", phone number "+447234567890" and employment status "ASSIGNED"
     Then the employee from "<source>" with old roleId "<role_id>" and new roleId "<new_role_id>" is correctly moved in XMA with group "<new_group>"
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<new_role_id>" and phone number "+447234567890"
-    And Check the employee "<id>" is sent to RCA
     Then the employee "<id>" is sent to LWS as a mover with roleId "<new_role_id>" and phone number "+447234567890" with expected hierarchy items "<hier1>" "<hier2>" "<hier3>" "<hier4>" "<hier5>" "<hier6>" "<hier7>"
 
     Examples:
@@ -52,7 +51,6 @@ Feature: Movers
     Then the employee "<id>" is correctly updated in ServiceNow with "<new_role_id>" and name "<new_name>" and number "+447234567890"
     Then the employee from "<source>" with old roleId "<role_id>" and new roleId "<new_role_id>" is correctly moved in XMA with group "7DD2611D-F60D-4A17-B759-B021BC5C669A"
     Then the employee "<inLogisitcs>" in the Logisitics CSV with "<new_role_id>" and phone number "+447234567890" as an update with name "<new_name>"
-    And Check the employee "<id>" is sent to RCA
     And the employee "<id>" is not sent to LWS
     
     Examples:
