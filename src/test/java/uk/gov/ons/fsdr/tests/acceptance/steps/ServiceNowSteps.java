@@ -29,9 +29,9 @@ public class ServiceNowSteps {
     String create = records[records.length-1];
 
     String expectedMessageRootNode =
-        "\"location\":\"London\",\"first_name\":\"Fransico\",\"last_name\":\"Buyo\",\"u_preferred_name\":null,\"u_badge_number\":null,\"u_lm_first_name_2\":\"Bob\",\"u_lm_last_name_2\":\"Jones\",\"employee_number\":\""
+        "\"location\":\"London\",\"first_name\":\"Fransico\",\"last_name\":\"Buyo\",\"u_preferred_name\":null,\"u_badge_number\":null,\"u_line_manager\":\"Bob Jones\",\"employee_number\":\""
             + roleId
-            + "\",\"u_job_role_2\":null,\"u_contract_start_date\":\"[0-9-]{10}\",\"u_contract_end_date\":\"[0-9-]{10}\",\"u_employment_status\":\"ACTIVE\",\"zip\":\"FA43 1AB\",\"u_ons_id\":\"fransico.buyo[0-9]{2}@domain\",\"u_ons_device_number\":null,\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true,\"user_name\":\"fransico.buyo[0-9]{2}@domain\"";
+            + "\",\"u_job_role_2\":null,\"u_contract_start_date\":\"[0-9-]{10}\",\"u_contract_end_date\":\"[0-9-]{10}\",\"u_employment_status\":\"ASSIGNED\",\"zip\":\"FA43 1AB\",\"u_ons_id\":\"fransico.buyo[0-9]{2}@domain\",\"u_ons_device_number\":null,\"home_phone\":null,\"mobile_phone\":\"0987654321\",\"active\":true,\"user_name\":\"fransico.buyo[0-9]{2}@domain\"";
 
     assertThat(create).containsPattern(expectedMessageRootNode);
   }
