@@ -3,10 +3,8 @@ package uk.gov.ons.fsdr.tests.acceptance.steps;
 import cucumber.api.java.en.Then;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import uk.gov.ons.fsdr.tests.acceptance.utils.LwsMockUtils;
-import uk.gov.ons.fsdr.tests.acceptance.utils.SftpUtils;
 
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
@@ -21,43 +19,31 @@ public class LwsSteps {
   @Autowired
   private LwsMockUtils lwsMockUtils;
 
-  @Value("${service.rabbit.url}")
-  private String rabbitLocation;
-
-  @Value("${service.rabbit.username}")
-  private String rabbitUsername;
-
-  @Value("${service.rabbit.password}")
-  private String rabbitPassword;
-
-  @Then("the employee {string} is sent to LWS as an create with name {string} and phone number {string} and {string} with expected hierarchy items {string} {string} {string} {string} {string} {string} {string}")
-  public void the_employee_in_the_LWS_CSV_as_an_createe(String id, String name, String number, String roleId,
-      String hierarchyItem1, String hierarchyItem2, String hierarchyItem3, String hierarchyItem4, String hierarchyItem5,
-      String hierarchyItem6, String hierarchyItem7) {
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "LWS_CREATE_SENT", 15000L));
+  @Then("the employee {string} with closing report id {string} is sent to LWS as an create with name {string} and phone number {string} and {string} with expected hierarchy items {string} {string} {string} {string} {string} {string} {string}")
+  public void the_employee_in_the_LWS_CSV_as_an_createe(String id, String crId, String name, String number, String roleId,
+      String hierarchyItem1, String hierarchyItem2, String hierarchyItem3, String hierarchyItem4, String hierarchyItem5, String hierarchyItem6, String hierarchyItem7) {
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id+crId, "LWS_CREATE_SENT", 15000L));
     String record = lwsMockUtils.getRecords();
 
     confirmFields(name, number, roleId, hierarchyItem1, hierarchyItem2, hierarchyItem3, hierarchyItem4, hierarchyItem5, hierarchyItem6, hierarchyItem7, record);
   }
 
-  @Then("the employee {string} is sent to LWS as an update with name {string} and phone number {string} and {string} with expected hierarchy items {string} {string} {string} {string} {string} {string} {string}")
-  public void the_employee_in_the_LWS_CSV_as_an_update(String id, String name, String number, String roleId,
-      String hierarchyItem1, String hierarchyItem2, String hierarchyItem3, String hierarchyItem4, String hierarchyItem5,
-      String hierarchyItem6, String hierarchyItem7) {
+  @Then("the employee {string} with closing report id {string} is sent to LWS as an update with name {string} and phone number {string} and {string} with expected hierarchy items {string} {string} {string} {string} {string} {string} {string}")
+  public void the_employee_in_the_LWS_CSV_as_an_update(String id, String crId, String name, String number, String roleId,
+      String hierarchyItem1, String hierarchyItem2, String hierarchyItem3, String hierarchyItem4, String hierarchyItem5, String hierarchyItem6, String hierarchyItem7) {
     String record = lwsMockUtils.getRecords();
 
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "LWS_UPDATE_SENT", 15000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id+crId, "LWS_UPDATE_SENT", 15000L));
 
     confirmFields(name, number, roleId, hierarchyItem1, hierarchyItem2, hierarchyItem3, hierarchyItem4, hierarchyItem5, hierarchyItem6, hierarchyItem7, record);
   }
 
-  @Then("the employee {string} is sent to LWS as a mover with roleId {string} and phone number {string} with expected hierarchy items {string} {string} {string} {string} {string} {string} {string}")
-  public void the_employee_in_the_LWS_CSV_as_an_mover(String id, String roleId, String number, String hierarchyItem1,
-      String hierarchyItem2, String hierarchyItem3, String hierarchyItem4, String hierarchyItem5, String hierarchyItem6,
-      String hierarchyItem7) {
+  @Then("the employee {string} with closing report id {string} is sent to LWS as a mover with roleId {string} and phone number {string} with expected hierarchy items {string} {string} {string} {string} {string} {string} {string}")
+  public void the_employee_in_the_LWS_CSV_as_an_mover(String id, String crId, String roleId, String number, String hierarchyItem1,
+      String hierarchyItem2, String hierarchyItem3, String hierarchyItem4, String hierarchyItem5, String hierarchyItem6, String hierarchyItem7) {
     String record = lwsMockUtils.getRecords();
 
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "LWS_MOVER_SENT", 15000L));
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id+crId, "LWS_MOVER_SENT", 15000L));
 
     confirmFields("Fransico", number, roleId, hierarchyItem1, hierarchyItem2, hierarchyItem3, hierarchyItem4, hierarchyItem5, hierarchyItem6, hierarchyItem7, record);
 
@@ -107,12 +93,9 @@ public class LwsSteps {
     assertThat(record).contains("\"receiveAlertClosureReports\":0");
   }
 
-  @Then("the employee {string} is sent to LWS as an leaver with {string}")
-  public void the_employee_in_the_LWS_CSV_as_an_Leaver(String id, String number) {
-    String record = lwsMockUtils.getRecords();
-
-    assertTrue(gatewayEventMonitor.hasEventTriggered(id, "LWS_LEAVER_SENT", 10000L));
-
+  @Then("the employee {string} with closing report id {string} is sent to LWS as an leaver with {string}")
+  public void the_employee_in_the_LWS_CSV_as_an_Leaver(String id, String crId, String number) { String record = lwsMockUtils.getRecords();
+    assertTrue(gatewayEventMonitor.hasEventTriggered(id+crId, "LWS_LEAVER_SENT", 10000L));
 
     assertThat(record).containsPattern("\"externalSystemPersonCode\":\"fransico.buyo[0-9]{2}@domain\"");
     assertThat(record).contains("\"isActivated\":0");
@@ -131,13 +114,11 @@ public class LwsSteps {
     assertThat(record).contains("\"operatorInstructions2\":null");
     assertThat(record).contains("\"operatorInstructions3\":null");
     assertThat(record).contains("\"takeOnPassword\":\"pass\"");
-
   }
 
-  @Then("the employee {string} is not sent to LWS")
-  public void the_employee_is_not_created_in_Lwsw(String id) {
-    gatewayEventMonitor.grabEventsTriggered("SENDING_LWS_ACTION_RESPONSE", 10, 3000L);
-    assertFalse(gatewayEventMonitor.hasEventTriggered(id, "SENDING_LWS_ACTION_RESPONSE", 1000L));
+  @Then("the employee {string} with closing report id {string} is not sent to LWS")
+  public void the_employee_is_not_created_in_Lwsw(String id, String crId) {
+    assertTrue(gatewayEventMonitor.hasEventTriggered("<N/A>", "FSDR_PROCESSES_ACTIONS_COMPLETE", 10000L));
     String records = lwsMockUtils.getRecords();
     assertThat(records).isEqualTo("[]");
   }
