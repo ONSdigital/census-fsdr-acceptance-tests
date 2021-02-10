@@ -29,24 +29,24 @@ Feature: Leavers
       | 200000000 | cr2000 | HB-CAR1       | ASSIGNMENT CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
       | 200000001 | cr2001 | HB-CAR1-ZA    | ASSIGNMENT CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
       | 200000002 | cr2002 | HB-CAR1-ZA-01 | ASSIGNMENT CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
-      | 200000003 | cr2003 | SA-CAR1-ZB    | ASSIGNMENT CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
-      | 200000004 | cr2004 | SA-CAR1-ZB-01 | ASSIGNMENT CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000003 | cr2003 | SA-RNE1-ZB    | ASSIGNMENT CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000004 | cr2004 | SA-RNE1-ZB-01 | ASSIGNMENT CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
       | 200000005 | cr2005 | CA-RNO1       | ASSIGNMENT CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
       | 200000006 | cr2006 | CA-RNO1-ZA    | ASSIGNMENT CANCELLED  | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
       | 200000007 | cr2007 | CA-RNO1-ZA-01 | ASSIGNMENT CANCELLED  | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
       | 200000008 | cr2008 | HB-CAR1       | ASSIGNMENT ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
       | 200000009 | cr2009 | HB-CAR1-ZA    | ASSIGNMENT ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
       | 200000010 | cr2010 | HB-CAR1-ZA-01 | ASSIGNMENT ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
-      | 200000011 | cr2011 | SA-CAR1-ZB    | ASSIGNMENT ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
-      | 200000012 | cr2012 | SA-CAR1-ZB-01 | ASSIGNMENT ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000011 | cr2011 | SA-RNE1-ZB    | ASSIGNMENT ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
+      | 200000012 | cr2012 | SA-RNE1-ZB-01 | ASSIGNMENT ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
       | 200000013 | cr2013 | CA-RNO1       | ASSIGNMENT ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
       | 200000014 | cr2014 | CA-RNO1-ZA    | ASSIGNMENT ENDED      | INACTIVE      | is          | ADECCO | 2050-01-01  | +447234567890 |
       | 200000015 | cr2015 | CA-RNO1-ZA-01 | ASSIGNMENT ENDED      | INACTIVE      | is not      | ADECCO | 2050-01-01  | +447234567890 |
       | 200000016 | cr2016 | HB-CAR1       | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | +447234567890 |
       | 200000017 | cr2017 | HB-CAR1-ZA    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | +447234567890 |
       | 200000018 | cr2018 | HB-CAR1-ZA-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | +447234567890 |
-      | 200000019 | cr2019 | SA-CAR1-ZB    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | +447234567890 |
-      | 200000020 | cr2020 | SA-CAR1-ZB-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | +447234567890 |
+      | 200000019 | cr2019 | SA-RNE1-ZB    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | +447234567890 |
+      | 200000020 | cr2020 | SA-RNE1-ZB-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | +447234567890 |
       | 200000021 | cr2021 | CA-RNO1       | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | +447234567890 |
       | 200000022 | cr2022 | CA-RNO1-ZA    | ASSIGNED              | ACTIVE        | is          | ADECCO | 2019-01-01  | +447234567890 |
       | 200000023 | cr2023 | CA-RNO1-ZA-01 | ASSIGNED              | ACTIVE        | is not      | ADECCO | 2019-01-01  | +447234567890 |
