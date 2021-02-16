@@ -27,8 +27,8 @@ Feature: Updates
       | 300000001 | cr3001 | HB-CAR1       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | +447234567890 | England & Wales | Household               | B     | Carlisle  | Area Manager 1 |               |              |
       | 300000002 | cr3002 | HB-CAR1-ZA    | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | +447234567890 | England & Wales | Household               | B     | Carlisle  | Area Manager 1 | Team Leader A |              |
       | 300000003 | cr3003 | HB-CAR1-ZA-01 | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD | +447234567890 | England & Wales | Household               | B     | Carlisle  | Area Manager 1 | Team Leader A | 01 Tranche 1 |
-      | 300000004 | cr3004 | SA-CAR1-ZB    | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | +447234567890 | England & Wales | Communal Establishments | A     | Carlisle  | Area Manager 1 | Team Leader B |              |
-      | 300000005 | cr3005 | SA-CAR1-ZB-01 | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD | +447234567890 | England & Wales | Communal Establishments | A     | Carlisle  | Area Manager 1 | Team Leader B | 01 Tranche 1 |
+      | 300000004 | cr3004 | SA-RNE1-ZB    | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | +447234567890 | England & Wales | Communal Establishments | A     | North East  | Area Manager 1 | Team Leader B |              |
+      | 300000005 | cr3005 | SA-RNE1-ZB-01 | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD | +447234567890 | England & Wales | Communal Establishments | A     | North East  | Area Manager 1 | Team Leader B | 01 Tranche 1 |
       | 300000006 | cr3006 | CA-RNO1       | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | +447234567890 | England & Wales | Census Coverage Survey  | A     | North     | Area Manager 1 |               |              |
       | 300000007 | cr3007 | CA-RNO1-ZA    | is          | ADECCO | John     | 7DD2611D-F60D-4A17-B759-B021BC5C669A | +447234567890 | England & Wales | Census Coverage Survey  | A     | North     | Area Manager 1 | Team Leader A |              |
       | 300000008 | cr3008 | CA-RNO1-ZA-01 | is not      | ADECCO | John     | 8A2FEF60-9429-465F-B711-83753B234BDD | +447234567890 | England & Wales | Census Coverage Survey  | A     | North     | Area Manager 1 | Team Leader A | 01 Tranche 1 |
@@ -43,7 +43,6 @@ Feature: Updates
     Then the employee "<id>" with closing report id "<cr_id>" is sent to Adecco
     And we ingest a device from pubsub for "<id>" with closing report id "<cr_id>" with phone number "<phone_number>" and IMEI number "990000888888888"
     And we run create actions
-    Then the employee "<id>" with closing report id "<cr_id>" is not updated in gsuite
     Then the employee "<id>" with closing report id "<cr_id>" is correctly updated in ServiceNow with "<role_id>" and name "<name>" and number "<phone_number>" and status "ASSIGNED"
     Then the employee "<role_id>" is not updated in XMA
     Then the employee "<id>" with closing report id "<cr_id>" is sent to Adecco with phone number "07234567890"
@@ -56,8 +55,8 @@ Feature: Updates
       | 300000009 | cr3009 | HB-CAR1       | is          | ADECCO | Fransico | +447234567890 | England & Wales | Household               | B     | Carlisle  | Area Manager 1 |               |              |
       | 300000010 | cr3010 | HB-CAR1-ZA    | is          | ADECCO | Fransico | +447234567890 | England & Wales | Household               | B     | Carlisle  | Area Manager 1 | Team Leader A |              |
       | 300000011 | cr3011 | HB-CAR1-ZA-01 | is not      | ADECCO | Fransico | +447234567890 | England & Wales | Household               | B     | Carlisle  | Area Manager 1 | Team Leader A | 01 Tranche 1 |
-      | 300000012 | cr3012 | SA-CAR1-ZB    | is          | ADECCO | Fransico | +447234567890 | England & Wales | Communal Establishments | A     | Carlisle  | Area Manager 1 | Team Leader B |              |
-      | 300000013 | cr3013 | SA-CAR1-ZB-01 | is not      | ADECCO | Fransico | +447234567890 | England & Wales | Communal Establishments | A     | Carlisle  | Area Manager 1 | Team Leader B | 01 Tranche 1 |
+      | 300000012 | cr3012 | SA-RNE1-ZB    | is          | ADECCO | Fransico | +447234567890 | England & Wales | Communal Establishments | A     | North East  | Area Manager 1 | Team Leader B |              |
+      | 300000013 | cr3013 | SA-RNE1-ZB-01 | is not      | ADECCO | Fransico | +447234567890 | England & Wales | Communal Establishments | A     | North East  | Area Manager 1 | Team Leader B | 01 Tranche 1 |
       | 300000014 | cr3014 | CA-RNO1       | is          | ADECCO | Fransico | +447234567890 | England & Wales | Census Coverage Survey  | A     | North     | Area Manager 1 |               |              |
       | 300000015 | cr3015 | CA-RNO1-ZA    | is          | ADECCO | Fransico | +447234567890 | England & Wales | Census Coverage Survey  | A     | North     | Area Manager 1 | Team Leader A |              |
       | 300000016 | cr3016 | CA-RNO1-ZA-01 | is not      | ADECCO | Fransico | +447234567890 | England & Wales | Census Coverage Survey  | A     | North     | Area Manager 1 | Team Leader A | 01 Tranche 1 |
@@ -72,7 +71,6 @@ Feature: Updates
     Then the employee "300000017" with closing report id "cr3017" is sent to Adecco
     And we ingest a device from pubsub for "300000017" with closing report id "cr3017" with phone number "+447234567890" and IMEI number "990000888888888"
     And we run create actions
-    Then the employee "300000017" with closing report id "cr3017" is not updated in gsuite
     Then the employee "300000017" with closing report id "cr3017" is correctly updated in ServiceNow with "HB-CAR1-ZA-01" and name "Fransico" and number "+447234567890" and status "ASSIGNED"
     And the employee "300000017" with closing report id "cr3017" is sent to LWS as an create with name "Fransico" and phone number "+447234567890" and "HB-CAR1-ZA-01" with expected hierarchy items "England & Wales" "Household" "B" "Carlisle" "Area Manager 1" "Team Leader A" "01 Tranche 1"
     Then the employee "HB-CAR1-ZA-01" is not updated in XMA
@@ -100,11 +98,6 @@ Feature: Updates
     Then the employee "300000018" with closing report id "cr3018" is sent to Adecco
     And we ingest a chromebook device for "300000018" with closing report id "cr3018" with id "XMA123456"
     And we run create actions
-    Then the employee "300000018" with closing report id "cr3018" is not updated in gsuite
-    Then the employee "300000018" with closing report id "cr3018" is not updated in ServiceNow
-    Then the employee "300000018" with closing report id "cr3018" is not sent to LWS
-    Then the employee "HB-CAR1-ZA-01" is not updated in XMA
-    And the employee "is not" in the Logisitics CSV with "HB-CAR1-ZA-01" as a create
     And the employee "300000018" with closing report id "cr3018" with roleId "HB-CAR1-ZA-01" "chromebook" device allocation details are sent to xma with ID "XMA123456"
     And we ingest a chromebook device for "300000018" with closing report id "cr3018" with id "XMA123457"
     And we run create actions

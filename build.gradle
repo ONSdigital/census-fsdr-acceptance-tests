@@ -90,7 +90,7 @@ dependencies {
     }
 
     compile('uk.gov.ons.census.ffa:census-ffa-storage-utils:0.0.1-RELEASE')
-    compile('uk.gov.ons:census-fsdr-common:0.0.26-RELEASE')
+    compile('uk.gov.ons:census-fsdr-common:0.0.31-RELEASE')
 
     compile('com.google.guava:guava:27.0.1-jre')
 

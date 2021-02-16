@@ -1,12 +1,14 @@
 package uk.gov.ons.fsdr.tests.acceptance.steps;
 
 import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponse;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponseList;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.AdeccoIngestSteps.adeccoResponseManagers;
 import static uk.gov.ons.fsdr.tests.acceptance.steps.DeviceSteps.resetDeviceCount;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +26,7 @@ import uk.gov.ons.fsdr.tests.acceptance.utils.GsuiteMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.LwsMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.MockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.QueueClient;
+import uk.gov.ons.fsdr.tests.acceptance.utils.RoleIdCheck;
 import uk.gov.ons.fsdr.tests.acceptance.utils.ServiceNowMockUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.SftpUtils;
 import uk.gov.ons.fsdr.tests.acceptance.utils.XmaMockUtils;
@@ -58,6 +61,9 @@ public class CommonSteps {
 
   @Autowired
   private SftpUtils sftpUtils;
+
+  @Autowired
+  private RoleIdCheck roleIdCheck;
 
   public static GatewayEventMonitor gatewayEventMonitor = new GatewayEventMonitor();
   public static final int AREA_MANAGER_ROLE_ID_LENGTH = 7;
@@ -137,6 +143,22 @@ public class CommonSteps {
   public void we_run_HQ_actions() throws IOException {
     fsdrUtils.sendHqActions();
     assertTrue(gatewayEventMonitor.hasEventTriggered("<N/A>", "HQ_ACTIONS_COMPLETE", 5000L));
+  }
+
+  @When("Every roleId maps to one lookup row for gsuite groups")
+  public void every_role_id_matches_one_row() throws Exception {
+    List<String> roleIds = roleIdCheck.getRoleIds();
+    List<String> errors = roleIdCheck.checkGsuiteLookup(roleIds);
+
+    assertEquals(List.of(), errors);
+  }
+
+  @When("Every roleId maps to one lookup row for lws regions")
+  public void every_role_id_matches_one_row_lws() throws Exception {
+    List<String> roleIds = roleIdCheck.getRoleIds();
+    List<String> errors = roleIdCheck.checkLwsLookup(roleIds);
+
+    assertEquals(List.of(), errors);
   }
 
 }
